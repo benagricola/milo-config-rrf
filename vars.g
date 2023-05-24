@@ -25,3 +25,8 @@ global toolsetterSpindleNoseOffset=-102.7
 global toolsetterX=0
 global toolsetterY=93.5
 global toolsetterMaxLength=50
+global toolsetterNumProbes=5
+; Logging settings
+global logFilePath="/sys/log"
+global logFileNum=3
+global logFileName="rrf.log"

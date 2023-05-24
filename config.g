@@ -8,6 +8,7 @@ M453                                 ; Put RRF into CNC mode
 
 M98 P"vars.g"
 M98 P"estop.g"
+M98 P"logging.g"
 M98 P"override-defaults.g"
 M98 P"drives.g"
 M98 P"speed.g"
