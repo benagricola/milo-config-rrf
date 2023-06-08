@@ -9,9 +9,9 @@ stepper.numSmartDrivers = 3;
 //TMC 5160 Drivers
 stepper.num5160Drivers = 3;
 
+// General stepper config
 stepper.spiChannel = 3;
 stepper.csDelay = 1;
-
 stepper.TmcDiagPins = { F.6, F.7, F.8, F.11, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin };
 
 // ESP32 Wifi Pins
@@ -21,3 +21,12 @@ stepper.TmcDiagPins = { F.6, F.7, F.8, F.11, NoPin, NoPin, NoPin, NoPin, NoPin, 
 8266wifi.espResetPin = B.3
 8266wifi.serialRxTxPins = { A.10, A.9 }
 serial.aux.rxTxPins = { D.9, D.8 }
+
+// LCD
+lcd.encoderPinA=BTNEN1
+lcd.encoderPinB=BTNEN2
+lcd.encoderPinSw=BTNENC
+lcd.lcdCSPin=LCDD6
+lcd.lcdDCPin=LCDD5
+lcd.spiChannel=2
+lcd.lcdBeepPin = BEEP
