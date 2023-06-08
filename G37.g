@@ -11,7 +11,8 @@ G10 P{state.currentTool} Z0
 
 ; Move spindle away from the work piece carefully
 G90           ; absolute positioning
-G53 G1 Z0     ; lift Z to 0 to avoid crashing during moves
+G21           ; use MM
+G53 G1 Z{global.zMax}     ; lift Z to 0 to avoid crashing during moves
 
 M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Moving to toolsetter position at height " ^ var.startHeight ^ ", expect trigger at " ^ global.toolsetterSpindleNoseOffset}
 
@@ -50,7 +51,7 @@ M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Stickout: " ^ -var.toolOffset}
 G10 P{state.currentTool} Z{var.toolOffset}
 
 G90       ; Absolute positioning
-G53 G1 Z0 ; Move to zero
+G53 G1 Z{global.zMax} ; Move to zero
 G91
 
 
