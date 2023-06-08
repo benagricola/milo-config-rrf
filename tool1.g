@@ -3,4 +3,4 @@ M950 R1 C"he0+^fan1" L24000  Q40      ; Create spindle index 1, with PWM on he0,
 M563 P1 S"Spindle 1" R1               ; Assign spindle index 1 name
 
 G10 P1 X0 Y0 Z0                       ; Set tool axis offsets
-T1 P0                                 ; Select tool but don't run tool change macros
+

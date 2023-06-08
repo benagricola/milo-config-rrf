@@ -36,7 +36,7 @@ while var.retries <= global.toolsetterNumProbes
     ; Reset offset so we dont screw up any moves
     G10 P{state.currentTool} Z0
 
-    G1 Z10
+    G53 G1 Z10
 
     ; Iterate retry counter
     set var.retries = var.retries + 1
@@ -47,11 +47,10 @@ if var.toolOffset > 0
     {abort "Tool " ^ state.currentTool ^ ": ERROR - Probed a positive offset " ^ -var.toolOffset}
 
 M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Stickout: " ^ -var.toolOffset}
-
 G10 P{state.currentTool} Z{var.toolOffset}
 
 G90       ; Absolute positioning
-G53 G1 Z0
+G53 G1 Z0 ; Move to zero
 G91
 
 
