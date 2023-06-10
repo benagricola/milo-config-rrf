@@ -1,7 +1,7 @@
 ; Configure Drives
 
 M569 P0 S1                           ; Physical drive 0 (X) goes forwards using default driver timings
-M569 P1 S0                           ; Physical drive 1 (Y) goes backwards using default driver timings
+M569 P1 S1                           ; Physical drive 1 (Y) goes forwards using default driver timings
 M569 P2 S1                           ; Physical drive 2 (Z) goes forwards using default driver timings
 
 M584 X0 Y1 Z2                        ; Set drive mapping
