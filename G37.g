@@ -53,13 +53,8 @@ if var.toolOffset > 0
 M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Stickout: " ^ -var.toolOffset}
 G10 P{state.currentTool} Z{var.toolOffset}
 
-G90       ; Absolute positioning
-G53 G0 Z{global.zMax} ; Lift spindle back to top
 
-; Move away from toolsetter so errant gcode has
-; less chance of damaging it.
-G53 G0 X{global.xMax / 2} Y{global.yMax}
-
+G27                    ; Park spindle and bed
 
 
 
