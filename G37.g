@@ -19,6 +19,8 @@ M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Moving to toolsetter position at h
 ; Move the tool above the touch probe
 G53 G0 X{global.toolsetterX} Y{global.toolsetterY} Z{var.startHeight}
 
+M291 P"Jog the lowest point of the tool over the toolsetter" R"Find length of tool" S3 X1 Y1
+
 ; Switch to relative positions for repeated probing
 G91
 

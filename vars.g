@@ -35,30 +35,36 @@ global toolsetterTravelSpeed=600
 
 ; Touch probe measurements
 global touchProbeNumProbes=5
-global touchProbeDistanceXY=2    ; Distances that probe will be driven
-global touchProbeDistanceZ=2     ; towards X, Y and Z faces of work piece.
-                                 ; These values should be _lower_ than the
-                                 ; over-travel protection of the touch probe
-                                 ; being used, so as not to cause damage to
-                                 ; the probe in the event of a failure to
-                                 ; trigger.
+global touchProbeDistanceXY=2     ; Distances that probe will be driven
+global touchProbeDistanceZ=2      ; towards X, Y and Z faces of work piece.
+                                  ; These values should be _lower_ than the
+                                  ; over-travel protection of the touch probe
+                                  ; being used, so as not to cause damage to
+                                  ; the probe in the event of a failure to
+                                  ; trigger.
 
-                                 ; This also means that the touch probe must
-                                 ; be within this range of the surface being
-                                 ; probed.
+                                  ; This also means that the touch probe must
+                                  ; be within this range of the surface being
+                                  ; probed.
+global touchProbeSafeDistanceZ=10 ; Safe distance above probed work surface for
+                                  ; non-probing X/Y moves.
+global touchProbeReferenceX=0     ; X,Y co-ordinates of the reference surface to
+global touchProbeReferenceY=135   ; use. The reference surface is a known surface
+                                  ; from which offsets can be calculated. The distance
+                                  ; in Z from the reference surface to the touch-
+                                  ; probe activation point allows us to compensate for
+                                  ; the length of the touch probe and tools. 
 
-global touchProbeReferenceX=0    ; X,Y co-ordinates of the reference surface to
-global touchProbeReferenceY=115  ; use. The reference surface is a known surface
-                                 ; from which offsets can be calculated. The distance
-                                 ; in Z from the reference surface to the touch-
-                                 ; probe activation point allows us to compensate for
-                                 ; the length of the touch probe and tools. 
-
-global touchProbeProbeSpeed=50
+global touchProbeMaxLength=70     ; This is the total length of the touch probe
+                                  ; when not installed in the spindle (including shank).
+                                  ; It gives us a safe offset to probe downwards from
+                                  ; so we do not have to probe from Z=0
+global touchProbeProbeSpeed=250
 global touchProbeTravelSpeed=600
 
-global touchProbeFinished=0
-global touchProbeCoordinate=0
+global touchProbeCoordinateX=0
+global touchProbeCoordinateY=0
+global touchProbeCoordinateZ=0
 
 ; Parking settings
 global parkX=global.xMax/2 ; Park with the "bed" approximately in the middle
