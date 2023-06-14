@@ -110,6 +110,10 @@ M118 P0 L2 S{"WCS Zero Centre, Top is X=" ^ var.materialCtrX ^ ", Y=" ^ var.mate
 M291 P"Choose WCS Zero Position. Front is closest to operator." S4 T0 K{"Front Left, Top","Front Right, Top","Back Left, Top","Back Right, Top","Centre, Top"}
 var wcsPosition = input
 
+; TODO: Move above selected WCS position, prompt user if zero looks correct, and then apply. Re-park.
+; Adjust Z=0 for height of touch probe, based on Z position of reference surface and its' distance from
+; toolsetter activation point.
+
 if wcsPosition == 1
     M118 P0 L2 S{"WCS Zero Front Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ }
 elif wcsPosition == 2
