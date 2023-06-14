@@ -75,7 +75,7 @@ set var.materialX2 = global.touchProbeCoordinateX
 M118 P0 L2 S{"Material Edge X2=" ^ var.materialX1}
 
 ; Find center of work piece in X axis
-set var.materialCtrX = (var.materialX1 + var.materialX2) / 2
+set var.materialCtrX = { (var.materialX1 + var.materialX2) / 2 }
 
 M118 P0 L2 S"Probing material edges on Y at Z=" ^ var.probeDepth ^ "..."
 
@@ -91,7 +91,7 @@ G6001 Y={global.yMax} D={global.yMin} X={var.materialCtrY} Z={var.probeDepth} S=
 set var.materialY2 = global.touchProbeCoordinateY
 M118 P0 L2 S{"Material Edge Y2=" ^ var.materialY2}
 
-set var.materialCtrY = (var.materialY1 + var.materialY2) / 2
+set var.materialCtrY = { (var.materialY1 + var.materialY2) / 2 }
 
 ; Probing complete, Park
 G27
