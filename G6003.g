@@ -1,7 +1,11 @@
 ; G6003: Repeatable surface (vertical) probe, Z axis
 
-; Assume probe is PARKED, since
-; user needs to jog it over the surface anyway.
+; Z Probing will move to the safe height (S) _before_ moving
+; horizontally.
+
+; IF IN DOUBT: Make sure the tool is fully retracted upwards before
+; running this macro to lessen the chances of running the probe
+; into anything on the work surface.
 
 ; Switch to mm / relative positions for repeated probing.
 G21
@@ -17,7 +21,7 @@ if { !exists(param.X) || !exists(param.Y) }
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-M291 P{ "Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then will probe towards Z=" ^ global.zMin ^ ". Confirm?" } R"Safety check" S2
+M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe towards Z=" ^ global.zMin ^ "?"} R"Safety check" S2
 
 ; Absolute moves to find starting position
 G90

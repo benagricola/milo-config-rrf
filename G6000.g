@@ -29,7 +29,8 @@ M291 P"Install touch probe and PLUG IT IN" R"Installation check" S2
 M118 P0 L2 S{"Probing reference surface at X=" ^ global.touchProbeReferenceX ^ ", Y=" ^ global.touchProbeReferenceY }
 
 ; Probe reference surface multiple times and average.
-G6003 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMin + global.touchProbeMaxLength}
+; Retract spindle fully for safe moves
+G6003 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax}
 
 set var.referenceZ = global.touchProbeCoordinateZ
 

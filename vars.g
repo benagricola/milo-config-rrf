@@ -9,7 +9,7 @@ global pinFan0="!fan0+tacho0"
 
 global pinTool="he0+^fan1"
 global pinToolSetter="^xstopmax"
-global pinTouchProbe="^!probe"
+global pinTouchProbe="!probe"
 
 
 ; Min:  Axis Minimum
