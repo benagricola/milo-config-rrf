@@ -1,4 +1,4 @@
-; G6003: Repeatable surface probe, Z axis
+; G6003: Repeatable surface (vertical) probe, Z axis
 
 ; Assume probe is PARKED, since
 ; user needs to jog it over the surface anyway.

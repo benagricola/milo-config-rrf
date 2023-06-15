@@ -1,4 +1,4 @@
-; G6002: Repeatable edge probe, Y axis
+; G6002: Repeatable edge (horizontal) probe, Y axis
 
 ; Assume probe is clear to move in X/Y to starting position,
 ; then plunge to Z starting position.
