@@ -6,5 +6,5 @@ M918 P2 E2 F2000000
 
 G4 S2
 
-; Set all LED's yellow
-M150 K0 R255 U255 B0 P150 S3 F0
+; Set all LED's red
+M150 K0 R255 U0 B0 P255 S3 F0
