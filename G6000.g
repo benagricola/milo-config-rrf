@@ -10,16 +10,18 @@ G28      ; home all axes
 
 G27      ; park spindle
 
-; Variables used to store material position references
-var referenceZ   = 0
-var materialZ    = 0
-var safeZ        = 0
-var materialX1   = global.xMin
-var materialX2   = global.xMax
-var materialY1   = global.yMax
-var materialY2   = global.yMin
-var materialCtrX = 0
-var materialCtrY = 0
+; Variables used to store material position references. All absolute
+var referenceZ     = 0           ; Probed reference surface, Z
+var materialZ      = 0           ; Probed surface of material, Z
+var safeZ          = 0           ; Known safe height for moves, Z
+var materialX1     = global.xMin ; Material left edge
+var materialX2     = global.xMax ; Material right edge
+var materialY1     = global.yMax ; Material front edge
+var materialY2     = global.yMin ; Material back edge
+var materialCtrX   = 0           ; Calculated center of material, X
+var materialCtrY   = 0           ; Calculated center of material, Y
+var materialOpCtrX = 0           ; Operator approximate center of material, X
+var materialOpCtrY = 0           ; Operator approximate center of material, Y
 
 ; Start probing sequence
 M291 P"Install touch probe and PLUG IT IN" R"Installation check" S2	
@@ -42,12 +44,15 @@ G27
 ; Prompt user to place the touch probe over the work piece
 M291 P"Jog the Touch Probe above the workpiece" R"Find height of workpiece" S3 X1 Y1
 
-M118 P0 L2 S{"Probing material surface at X=" ^ move.axes[0].machinePosition ^ ", Y=" ^ move.axes[1].machinePosition ^ " safe Z=" ^ move.axes[2].machinePosition }
+set var.materialOpCtrX = move.axes[0].machinePosition
+set var.materialOpCtrY = move.axes[1].machinePosition
+
+M118 P0 L2 S{"Probing material surface at X=" ^ var.materialOpCtrX ^ ", Y=" ^ var.materialOpCtrY ^ " safe Z=" ^ move.axes[2].machinePosition }
 
 ; Probe material surface multiple times and average.
 ; Use the current Z position as safe since we know the user moved the probe there
 ; manually.
-G6003 X{move.axes[0].machinePosition} Y{move.axes[1].machinePosition} S{move.axes[2].machinePosition}
+G6003 X{var.materialOpCtrX} Y{var.materialOpCtrY} S{move.axes[2].machinePosition}
 
 set var.materialZ = global.touchProbeCoordinateZ
 set var.safeZ     = var.materialZ + global.touchProbeSafeDistanceZ
@@ -68,13 +73,13 @@ var probeDepth = var.materialZ - var.probeDepthRelative*2
 M118 P0 L2 S"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."
 
 ; Probe from xMin towards xMax at current Y position. Move to a safe Z height before moving laterally. 
-G6001 X={global.xMin} D={global.xMax} Y={move.axes[1].machinePosition} Z={var.probeDepth} S={var.safeZ}
+G6001 X={global.xMin} D={var.materialOpCtrX} Y={var.materialOpCtrY} Z={var.probeDepth} S={var.safeZ}
 
 set var.materialX1 = global.touchProbeCoordinateX
 M118 P0 L2 S{"Material Edge X1=" ^ var.materialX1}
 
 ; Probe from xMax towards xMin at current Y position. Move to a safe Z height before moving laterally. 
-G6001 X={global.xMax} D={global.xMin} Y={move.axes[1].machinePosition} Z={var.probeDepth} S={var.safeZ}
+G6001 X={global.xMax} D={var.materialOpCtrX} Y={var.materialOpCtrY} Z={var.probeDepth} S={var.safeZ}
 
 set var.materialX2 = global.touchProbeCoordinateX
 M118 P0 L2 S{"Material Edge X2=" ^ var.materialX1}
@@ -85,15 +90,16 @@ set var.materialCtrX = {(var.materialX1 + var.materialX2) / 2}
 M118 P0 L2 S"Probing material edges on Y at Z=" ^ var.probeDepth ^ "..."
 
 ; Probe from yMin towards yMax at calculated middle of work piece. Move to a safe Z height before moving laterally. 
-G6002 Y={global.yMin} D={global.yMax} X={var.materialCtrX} Z={var.probeDepth} S={var.safeZ}
+G6002 Y={global.yMin} D={var.materialOpCtrY} X={var.materialCtrX} Z={var.probeDepth} S={var.safeZ}
 
 set var.materialY1 = global.touchProbeCoordinateY
 M118 P0 L2 S{"Material Edge Y1=" ^ var.materialY1}
 
 ; Probe from yMax towards yMin at current Y position. Move to a safe Z height before moving laterally. 
-G6002 Y={global.yMax} D={global.yMin} X={var.materialCtrY} Z={var.probeDepth} S={var.safeZ}
+G6002 Y={global.yMax} D={var.materialOpCtrY} X={var.materialCtrX} Z={var.probeDepth} S={var.safeZ}
 
 set var.materialY2 = global.touchProbeCoordinateY
+
 M118 P0 L2 S{"Material Edge Y2=" ^ var.materialY2}
 
 set var.materialCtrY = {(var.materialY1 + var.materialY2) / 2}

@@ -21,8 +21,7 @@ if { !exists(param.X) || !exists(param.Y) }
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-if global.touchProbeConfirmMove
-    M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe towards Z=" ^ global.zMin ^ "?"} R"Safety check" S2
+M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe towards Z=" ^ global.zMin ^ "?"} R"Safety check" S2
 
 ; Absolute moves to find starting position
 G90
