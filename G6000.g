@@ -110,6 +110,8 @@ M118 P0 L2 S{"WCS Zero Back Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.mat
 M118 P0 L2 S{"WCS Zero Back Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Centre, Top is X=" ^ var.materialCtrX ^ ", Y=" ^ var.materialCtrY ^ ", Z=" ^ var.materialZ}
 
+;TODO: Move this _before_ probing, so we only have to probe 2 edges (unless we want WCS Zero at the center)
+
 ; Prompt user for WCS position.
 M291 P"Choose WCS Zero Position, from operator perspective." S4 T0 K{"Front Left, Top","Front Right, Top","Back Left, Top","Back Right, Top","Centre, Top"}
 var wcsPosition = input

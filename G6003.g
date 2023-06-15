@@ -12,10 +12,10 @@ var probePos      = 0
 var curPos        = 0
 
 if { !exists(param.X) || !exists(param.Y) }
-    abort "Must provide starting position (X=, Y=)!"
+    { abort "Must provide starting position (X=, Y=)!" }
 
 if { !exists(param.S) }
-    abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!"
+    { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
 M291 P"Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then will probe towards Z=" ^ global.minZ ^ ". Confirm?" R"Safety check" S2
 
