@@ -74,7 +74,7 @@ global touchProbeMaxLength=70     ; This is the total length of the touch probe
                                   ; when not installed in the spindle (including shank).
                                   ; It gives us a safe offset to probe downwards from
                                   ; so we do not have to probe from Z=0
-global touchProbeProbeSpeed=300
+global touchProbeProbeSpeed=100
 global touchProbeTravelSpeed=600
 global touchProbeDwellTime=500    ; Time to pause after backing away from a surface
                                   ; before repeating a probe, to allow the machine
