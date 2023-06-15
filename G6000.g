@@ -62,12 +62,12 @@ M118 P0 L2 S{"Material Surface Z=" ^ var.materialZ}
 M118 P0 L2 S{"Material Height =" ^ var.referenceZ - var.materialZ}
 
 ; Prompt user for a probe depth for edges
-M291 P"Probe depth for edges?" S4 T0 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
+M291 P"Select probe depth from material surface for edges" R"Probe Depth?" S4 T0 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
+var probeDepthRelative = input
 
 ; probeDepthRelative is the _index_ of the option chosen, which happens to be
 ; half of the expected value (idx 1 = 2mm offset etc)
 
-var probeDepthRelative = input
 var probeDepth = var.materialZ - var.probeDepthRelative*2
 
 M118 P0 L2 S"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."

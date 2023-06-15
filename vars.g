@@ -77,7 +77,8 @@ global touchProbeMaxLength=70     ; This is the total length of the touch probe
 global touchProbeProbeSpeed=250
 global touchProbeTravelSpeed=600
 
-global touchProbeConfirmMove=true ; Set this to false to move automatically to
+;global touchProbeConfirmMove=true
+                                  ; Set this to false to move automatically to
                                   ; calculated probe locations. ONLY DO THIS WHEN
                                   ; YOU ARE CERTAIN THAT THE PROBING MACRO WORKS
                                   ; PERFECTLY FOR YOUR SETUP.
