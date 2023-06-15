@@ -5,9 +5,9 @@ M550 P"Millenium Milo v1.5 M016"     ; Set mill name
 M453                                 ; Put RRF into CNC mode
 
 M98 P"vars.g"
+M98 P"screen.g" ; Screen enabled early to allow boot feedback via LED's
 M98 P"estop.g"
 M98 P"logging.g"
-M98 P"screen.g"
 M98 P"override-defaults.g"
 M98 P"drives.g"
 M98 P"speed.g"
