@@ -123,33 +123,30 @@ M118 P0 L2 S{"WCS Zero Centre, Top is X=" ^ var.materialCtrX ^ ", Y=" ^ var.mate
 
 ; Prompt user for WCS position.
 M291 P"Choose WCS Zero Position, from operator perspective." S4 T0 K{"Front Left, Top","Front Right, Top","Back Left, Top","Back Right, Top","Centre, Top"}
-var wcsPosition = input
+var wcsZeroPosition = input
 
 ; Move above chosen WCS zero
 G90
 
-if wcsPosition == 1
+if var.wcsZeroPosition == 1
     M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Front Left"}
     G53 G0 X{var.materialX1} Y{var.materialY2}
-    G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
-elif wcsPosition == 2
+elif var.wcsZeroPosition == 2
     M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Front Right"}
     G53 G0 X{var.materialX2} Y{var.materialY2}
-    G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
-elif wcsPosition == 3
+elif var.wcsZeroPosition == 3
     M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Back Left"}
     G53 G0 X{var.materialX1} Y{var.materialY1}
-    G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
-elif wcsPosition == 4
+elif var.wcsZeroPosition == 4
     M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Back Right"}
     G53 G0 X{var.materialX2} Y{var.materialY1}
-    G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
-elif wcsPosition == 5
+elif var.wcsZeroPosition == 5
     M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Centre"}
     G53 G0 X{var.materialCtrX} Y{var.materialCtrY}
-    G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
 else
-    abort "Unknown WCS position input " ^ wcsPosition ^ "!"
+    abort "Unknown WCS position input " ^ var.wcsZeroPosition ^ "!"
+
+G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
 
 ; Confirm Zero position
 M291 P{ "Positioned " ^ global.touchProbeSafeDistanceZ ^ "mm above calculated WCS Zero. Confirm?"} S3 T0 R"Confirm WCS Zero"
@@ -159,7 +156,7 @@ M291 P"Choose WCS to Zero" S4 T0 K{"G54","G55","G56","G57","G58","G59","G59.1","
 var wcsNumber = input
 
 ; Zero the selected WCS to current X/Y position at material height.
-G10 L20 P{wcsNumber} X0 Y0 Z{-global.touchProbeSafeDistanceZ}
+G10 L20 P{var.wcsNumber} X0 Y0 Z{-global.touchProbeSafeDistanceZ}
 
 ; Park
 G27
