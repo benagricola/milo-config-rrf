@@ -1,14 +1,14 @@
 ; Define pins used for configuring hardware
-global pinEStop=^ystopmax
-global pinXStop=^xstop
-global pinYStop=^ystop
-global pinZStop=^zstop
+global pinEStop="^ystopmax"
+global pinXStop="^xstop"
+global pinYStop="^ystop"
+global pinZStop="^zstop"
 
-global pinTouchProbe=^!probe
-global pinToolSetter=^xstopmax
-global pinTool=he0+^fan1
-global pinNeoPixel=^LCDD5
-global pinFan0=!fan0+tacho0
+global pinTouchProbe="^!probe"
+global pinToolSetter="^xstopmax"
+global pinTool="he0+^fan1"
+global pinNeoPixel="^LCDD5"
+global pinFan0="!fan0+tacho0"
 
 
 ; Min:  Axis Minimum

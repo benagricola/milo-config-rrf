@@ -17,7 +17,7 @@ if { !exists(param.X) || !exists(param.Y) }
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-M291 P{ "Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then will probe towards Z=" ^ global.minZ ^ ". Confirm?" } R"Safety check" S2
+M291 P{ "Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then will probe towards Z=" ^ global.zMin ^ ". Confirm?" } R"Safety check" S2
 
 ; Absolute moves to find starting position
 G90
@@ -34,7 +34,7 @@ G91
 while var.retries <= global.touchProbeNumProbes
     ; Probe towards surface.
     ; Z probes only run in one direction
-    G53 G38.2 K2
+    G53 G38.2 K2 Z{global.zMin}
     
     set var.curPos = move.axes[2].machinePosition
 
