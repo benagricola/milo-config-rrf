@@ -76,6 +76,9 @@ global touchProbeMaxLength=70     ; This is the total length of the touch probe
                                   ; so we do not have to probe from Z=0
 global touchProbeProbeSpeed=250
 global touchProbeTravelSpeed=600
+global touchProbeDwellTime=500    ; Time to pause after backing away from a surface
+                                  ; before repeating a probe, to allow the machine
+                                  ; to settle.
 
 ;global touchProbeConfirmMove=true
                                   ; Set this to false to move automatically to

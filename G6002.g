@@ -55,6 +55,9 @@ while var.retries <= global.touchProbeNumProbes
     ; Move away from the trigger point
     G53 G0 Y{var.backoffPos}
 
+    ; Dwell so machine can settle
+    G4 P{global.touchProbeDwellTime}
+
     ; Iterate retry counter
     set var.retries = var.retries + 1
 

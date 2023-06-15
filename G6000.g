@@ -73,13 +73,13 @@ var probeDepth = var.materialZ - var.probeDepthRelative*2
 M118 P0 L2 S"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."
 
 ; Probe from xMin towards xMax at current Y position. Move to a safe Z height before moving laterally. 
-G6001 X={global.xMin} D={var.materialOpCtrX} Y={var.materialOpCtrY} Z={var.probeDepth} S={var.safeZ}
+G6001 X{global.xMin} D{var.materialOpCtrX} Y{var.materialOpCtrY} Z{var.probeDepth} S{var.safeZ}
 
 set var.materialX1 = global.touchProbeCoordinateX
 M118 P0 L2 S{"Material Edge X1=" ^ var.materialX1}
 
 ; Probe from xMax towards xMin at current Y position. Move to a safe Z height before moving laterally. 
-G6001 X={global.xMax} D={var.materialOpCtrX} Y={var.materialOpCtrY} Z={var.probeDepth} S={var.safeZ}
+G6001 X{global.xMax} D{var.materialOpCtrX} Y{var.materialOpCtrY} Z{var.probeDepth} S{var.safeZ}
 
 set var.materialX2 = global.touchProbeCoordinateX
 M118 P0 L2 S{"Material Edge X2=" ^ var.materialX1}
@@ -90,13 +90,13 @@ set var.materialCtrX = {(var.materialX1 + var.materialX2) / 2}
 M118 P0 L2 S"Probing material edges on Y at Z=" ^ var.probeDepth ^ "..."
 
 ; Probe from yMin towards yMax at calculated middle of work piece. Move to a safe Z height before moving laterally. 
-G6002 Y={global.yMin} D={var.materialOpCtrY} X={var.materialCtrX} Z={var.probeDepth} S={var.safeZ}
+G6002 Y{global.yMin} D{var.materialOpCtrY} X{var.materialCtrX} Z{var.probeDepth} S{var.safeZ}
 
 set var.materialY1 = global.touchProbeCoordinateY
 M118 P0 L2 S{"Material Edge Y1=" ^ var.materialY1}
 
 ; Probe from yMax towards yMin at current Y position. Move to a safe Z height before moving laterally. 
-G6002 Y={global.yMax} D={var.materialOpCtrY} X={var.materialCtrX} Z={var.probeDepth} S={var.safeZ}
+G6002 Y{global.yMax} D{var.materialOpCtrY} X{var.materialCtrX} Z{var.probeDepth} S{var.safeZ}
 
 set var.materialY2 = global.touchProbeCoordinateY
 
