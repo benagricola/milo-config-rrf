@@ -26,7 +26,7 @@ M291 P"Install touch probe and PLUG IT IN" R"Installation check" S2
 
 ; TODO: Check status of probe in object model to confirm it is connected.
 
-M118 P0 L2 S{"Probing reference surface at X=" ^ global.touchProbeReferenceX ^ ", Y=" ^ global.touchProbeReferenceY }
+M118 P0 L2 S{"Probing ref. surface at X=" ^ global.touchProbeReferenceX ^ ", Y=" ^ global.touchProbeReferenceY }
 
 ; Probe reference surface multiple times and average.
 ; Retract spindle fully for safe moves
@@ -42,7 +42,7 @@ G27
 ; Prompt user to place the touch probe over the work piece
 M291 P"Jog the Touch Probe above the workpiece" R"Find height of workpiece" S3 X1 Y1
 
-M118 P0 L2 S{"Probing material surface at X=" ^ move.axes[0].machinePosition ^ ", Y=" ^ move.axes[1].machinePosition ^ " safe height S=" ^ move.axes[2].machinePosition }
+M118 P0 L2 S{"Probing material surface at X=" ^ move.axes[0].machinePosition ^ ", Y=" ^ move.axes[1].machinePosition ^ " safe Z=" ^ move.axes[2].machinePosition }
 
 ; Probe material surface multiple times and average.
 ; Use the current Z position as safe since we know the user moved the probe there
@@ -63,7 +63,7 @@ M291 P"Probe depth for edges?" S4 T0 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
 ; half of the expected value (idx 1 = 2mm offset etc)
 
 var probeDepthRelative = input
-set var.probeDepth = var.materialZ - abs(var.probeDepthRelative*2)
+var probeDepth = var.materialZ - var.probeDepthRelative*2
 
 M118 P0 L2 S"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."
 
