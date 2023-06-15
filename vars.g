@@ -1,3 +1,16 @@
+; Define pins used for configuring hardware
+global pinEStop=^ystopmax
+global pinXStop=^xstop
+global pinYStop=^ystop
+global pinZStop=^zstop
+
+global pinTouchProbe=^!probe
+global pinToolSetter=^xstopmax
+global pinTool=he0+^fan1
+global pinNeoPixel=^LCDD5
+global pinFan0=!fan0+tacho0
+
+
 ; Min:  Axis Minimum
 ; Max:  Axis Maximum
 ; Home: Direction and distance to move towards endstops
@@ -17,6 +30,7 @@ global zMin=-120
 global zMax=0
 global zHome=125
 global zHomeRepeat=-5
+
 
 ; Toolsetter measurements
 ; Nose Offset is the Z height where the spindle nose activates the toolsetter

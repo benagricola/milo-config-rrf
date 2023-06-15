@@ -14,14 +14,14 @@ M208 X{global.xMax} Y{global.yMax} Z{global.zMax} S0                  ; set axis
 ; Z homes upwards to zero.
 
 ; X=0: NC, pulled up, on xstop 
-M574 X1 S1 P"^xstop"
+M574 X1 S1 P{global.pinXStop}
 
 ; Y=MAX: NC, pulled up, on ystop
-M574 Y2 S1 P"^ystop"
+M574 Y2 S1 P{global.pinYStop}
 
 ; Z=MAX: NC, pulled up, on xstop
-M574 Z2 S1 P"^zstop"
+M574 Z2 S1 P{global.pinZStop}
 
-; Z-Probe (does not exist, manual setup)
-M558 K0 P0                           ; disable Z probe
+; Default Z-Probe (does not exist, manual setup)
+M558 K0 P0 ; disable Z probe
 
