@@ -4,11 +4,12 @@ global pinXStop="^xstop"
 global pinYStop="^ystop"
 global pinZStop="^zstop"
 
-global pinTouchProbe="^!probe"
-global pinToolSetter="^xstopmax"
-global pinTool="he0+^fan1"
 global pinNeoPixel="^LCDD5"
 global pinFan0="!fan0+tacho0"
+
+global pinTool="he0+^fan1"
+global pinToolSetter="^xstopmax"
+global pinTouchProbe="^!probe"
 
 
 ; Min:  Axis Minimum
@@ -63,7 +64,7 @@ global touchProbeDistanceZ=2      ; towards X, Y and Z faces of work piece.
 global touchProbeSafeDistanceZ=10 ; Safe distance above probed work surface for
                                   ; non-probing X/Y moves.
 global touchProbeReferenceX=0     ; X,Y co-ordinates of the reference surface to
-global touchProbeReferenceY=67    ; use. The reference surface is a known surface
+global touchProbeReferenceY=65    ; use. The reference surface is a known surface
                                   ; from which offsets can be calculated. The distance
                                   ; in Z from the reference surface to the touch-
                                   ; probe activation point allows us to compensate for
