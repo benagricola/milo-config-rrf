@@ -17,6 +17,9 @@ if { !exists(param.D) || param.D == 0 }
 if { !exists(param.X) || !exists(param.Y) || !exists(param.Z) }
     { abort "Must provide starting position (X=, Y=, Z=)!" }
 
+if param.D == param.Y
+    { abort "Parameters Y= and D= cannot be the same!" }
+
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
@@ -38,7 +41,7 @@ G53 G0 Z{param.Z}
 G91
 
 ; If moving in a positive direction, back off in negative
-if { param.D > 0 }
+if { param.Y < param.D }
     set var.backoffPos = -var.backoffPos
 
 while var.retries <= global.touchProbeNumProbes

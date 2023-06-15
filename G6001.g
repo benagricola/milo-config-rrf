@@ -17,6 +17,9 @@ if { !exists(param.D) || param.D == 0 }
 if { !exists(param.X) || !exists(param.Y) || !exists(param.Z) }
     { abort "Must provide starting position (X=, Y=, Z=)!" }
 
+if param.D == param.X
+    { abort "Paramters X= and D= cannot be the same!" }
+
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
@@ -38,7 +41,7 @@ G53 G0 Z{param.Z}
 G91
 
 ; If moving in a positive direction, back off in negative
-if { param.D > 0 }
+if { param.X < param.D }
     set var.backoffPos = -var.backoffPos
 
 while var.retries <= global.touchProbeNumProbes
@@ -54,6 +57,9 @@ while var.retries <= global.touchProbeNumProbes
 
     ; Move away from the trigger point
     G53 G0 X{var.backoffPos}
+
+    ; Dwell so machine can settle
+    G4 P{global.touchProbeDwellTime}
 
     ; Iterate retry counter
     set var.retries = var.retries + 1
