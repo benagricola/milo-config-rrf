@@ -12,15 +12,15 @@ var curPos        = 0
 var backoffPos    = global.touchProbeDistanceXY
 
 if { !exists(param.D) || param.D == 0 }
-    abort "Must provide direction and distance (D=+-...) you want to probe in!"
+    { abort "Must provide direction and distance (D=+-...) you want to probe in!" }
 
 if { !exists(param.X) || !exists(param.Y) || !exists(param.Z) }
-    abort "Must provide starting position (X=, Y=, Z=)!"
+    { abort "Must provide starting position (X=, Y=, Z=)!" }
 
 if { !exists(param.S) }
-    abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!"
+    { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-M291 P"Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then down to Z=" ^ param.Z ^ ", and will probe towards Y=" ^ param.D ^ ". Confirm?" R"Safety check" S2
+M291 P{ "Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then down to Z=" ^ param.Z ^ ", and will probe towards Y=" ^ param.D ^ ". Confirm?" } R"Safety check" S2
 
 ; Absolute moves to find starting position
 G90

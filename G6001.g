@@ -20,7 +20,7 @@ if { !exists(param.X) || !exists(param.Y) || !exists(param.Z) }
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-M291 P"Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then down to Z=" ^ param.Z ^ ", and will probe towards X=" ^ param.D ^ ". Confirm?" R"Safety check" S2
+M291 P{ "Probe will move to absolute position X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at a safe height of Z=" ^ param.S ^ ", then down to Z=" ^ param.Z ^ ", and will probe towards X=" ^ param.D ^ ". Confirm?" } R"Safety check" S2
 
 ; Absolute moves to find starting position
 G90
