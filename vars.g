@@ -32,6 +32,11 @@ global zMax=0
 global zHome=125
 global zHomeRepeat=-5
 
+; Parking settings
+global parkX={(global.xMax - global.xMin)/2} ; Park with the "bed" approximately in the middle
+global parkY=global.yMax                     ; and at the front for operator ease-of-use.
+global parkZ=global.zMax                     ; Think VERY hard before parking this anywhere else
+                                             ; except Z=0 (zMax)
 
 ; Toolsetter measurements
 ; Nose Offset is the Z height where the spindle nose activates the toolsetter
@@ -57,10 +62,6 @@ global touchProbeDistanceZ=2      ; towards X, Y and Z faces of work piece.
                                   ; being used, so as not to cause damage to
                                   ; the probe in the event of a failure to
                                   ; trigger.
-
-                                  ; This also means that the touch probe must
-                                  ; be within this range of the surface being
-                                  ; probed.
 global touchProbeSafeDistanceZ=10 ; Safe distance above probed work surface for
                                   ; non-probing X/Y moves.
 global touchProbeReferenceX=0     ; X,Y co-ordinates of the reference surface to
@@ -74,7 +75,7 @@ global touchProbeMaxLength=70     ; This is the total length of the touch probe
                                   ; when not installed in the spindle (including shank).
                                   ; It gives us a safe offset to probe downwards from
                                   ; so we do not have to probe from Z=0
-global touchProbeProbeSpeed=50    ; Speed to probe at in mm/min when calculating surface
+global touchProbeProbeSpeed=25    ; Speed to probe at in mm/min when calculating surface
                                   ; offsets.
 global touchProbeRoughSpeed=300   ; Initial probe towards a surface is performed at this
                                   ; speed in mm/min
@@ -93,11 +94,6 @@ global touchProbeCoordinateX=0
 global touchProbeCoordinateY=0
 global touchProbeCoordinateZ=0
 
-; Parking settings
-global parkX=global.xMax/2 ; Park with the "bed" approximately in the middle
-global parkY=global.yMax   ; and at the front for operator ease-of-use.
-global parkZ=global.zMax   ; Think VERY hard before parking this anywhere else
-                           ; except Z=0 (zMax)
 
 ; Neopixel settings
 global neopixelUpdates=true   ; Auto-update neopixel colours based on printer and

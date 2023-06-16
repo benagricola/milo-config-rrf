@@ -24,7 +24,7 @@ var materialOpCtrX = 0           ; Operator approximate center of material, X
 var materialOpCtrY = 0           ; Operator approximate center of material, Y
 
 ; Start probing sequence
-M291 P"Install touch probe and PLUG IT IN" R"Installation check" S2	
+M291 P"Install touch probe and confirm it is plugged in!" R"Installation check" S3
 
 ; TODO: Check status of probe in object model to confirm it is connected.
 
@@ -38,8 +38,9 @@ set var.referenceZ = global.touchProbeCoordinateZ
 
 M118 P0 L2 S{"Reference Surface Z=" ^ var.referenceZ}
 
-; Park
-G27
+; Park, request center of X and Y as this is
+; likely close to where the user needs to jog to.
+G27 C1
 
 ; Prompt user to place the touch probe over the work piece
 M291 P"Jog the Touch Probe above the workpiece" R"Find height of workpiece" S3 X1 Y1
@@ -62,10 +63,10 @@ M118 P0 L2 S{"Material Surface Z=" ^ var.materialZ}
 M118 P0 L2 S{"Material Height =" ^ var.referenceZ - var.materialZ}
 
 ; Prompt user for a probe depth for edges
-M291 P"Select probe depth from material surface for edges" R"Probe Depth?" S4 T0 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
+M291 P"Select probe depth from material surface for edges" R"Probe Depth?" S4 T0 J1 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
 var probeDepthRelative = input
 
-M118 P0 L2 S"Probe depth selection value: " ^ var.probeDepthRelative ^ "..."
+M118 P0 L2 S{"Probe depth selection value: " ^ var.probeDepthRelative ^ "..."}
 
 ; probeDepthRelative is the _index_ of the option chosen.
 ; So we need to add 1, and then multiply by 2 to get the
@@ -74,7 +75,7 @@ M118 P0 L2 S"Probe depth selection value: " ^ var.probeDepthRelative ^ "..."
 ; NOTE: This _must_ be enclosed in {} because * has special meaning in gcode!
 var probeDepth = { var.materialZ - (var.probeDepthRelative+1*2) }
 
-M118 P0 L2 S"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."
+M118 P0 L2 S{"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."}
 
 ; Probe from xMin towards opCtrX at current Y position. Move to a safe Z height before moving laterally. 
 G6001 X{global.xMin} D{var.materialOpCtrX} Y{var.materialOpCtrY} Z{var.probeDepth} S{var.safeZ}
@@ -91,7 +92,7 @@ M118 P0 L2 S{"Material Edge X2=" ^ var.materialX1}
 ; Find center of work piece in X axis
 set var.materialCtrX = {(var.materialX1 + var.materialX2) / 2}
 
-M118 P0 L2 S"Probing material edges on Y at Z=" ^ var.probeDepth ^ "..."
+M118 P0 L2 S{"Probing material edges on Y at Z=" ^ var.probeDepth ^ "..."}
 
 ; Probe from yMin towards opCtrY at calculated middle of work piece. Move to a safe Z height before moving laterally. 
 G6002 Y{global.yMin} D{var.materialOpCtrY} X{var.materialCtrX} Z{var.probeDepth} S{var.safeZ}
@@ -109,56 +110,70 @@ M118 P0 L2 S{"Material Edge Y2=" ^ var.materialY2}
 set var.materialCtrY = {(var.materialY1 + var.materialY2) / 2}
 
 ; Probing complete, Park
-G27
+G27 C1
 
 ; At this point we have the X, Y and Z limits of the stock. We can calculate the WCS offset for any obvious point.
 ; Note: "Material height" uses the reference surface for calculation, as we can't probe the bottom corner of a part.
 ; This is why we always use the _top_ surface of the work piece for Z=0.
-
-M118 P0 L2 S{"WCS Zero Front Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
-M118 P0 L2 S{"WCS Zero Front Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
-M118 P0 L2 S{"WCS Zero Back Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
-M118 P0 L2 S{"WCS Zero Back Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
+M118 P0 L2 S{"WCS Zero Front Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
+M118 P0 L2 S{"WCS Zero Front Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
+M118 P0 L2 S{"WCS Zero Back Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
+M118 P0 L2 S{"WCS Zero Back Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Centre, Top is X=" ^ var.materialCtrX ^ ", Y=" ^ var.materialCtrY ^ ", Z=" ^ var.materialZ}
 
-;TODO: Move this _before_ probing, so we only have to probe 2 edges (unless we want WCS Zero at the center)
+var wcsZeroSet = false
 
-; Prompt user for WCS position.
-M291 P"Choose WCS Zero Position, from operator perspective." S4 T0 K{"Front Left, Top","Front Right, Top","Back Left, Top","Back Right, Top","Centre, Top"}
-var wcsZeroPosition = input
-
-; Move above chosen WCS zero
+; Use absolute positions for movements
+; to corners
 G90
 
-if var.wcsZeroPosition == 1
-    M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Front Left"}
-    G53 G0 X{var.materialX1} Y{var.materialY2}
-elif var.wcsZeroPosition == 2
-    M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Front Right"}
-    G53 G0 X{var.materialX2} Y{var.materialY2}
-elif var.wcsZeroPosition == 3
-    M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Back Left"}
-    G53 G0 X{var.materialX1} Y{var.materialY1}
-elif var.wcsZeroPosition == 4
-    M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Back Right"}
-    G53 G0 X{var.materialX2} Y{var.materialY1}
-elif var.wcsZeroPosition == 5
-    M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Centre"}
-    G53 G0 X{var.materialCtrX} Y{var.materialCtrY}
-else
-    abort "Unknown WCS position input " ^ var.wcsZeroPosition ^ "!"
+; Loop until broken
+while true
 
-G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
+    ;TODO: Move this _before_ probing, so we only have to probe 2 edges (unless we want WCS Zero at the center)
 
-; Confirm Zero position
-M291 P{ "Positioned " ^ global.touchProbeSafeDistanceZ ^ "mm above calculated WCS Zero. Confirm?"} S3 T0 R"Confirm WCS Zero"
+    ; Prompt user for WCS position.
+    M291 P"Move to position?" R"Position" S4 T0 J1 K{"FL","FR","BL","BR","CTR"}
+    var movePosition = input
 
-; Choose WCS number to zero
-M291 P"Choose WCS to Zero" S4 T0 K{"G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"}
-var wcsNumber = input
+    if var.movePosition == 0
+        M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Front Left"}
+        G53 G0 X{var.materialX1} Y{var.materialY1}
+    elif var.movePosition == 1
+        M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Front Right"}
+        G53 G0 X{var.materialX2} Y{var.materialY1}
+    elif var.movePosition == 2
+        M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Back Left"}
+        G53 G0 X{var.materialX1} Y{var.materialY2}
+    elif var.movePosition == 3
+        M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Back Right"}
+        G53 G0 X{var.materialX2} Y{var.materialY2}
+    elif var.movePosition == 4
+        M118 P0 L2 S{"Moving " ^ global.touchProbeSafeDistanceZ ^ "mm above Centre"}
+        G53 G0 X{var.materialCtrX} Y{var.materialCtrY}
+    else
+        abort "Unknown position input " ^ var.movePosition ^ "!"
 
-; Zero the selected WCS to current X/Y position at material height.
-G10 L20 P{var.wcsNumber} X0 Y0 Z{-global.touchProbeSafeDistanceZ}
+    G53 G0 Z{var.materialZ + global.touchProbeSafeDistanceZ}
+
+    ; Confirm Zero position
+    M291 P{"Use current position, -" ^ global.touchProbeSafeDistanceZ ^ "mm as WCS Zero?"} R"Confirm WCS Zero" S4 T0 J1 K{"Yes","No"}
+
+    ; If operator selected no, allow selection of another position
+    if input == 1
+        continue
+
+    ; Choose WCS number to zero
+    M291 P"Choose WCS to Zero" S4 T0 J1 K{"G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"}
+    var wcsNumber = input
+
+    ; Zero the selected WCS to current X/Y position at material height.
+    G10 L20 P{var.wcsNumber+1} X0 Y0 Z{-global.touchProbeSafeDistanceZ}
+
+    ; Sleep just in case of hotloop
+    G4 P100
+
+    break
 
 ; Park
-G27
+G27 C1

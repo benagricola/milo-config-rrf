@@ -3,4 +3,10 @@ M5                                     ; make sure spindle is stopped or powerin
 G90                                    ; absolute positioning
 G21                                    ; use MM
 G53 G0 Z{global.parkZ}                 ; Lift Z to parking location
-G53 G0 X{global.parkX} Y{global.parkY} ; Move work area to accessible location
+; If requesting centre, move to middle of X and Y
+if { exists(param.C) }
+    G53 G0 X{(global.xMax - global.xMin)/2} Y{(global.yMax - global.yMin)/2}
+
+; Otherwise move to operator-specified accessible location
+else
+    G52 G0 X{global.parkX} Y{global.parkY}

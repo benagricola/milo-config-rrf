@@ -23,7 +23,7 @@ if param.D == param.X
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", down towards Z=" ^ param.Z ^ " and probe X=" ^ param.D ^ "?"} R"Safety check" S2
+M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", down towards Z=" ^ param.Z ^ " and probe X=" ^ param.D ^ "?"} R"Safety check" S3
 
 ; Absolute moves to find starting position
 G90
@@ -63,7 +63,7 @@ while var.retries <= global.touchProbeNumProbes
 
     ; Otherwise, reduce the probe speed to increase accuracy
     else
-        M203 X{global.touchProbeProbeSpeed}
+        M203 X{global.touchProbeProbeSpeed} Y{global.touchProbeProbeSpeed}
 
     ; Dwell so machine can settle
     G4 P{global.touchProbeDwellTime}
