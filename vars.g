@@ -36,7 +36,7 @@ global zHomeRepeat=-5
 ; Toolsetter measurements
 ; Nose Offset is the Z height where the spindle nose activates the toolsetter
 ; Max length is the maximum length of the exposed tool 
-global toolsetterSpindleNoseOffset=-102.7
+global toolsetterSpindleNoseOffset=-104.691
 global toolsetterX=0             ; X position of center of toolsetter
 global toolsetterY=93.5          ; Y position of center of toolsetter
 global toolsetterMaxLength=50    ; Height above toolsetterSpindleNoseOffset to
@@ -96,6 +96,22 @@ global parkX=global.xMax/2 ; Park with the "bed" approximately in the middle
 global parkY=global.yMax   ; and at the front for operator ease-of-use.
 global parkZ=global.zMax   ; Think VERY hard before parking this anywhere else
                            ; except Z=0 (zMax)
+
+; Neopixel settings
+global neopixelUpdates=true   ; Auto-update neopixel colours based on printer and
+                              ; network status.
+global neopixelUpdateRate=500 ; Update neopixel colours every 500 milliseconds
+
+global neopixelColourWarning={255, 255, 0, 255}    ; Yellow
+global neopixelColourCancelling={255, 165, 0, 255} ; Yellow
+global neopixelColourError={255, 0, 0, 255}        ; Red
+global neopixelColourStartup={255, 255, 255, 255}  ; White
+global neopixelColourReady={0, 255, 0, 255}        ; Green
+global neopixelColourBusy={0, 0, 255, 255}         ; Blue
+global neopixelColourPaused={0, 255, 255, 255}     ; Cyan
+
+global neopixelReady=false ; Do not change, used to avoid addressing
+                           ; LEDs before pin has been assigned.
 
 ; Logging settings
 global logFilePath="/sys/log"
