@@ -67,11 +67,12 @@ var probeDepthRelative = input
 
 M118 P0 L2 S"Probe depth selection value: " ^ var.probeDepthRelative ^ "..."
 
-; probeDepthRelative is the _index_ of the option chosen, which happens to be
-; half of the expected value (idx 1 = 2mm offset etc)
+; probeDepthRelative is the _index_ of the option chosen.
+; So we need to add 1, and then multiply by 2 to get the
+; actual value in MM (absolute)
 
 ; NOTE: This _must_ be enclosed in {} because * has special meaning in gcode!
-var probeDepth = { var.materialZ - var.probeDepthRelative*2 }
+var probeDepth = { var.materialZ - (var.probeDepthRelative+1*2) }
 
 M118 P0 L2 S"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."
 

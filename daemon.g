@@ -44,9 +44,10 @@ while global.neopixelUpdates
     ; colour will be used.
 
     ; Change LEDs once pin assigned
+    ; Fysetc 128x64 colour seems to flip green and red?
     if global.neopixelReady
         ; Set screen background colour (1 LED)
-        M150 K0 R{var.neopixelColours[0][0]} U{var.neopixelColours[0][1]} B{var.neopixelColours[0][2]} P{var.neopixelColours[0][3]} S1 F1
+        M150 K0 U{var.neopixelColours[0][0]} R{var.neopixelColours[0][1]} B{var.neopixelColours[0][2]} P{var.neopixelColours[0][3]} S1 F1
         ; Set rotary encoder colour (2 LEDs)
-        M150 K0 R{var.neopixelColours[1][0]} U{var.neopixelColours[1][1]} B{var.neopixelColours[1][2]} P{var.neopixelColours[1][3]} S2 F0
+        M150 K0 U{var.neopixelColours[1][0]} R{var.neopixelColours[1][1]} B{var.neopixelColours[1][2]} P{var.neopixelColours[1][3]} S2 F0
 

@@ -6,7 +6,7 @@
 ; Switch to mm
 G21
 
-var retries       = 1
+var retries       = 0
 var probePos      = 0
 var curPos        = 0
 var backoffPos    = global.touchProbeDistanceXY
@@ -18,7 +18,7 @@ if { !exists(param.X) || !exists(param.Y) || !exists(param.Z) }
     { abort "Must provide starting position (X=, Y=, Z=)!" }
 
 if param.D == param.X
-    { abort "Paramters X= and D= cannot be the same!" }
+    { abort "Parameters X= and D= cannot be the same!" }
 
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
@@ -48,21 +48,31 @@ while var.retries <= global.touchProbeNumProbes
     ; Probe towards surface
     G53 G38.2 X{param.D} K2
     
+    ; Record current position
     set var.curPos = move.axes[0].machinePosition
-
-    ; Add probe position for averaging
-    set var.probePos = var.probePos+var.curPos
-
-    M118 P0 L2 S{"Touch Probe " ^ var.retries ^ "/" ^ global.touchProbeNumProbes ^ ": X=" ^ var.curPos}
 
     ; Move away from the trigger point
     G53 G0 X{var.backoffPos}
+
+    ; If this is not the initial rough probe, record the position
+    if var.retries > 0
+        ; Add probe position for averaging
+        set var.probePos = var.probePos+var.curPos
+
+        M118 P0 L2 S{"Touch Probe " ^ var.retries ^ "/" ^ global.touchProbeNumProbes ^ ": X=" ^ var.curPos}
+
+    ; Otherwise, reduce the probe speed to increase accuracy
+    else
+        M203 X{global.touchProbeProbeSpeed}
 
     ; Dwell so machine can settle
     G4 P{global.touchProbeDwellTime}
 
     ; Iterate retry counter
     set var.retries = var.retries + 1
+
+; Reset all speed limits after probing
+M98 P"speed.g"
 
 var probePosAveraged = var.probePos / global.touchProbeNumProbes
 

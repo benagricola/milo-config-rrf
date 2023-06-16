@@ -11,7 +11,7 @@
 G21
 G91
 
-var retries       = 1
+var retries       = 0
 var probePos      = 0
 var curPos        = 0
 
@@ -35,26 +35,38 @@ G53 G0 X{param.X} Y{param.Y}
 ; Back to relative moves for probing
 G91
 
+; Add a probe retry to account for the initial
+; high-speed probe.
 while var.retries <= global.touchProbeNumProbes
     ; Probe towards surface.
     ; Z probes only run in one direction
     G53 G38.2 K2 Z{global.zMin}
     
+    ; Record current position
     set var.curPos = move.axes[2].machinePosition
-
-    ; Add probe position for averaging
-    set var.probePos = var.probePos+var.curPos
-
-    M118 P0 L2 S{"Touch Probe " ^ var.retries ^ "/" ^ global.touchProbeNumProbes ^ ": Z=" ^ var.curPos}
 
     ; Move away from the trigger point
     G53 G0 Z{global.touchProbeDistanceZ}
+
+    ; If this is not the initial rough probe, record the position
+    if var.retries > 0
+        ; Add probe position for averaging
+        set var.probePos = var.probePos+var.curPos
+
+        M118 P0 L2 S{"Touch Probe " ^ var.retries ^ "/" ^ global.touchProbeNumProbes ^ ": Z=" ^ var.curPos}
+ 
+    ; Otherwise, reduce the probe speed to increase accuracy
+    else
+        M203 Z{global.touchProbeProbeSpeed}
 
     ; Dwell so machine can settle
     G4 P{global.touchProbeDwellTime}
 
     ; Iterate retry counter
     set var.retries = var.retries + 1
+
+; Reset all speed limits after probing
+M98 P"speed.g"
 
 var probePosAveraged = var.probePos / global.touchProbeNumProbes
 
