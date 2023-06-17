@@ -21,7 +21,21 @@ if { !exists(param.X) || !exists(param.Y) }
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe towards Z=" ^ global.zMin ^ "?"} R"Safety check" S3
+if { !exists(param.B) }
+    { abort "Must provide a backoff height (B=) to retreat to after each probe!" }
+
+if { !exists(param.K) }
+    { abort "Must provide a sensor (K=) to use as probe!" }
+
+if { !exists(param.C) }
+    { abort "Must provide a number of probes (C=) to run!" }
+
+if { !exists(param.A) }
+    { abort "Must provide a vertical (slow) probe speed!" }
+
+
+if global.probeConfirmMove
+    M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe #" ^ param.K ^ " towards Z=" ^ global.zMin ^ "?"} R"Safety check" S3
 
 ; Absolute moves to find starting position
 G90
@@ -37,30 +51,32 @@ G91
 
 ; Add a probe retry to account for the initial
 ; high-speed probe.
-while var.retries <= global.touchProbeNumProbes
+while var.retries <= param.C
     ; Probe towards surface.
     ; Z probes only run in one direction
-    G53 G38.2 K2 Z{global.zMin}
+    G53 G38.2 K{param.K} Z{global.zMin}
     
     ; Record current position
     set var.curPos = move.axes[2].machinePosition
 
     ; Move away from the trigger point
-    G53 G0 Z{global.touchProbeDistanceZ}
+    G53 G0 Z{param.B}
 
     ; If this is not the initial rough probe, record the position
     if var.retries > 0
         ; Add probe position for averaging
         set var.probePos = var.probePos+var.curPos
 
-        M118 P0 L2 S{"Touch Probe " ^ var.retries ^ "/" ^ global.touchProbeNumProbes ^ ": Z=" ^ var.curPos}
+        M118 P0 L2 S{"Probe " ^ var.retries ^ "/" ^ param.C ^ ": Z=" ^ var.curPos}
  
     ; Otherwise, reduce the probe speed to increase accuracy
     else
-        M203 Z{global.touchProbeProbeSpeed}
-
-    ; Dwell so machine can settle
-    G4 P{global.touchProbeDwellTime}
+        M203 Z{param.A}
+        if { exists(param.J) && param.J == 1}
+            ; Z movement is allowed as well because we might need to jog the tool
+            ; upwards to position the lowest point over the switch if param.B is
+            ; not high enough.
+            M291 P"Fine-tune the probe location" R"Fine Tuning" S3 X1 Y1 Z1
 
     ; Iterate retry counter
     set var.retries = var.retries + 1
@@ -68,7 +84,7 @@ while var.retries <= global.touchProbeNumProbes
 ; Reset all speed limits after probing
 M98 P"speed.g"
 
-var probePosAveraged = var.probePos / global.touchProbeNumProbes
+var probePosAveraged = var.probePos / param.C
 
 M118 P0 L2 S{"Z=" ^ var.probePosAveraged}
 
@@ -78,4 +94,4 @@ G90
 ; Move to safe height
 G53 G0 Z{param.S}
 
-set global.touchProbeCoordinateZ=var.probePosAveraged
+set global.probeCoordinateZ=var.probePosAveraged

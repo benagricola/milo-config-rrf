@@ -1,117 +1,16 @@
-; Define pins used for configuring hardware
-global pinEStop="^ystopmax"
-global pinXStop="^xstop"
-global pinYStop="^ystop"
-global pinZStop="^zstop"
 
-global pinNeoPixel="^LCDD5"
-global pinFan0="!fan0+tacho0"
+; DO NOT CHANGE ANY SETTINGS HERE.
+; These values are used as returns 
+; from macros or where global
+; flags are needed.
 
-global pinTool="he0+^fan1"
-global pinToolSetter="^xstopmax"
-global pinTouchProbe="!probe"
-
-
-; Min:  Axis Minimum
-; Max:  Axis Maximum
-; Home: Direction and distance to move towards endstops
-; Repeat: Direction and distance to move away from endstops when repeating probe
-; Home and Repeat MUST be in opposite directions otherwise you will crash into
-; your endstops.
-
-global xMin=0
-global xMax=335
-global xHome=-345
-global xHomeRepeat=5
-global yMin=0
-global yMax=209
-global yHome=215
-global yHomeRepeat=5
-global zMin=-120
-global zMax=0
-global zHome=125
-global zHomeRepeat=-5
-
-; Parking settings
-global parkX={(global.xMax - global.xMin)/2} ; Park with the "bed" approximately in the middle
-global parkY=global.yMax                     ; and at the front for operator ease-of-use.
-global parkZ=global.zMax                     ; Think VERY hard before parking this anywhere else
-                                             ; except Z=0 (zMax)
-
-; Toolsetter measurements
-; Nose Offset is the Z height where the spindle nose activates the toolsetter
-; Max length is the maximum length of the exposed tool 
-global toolsetterSpindleNoseOffset=-104.691
-global toolsetterX=0             ; X position of center of toolsetter
-global toolsetterY=93.5          ; Y position of center of toolsetter
-global toolsetterMaxLength=50    ; Height above toolsetterSpindleNoseOffset to
-                                 ; start probing from (so 50 would start probing
-                                 ; from -52.7).
-global toolsetterNumProbes=5     ; Number of times to activate the toolsetter
-                                 ; to calculate an average.
-global toolsetterProbeSpeed=120  ; Feed rate to probe at in the Z direction.
-global toolsetterTravelSpeed=600
-
-
-; Touch probe measurements
-global touchProbeNumProbes=5
-global touchProbeDistanceXY=2     ; Distances that probe will be driven
-global touchProbeDistanceZ=2      ; towards X, Y and Z faces of work piece.
-                                  ; These values should be _lower_ than the
-                                  ; over-travel protection of the touch probe
-                                  ; being used, so as not to cause damage to
-                                  ; the probe in the event of a failure to
-                                  ; trigger.
-global touchProbeSafeDistanceZ=10 ; Safe distance above probed work surface for
-                                  ; non-probing X/Y moves.
-global touchProbeReferenceX=0     ; X,Y co-ordinates of the reference surface to
-global touchProbeReferenceY=65    ; use. The reference surface is a known surface
-                                  ; from which offsets can be calculated. The distance
-                                  ; in Z from the reference surface to the touch-
-                                  ; probe activation point allows us to compensate for
-                                  ; the length of the touch probe and tools. 
-
-global touchProbeMaxLength=70     ; This is the total length of the touch probe
-                                  ; when not installed in the spindle (including shank).
-                                  ; It gives us a safe offset to probe downwards from
-                                  ; so we do not have to probe from Z=0
-global touchProbeProbeSpeed=25    ; Speed to probe at in mm/min when calculating surface
-                                  ; offsets.
-global touchProbeRoughSpeed=300   ; Initial probe towards a surface is performed at this
-                                  ; speed in mm/min
-global touchProbeDwellTime=500    ; Time to pause after backing away from a surface
-                                  ; before repeating a probe, to allow the machine
-                                  ; to settle.
-
-;global touchProbeConfirmMove=true
-                                  ; Set this to false to move automatically to
-                                  ; calculated probe locations. ONLY DO THIS WHEN
-                                  ; YOU ARE CERTAIN THAT THE PROBING MACRO WORKS
-                                  ; PERFECTLY FOR YOUR SETUP.
-
-; Do not set, these are used as return values from the touch probe macros
 global touchProbeCoordinateX=0
 global touchProbeCoordinateY=0
-global touchProbeCoordinateZ=0
 
+; Used for both touch probe and toolsetter
+global probeCoordinateZ=0
 
-; Neopixel settings
-global neopixelUpdates=true   ; Auto-update neopixel colours based on printer and
-                              ; network status.
-global neopixelUpdateRate=500 ; Update neopixel colours every 500 milliseconds
-
-global neopixelColourWarning={255, 255, 0, 255}    ; Yellow
-global neopixelColourCancelling={255, 165, 0, 255} ; Yellow
-global neopixelColourError={255, 0, 0, 255}        ; Red
-global neopixelColourStartup={255, 255, 255, 255}  ; White
-global neopixelColourReady={0, 255, 0, 255}        ; Green
-global neopixelColourBusy={0, 0, 255, 255}         ; Blue
-global neopixelColourPaused={0, 255, 255, 255}     ; Cyan
+global expectedToolZ=0
 
 global neopixelReady=false ; Do not change, used to avoid addressing
                            ; LEDs before pin has been assigned.
-
-; Logging settings
-global logFilePath="/sys/log"
-global logFileNum=3
-global logFileName="rrf.log"

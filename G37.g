@@ -1,62 +1,43 @@
 ; Probe the current tool length and save its' offset.
-; Offset is in relation to the spindle nose.
+; We calculate the offset based on the height of the
+; toolsetter, and its' offset to the material surface
+; we're working with.
 
 ; NOTE: This is designed to work with a NEGATIVE Z - that is, MAX is 0 and MIN is -<something>
 
-; Vars
-var startHeight          = global.toolsetterSpindleNoseOffset + global.toolsetterMaxLength
+M5       ; stop spindle just in case
+
+G21      ; Switch to mm
+
+G27 C1   ; park spindle
+
+; Variables used to store tool position references.
+var actualToolZ     = 0 ; Actual Z co-ordinate probed with tool
 
 ; Reset tool Z offset
 G10 P{state.currentTool} Z0
 
-; Move spindle away from the work piece carefully
-G90                   ; absolute positioning
-G21                   ; use MM
-G53 G0 Z{global.zMax} ; lift Z to 0 to avoid crashing during moves
+if global.probeConfirmMove
+    M291 P{"Move to X=" ^ global.toolsetterX ^ ", Y=" ^ global.toolsetterY ^ then probe X=" ^ param.D ^ "?"} R"Safety check" S3
 
-M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Moving to toolsetter position at height " ^ var.startHeight ^ ", expect trigger at " ^ global.toolsetterSpindleNoseOffset}
+M118 P0 L2 S{"Probing tool length at X=" ^ global.toolsetterX ^ ", Y=" ^ global.toolsetterY }
 
-; Move the tool above the touch probe
-G53 G0 X{global.toolsetterX} Y{global.toolsetterY} Z{var.startHeight}
+; Probe tool length multiple times and average
+; Allow operator to jog tool over bolt after rough probing move to confirm
+; lowest tool point.
+G6003 X{global.toolsetterX} Y{global.toolsetterY} S{global.zMax} B{global.toolsetterDistanceZ} J1 K2 C{global.toolsetterNumProbes} A{global.toolsetterProbeSpeed}
 
-M291 P"Jog the lowest point of the tool over the toolsetter" R"Find length of tool" S3 X1 Y1
+; Park.
+G27 C1
 
-; Switch to relative positions for repeated probing
-G91
+; Our tool offset is the difference between our expected tool Z and our actual
+; tool Z. Expected tool Z is calculated during G6000 by probing the reference
+; surface and then adding the offset of the toolsetter to it.
+set var.actualToolZ = global.probeCoordinateZ
+set var.toolOffset = var.actualToolZ - global.expectedToolZ
+M118 P0 L2 S{"Expected Tool Z =" ^ global.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
 
-M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Probing, max tool length " ^ global.toolsetterMaxLength ^ "mm"}
-
-var retries    = 1
-var toolOffset = 0
-
-; Run toolsetterNumProbes and average the offset.
-while var.retries <= global.toolsetterNumProbes
-    G53 M585 Z{global.toolsetterSpindleNoseOffset} F{global.toolsetterProbeSpeed} P1 S1 ; Probe tool length
-    var curOffset = tools[state.currentTool].offsets[2]
-    
-    ; Get Z offset and add to offset tracker
-    set var.toolOffset = var.toolOffset + var.curOffset
-
-    M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Probe " ^ var.retries ^ "/" ^ global.toolsetterNumProbes ^ ": " ^ var.curOffset}
-
-    ; Reset offset so we dont screw up any moves
-    G10 P{state.currentTool} Z0
-
-    G53 G0 Z10
-
-    ; Iterate retry counter
-    set var.retries = var.retries + 1
-
-set var.toolOffset = var.toolOffset / global.toolsetterNumProbes
-
-if var.toolOffset > 0
-    {abort "Tool " ^ state.currentTool ^ ": ERROR - Probed a positive offset " ^ -var.toolOffset}
-
-M118 P0 L2 S{"Tool " ^ state.currentTool ^ ": Stickout: " ^ -var.toolOffset}
-G10 P{state.currentTool} Z{var.toolOffset}
-
-
-G27                    ; Park spindle and bed
+G10 P{state.currentTool} X0 Y0 Z{var.toolOffset} 
 
 
 
