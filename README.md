@@ -1,19 +1,19 @@
 # Millenium Machines Milo v1.5 RRF Config
-Welcome! This is the configuration running on my Milo v1.5, Serial M016.
+Welcome! This is the configuration running on my Milo v1.5, Serial `M016`.
 
 This config is open source, and provided as a basis for anyone to use to configure their own machine.
 
 ## Notes
 
-1. M016 is running the FMJ mod, which means it has 120mm of Z travel.
+1. `M016` is running the FMJ mod, which means it has 120mm of Z travel.
 2. It uses a NEGATIVE Z, which means the endstop at the top of the Z axis is Z=0, and the bottom of the travel is -120mm.
 3. It has a Fysetc 128x64 screen mounted in the front, which is used to report machine status using the included Neopixel colours.
 4. The Neopixels invert Red and Green for some reason, so this config assumes that `U` and `R` in `M150` calls are inverted.
 5. The screen itself is currently not used, as there are no CNC menu packs available (TBD).
 6. All operator-configurable options are in `user-vars.g` except for the machine name, which is in `config.g`.
-7. M016 has the Long John Toolsetter which is an official mod for the Milo.
-8. M016 has an Aliexpress "3d Touch Probe Edge Finder" which is a NORMALLY OPEN setup. This means the operator must manually confirm the probe is working BEFORE PROBING.
-9. M016 uses a Fysetc Spider King board. As such, it needs at least TeamGloomy RRF 3.5-beta4, as this contains SPI fixes for the BIG5160 driver slots on the board.
+7. `M016` has the Long John Toolsetter which is an official mod for the Milo.
+8. `M016` has an Aliexpress "3d Touch Probe Edge Finder" which is a NORMALLY OPEN setup. This means the operator must manually confirm the probe is working BEFORE PROBING.
+9. `M016` uses a Fysetc Spider King board. As such, it needs at least TeamGloomy RRF 3.5-beta4, as this contains SPI fixes for the BIG5160 driver slots on the board.
 
 _REMEMBER_: If you are not using a Spider King and the exact driver setup I am, you will need to modify your `board.txt` and motor configs (`drive.g`) which are not currently deemed "operator configurable".
 
