@@ -27,11 +27,11 @@ This configuration adds some macros to perform work piece touch probing and tool
   - Probe the Z height of a reference surface on the X axis. This surface should be a known, static distance from the activation point of the toolsetter, configured in `global.toolSetterHeight`.
   - Allow the operator to move over the work piece surface and probe its Z height multiple times, averaging each result.
   - Ask the operator for a depth at which X and Y edge probing will occur (below the probed Z height of the work piece).
-  - Probe the left edge of the work piece at the selected height
-  - Probe the right edge of the work piece at the selected height
-  - Probe the front edge of the work piece at the selected height
-  - Probe the rear edge of the work piece at the selected height
-  - Allow the user to pick the location of the zero point (FR, FL, RL, RR, CTR. Top surface is Z=0) and jog for manual adjustment
+  - Probe the left edge of the work piece at the selected height.
+  - Probe the right edge of the work piece at the selected height.
+  - Probe the front edge of the work piece at the selected height.
+  - Probe the rear edge of the work piece at the selected height.
+  - Allow the user to pick the location of the zero point (FR, FL, RL, RR, CTR. Top surface is Z=0) and jog for manual adjustment.
   - Allow the user to pick the WCS index to set the zero on.
 * `G6001` - Perform a safe, repeatable probe on the X axis from either the left or right. Called by `G6000`.
 * `G6002` - Perform a safe, repeatable probe on the Y axis from either the front or rear. Called by `G6000`.
