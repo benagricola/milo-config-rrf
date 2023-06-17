@@ -33,7 +33,7 @@ M118 P0 L2 S{"Probing ref. surface at X=" ^ global.touchProbeReferenceX ^ ", Y="
 ; Retract spindle fully for safe moves
 G6003 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeDistanceZ} K{global.touchProbeID} C{global.touchProbeNumProbes} A{global.touchProbeProbeSpeed}
 
-; Set probed material height
+; Set our expected toolsetter activation height. 
 set global.expectedToolZ  = global.probeCoordinateZ + global.toolSetterHeight
 
 M118 P0 L2 S{"Reference Surface Z=" ^ global.probeCoordinateZ}
@@ -44,7 +44,7 @@ M118 P0 L2 S{"Expected Toolsetter Z=" ^ global.expectedToolZ}
 G27 C1
 
 ; Prompt user to place the touch probe over the work piece
-M291 P"Jog the Touch Probe above the workpiece" R"Find height of workpiece" S3 X1 Y1
+M291 P"Jog the Touch Probe above the approximate centre of the workpiece" R"Find height of workpiece" S3 X1 Y1
 
 set var.materialOpCtrX = move.axes[0].machinePosition
 set var.materialOpCtrY = move.axes[1].machinePosition
@@ -67,11 +67,9 @@ M118 P0 L2 S{"Material Surface Z=" ^ var.materialZ}
 M291 P"Select probe depth from material surface for edges" R"Probe Depth?" S4 T0 J1 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
 var probeDepthRelative = input
 
-M118 P0 L2 S{"Probe depth selection value: " ^ var.probeDepthRelative ^ "..."}
-
-; probeDepthRelative is the _index_ of the option chosen.
+; probeDepthRelative is the zero index of the option chosen.
 ; So we need to add 1, and then multiply by 2 to get the
-; actual value in MM (absolute)
+; actual value in MM (absolute).
 
 ; NOTE: This _must_ be enclosed in {} because * has special meaning in gcode!
 var probeDepth = { var.materialZ - (var.probeDepthRelative+1*2) }
@@ -113,9 +111,9 @@ set var.materialCtrY = {(var.materialY1 + var.materialY2) / 2}
 ; Probing complete, Park
 G27 C1
 
-; At this point we have the X, Y and Z limits of the stock. We can calculate the WCS offset for any obvious point.
-; Note: "Material height" uses the reference surface for calculation, as we can't probe the bottom corner of a part.
-; This is why we always use the _top_ surface of the work piece for Z=0.
+; At this point we have the X, Y and Z limits of the stock. We can calculate the WCS offset for any obvious point,
+; assuming that the corners are at right angles.
+; We always use the _top_ surface of the work piece for Z=0 because we can't probe anything else.
 M118 P0 L2 S{"WCS Zero Front Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Front Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Rear Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
@@ -124,14 +122,13 @@ M118 P0 L2 S{"WCS Zero Centre, Top is X=" ^ var.materialCtrX ^ ", Y=" ^ var.mate
 
 var wcsZeroSet = false
 
-; Use absolute positions for movements
-; to corners
+; Use absolute positions for movements to corners
 G90
 
 ; Loop until broken
 while true
 
-    ;TODO: Move this _before_ probing, so we only have to probe 2 edges (unless we want WCS Zero at the center)
+    ;TODO: Move this _before_ X/Y?, so we only have to probe 2 edges (unless we want WCS Zero at the center)
 
     ; Prompt user for WCS position.
     M291 P"Move to position?" R"Position" S4 T0 J1 K{"FL","FR","RL","RR","CTR"}
@@ -158,7 +155,7 @@ while true
     G53 G0 Z{var.materialZ + global.touchProbeDistanceZ}
 
     ; Confirm Zero position
-    M291 P{"Use current position, -" ^ global.touchProbeDistanceZ ^ "mm as WCS Zero?"} R"Confirm WCS Zero" S4 T0 J1 K{"Yes","No"}, X1, Y1, Z1
+    M291 P{"Use current position, -" ^ global.touchProbeDistanceZ ^ "mm as WCS Zero?"} R"Confirm WCS Zero" S4 T0 J1 K{"Yes","No"} X1 Y1 Z1
 
     ; If operator selected no, allow selection of another position
     if input == 1
