@@ -31,10 +31,10 @@ M118 P0 L2 S{"Probing ref. surface at X=" ^ global.touchProbeReferenceX ^ ", Y="
 
 ; Probe reference surface multiple times and average.
 ; Retract spindle fully for safe moves
-G6003 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeDistanceZ} K2 C{global.touchProbeNumProbes} A{global.touchProbeProbeSpeed}
+G6003 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeDistanceZ} K{global.touchProbeID} C{global.touchProbeNumProbes} A{global.touchProbeProbeSpeed}
 
 ; Set probed material height
-set global.expectedToolZ  = global.probeCoordinateZ + global.toolsetterHeight
+set global.expectedToolZ  = global.probeCoordinateZ + global.toolSetterHeight
 
 M118 P0 L2 S{"Reference Surface Z=" ^ global.probeCoordinateZ}
 M118 P0 L2 S{"Expected Toolsetter Z=" ^ global.expectedToolZ}
@@ -54,7 +54,7 @@ M118 P0 L2 S{"Probing material surface at X=" ^ var.materialOpCtrX ^ ", Y=" ^ va
 ; Probe material surface multiple times and average.
 ; Use the current Z position as safe since we know the user moved the probe there
 ; manually.
-G6003 X{var.materialOpCtrX} Y{var.materialOpCtrY} S{move.axes[2].machinePosition} B{global.touchProbeDistanceZ} K2 C{global.touchProbeNumProbes} A{global.touchProbeProbeSpeed}
+G6003 X{var.materialOpCtrX} Y{var.materialOpCtrY} S{move.axes[2].machinePosition} B{global.touchProbeDistanceZ} K{global.touchProbeID} C{global.touchProbeNumProbes} A{global.touchProbeProbeSpeed}
 
 set var.materialZ = global.probeCoordinateZ
 set var.safeZ     = var.materialZ + global.touchProbeSafeDistanceZ
@@ -175,9 +175,14 @@ while true
     G4 P100
 
     ; We now know the position of Z=0 _as probed by the touch probe_.
-    ; Probe stickout DOES NOT matter because we use the relative distance
-    ; between our reference surface and our material surface to calculate
-    ; our tool offset.
+    ; We do not know probe stickout, but this does not matter since we
+    ; know the height of the activation point of the toolsetter.
+    ; When we probe the length of a REAL tool, we are expecting to trigger
+    ; the toolsetter at a particular height (Reference Z plus toolsetter height).
+    ; We can calculate the tool offset by subtracting the expected Z from the
+    ; actual Z, which gives us the difference in length between our touch probe
+    ; and the current tool (i.e. how far and in which direction to offset the 
+    ; new tool to still touch Z=0 with it after WCS zeroing).
 
     break
 

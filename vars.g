@@ -7,6 +7,10 @@
 global touchProbeCoordinateX=0
 global touchProbeCoordinateY=0
 
+; Toolsetter and Touchprobe IDs
+global toolSetterID=1
+global touchProbeID=2
+
 ; Used for both touch probe and toolsetter
 global probeCoordinateZ=0
 

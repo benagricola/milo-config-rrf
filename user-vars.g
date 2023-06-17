@@ -69,17 +69,17 @@ global probeConfirmMove=true
 
 ; Toolsetter measurements
 
-global toolsetterHeight=42.5         ; Height of toolsetter sexbolt surface when activated.
+global toolSetterHeight=42.5         ; Height of toolsetter sexbolt surface when activated.
                                      ; from touchprobe reference surface
-global toolsetterX=0                 ; X position of center of toolsetter
-global toolsetterY=93.5              ; Y position of center of toolsetter
-global toolsetterDistanceZ=10        ; Once rough position of tool is found, back off
+global toolSetterX=0                 ; X position of center of toolsetter
+global toolSetterY=93.5              ; Y position of center of toolsetter
+global toolSetterDistanceZ=10        ; Once rough position of tool is found, back off
                                      ; to allow operator to jog tool over sexbolt.
                                        
-global toolsetterNumProbes=5         ; Number of times to activate the toolsetter
+global toolSetterNumProbes=5         ; Number of times to activate the toolsetter
                                      ; to calculate an average.
-global toolsetterProbeSpeed=50       ; Feed rate to probe at in the Z direction.
-global toolsetterProbeRoughSpeed=300 ; Feed rate to detect initial tool position
+global toolSetterProbeSpeed=50       ; Feed rate to probe at in the Z direction.
+global toolSetterProbeRoughSpeed=300 ; Feed rate to detect initial tool position
 
 
 ; Touch probe measurements

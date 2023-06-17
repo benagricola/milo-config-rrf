@@ -3,6 +3,13 @@
 ; Z Probing will move to the safe height (S) _before_ moving
 ; horizontally.
 
+; Note: This macro allows you to select a probe to use (K=, passed to G38.2)
+; Please check, and DOUBLE CHECK, you are using the right probe ID.
+; If you use the wrong probe ID you will ALMOST CERTAINLY crash your tool or
+; touch probe into something hard and break things.
+
+; YOU HAVE BEEN WARNED
+
 ; IF IN DOUBT: Make sure the tool is fully retracted upwards before
 ; running this macro to lessen the chances of running the probe
 ; into anything on the work surface.

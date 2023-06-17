@@ -52,7 +52,7 @@ if { param.Y < param.D }
 
 while var.retries <= global.touchProbeNumProbes
     ; Probe towards surface
-    G53 G38.2 Y{param.D} K2
+    G53 G38.2 Y{param.D} K{global.touchProbeID}
     
     ; Record current position
     set var.curPos = move.axes[1].machinePosition

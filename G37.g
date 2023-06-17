@@ -18,14 +18,14 @@ var actualToolZ     = 0 ; Actual Z co-ordinate probed with tool
 G10 P{state.currentTool} Z0
 
 if global.probeConfirmMove
-    M291 P{"Move to X=" ^ global.toolsetterX ^ ", Y=" ^ global.toolsetterY ^ then probe X=" ^ param.D ^ "?"} R"Safety check" S3
+    M291 P{"Move to X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY ^ then probe X=" ^ param.D ^ "?"} R"Safety check" S3
 
-M118 P0 L2 S{"Probing tool length at X=" ^ global.toolsetterX ^ ", Y=" ^ global.toolsetterY }
+M118 P0 L2 S{"Probing tool length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
 
 ; Probe tool length multiple times and average
 ; Allow operator to jog tool over bolt after rough probing move to confirm
 ; lowest tool point.
-G6003 X{global.toolsetterX} Y{global.toolsetterY} S{global.zMax} B{global.toolsetterDistanceZ} J1 K2 C{global.toolsetterNumProbes} A{global.toolsetterProbeSpeed}
+G6003 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} J1 K1 C{global.toolSetterNumProbes} A{global.toolSetterProbeSpeed}
 
 ; Park.
 G27 C1
