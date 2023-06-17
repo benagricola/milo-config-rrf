@@ -44,21 +44,9 @@ global parkZ=global.zMax                     ; Think VERY hard before parking th
 ; (the X gantry face) and we know the absolute height 
 ; of the toolsetter switch from the reference surface
 ; when activated, we can calculate the offset between
-; the height of the toolsetter switch (when a real tool is 
-; being probed) and the top surface of the material we are
-; trying to set as Z=0.
-
-; This is calculated in the following manner:
-; Reference Z (absolute)                           = -95.163
-; Material Z (absolute)                            = -68.095
-; Material Height                                  = 27.068
-; Touch probe offset from Ref Z (toolsetterHeight) = 42.52
-; Tool offset = Probe Offset - Material Height     = 15.452
-
-; Esentially this means that the tool is 15.452mm SHORTER
-; than the touch probe, so needs to be ADDED to Z (positive)
-; tool offset. If the material is HIGHER than the toolsetter,
-; then this would become a negative value 
+; the height of the toolsetter switch where we expect it
+; to be activated, and where it is actually activated
+; and this is our tool offset. 
 
 ; Used for both toolsetter and touch probe
 global probeConfirmMove=true

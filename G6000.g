@@ -118,8 +118,8 @@ G27 C1
 ; This is why we always use the _top_ surface of the work piece for Z=0.
 M118 P0 L2 S{"WCS Zero Front Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Front Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY1 ^ ", Z=" ^ var.materialZ}
-M118 P0 L2 S{"WCS Zero Back Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
-M118 P0 L2 S{"WCS Zero Back Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
+M118 P0 L2 S{"WCS Zero Rear Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
+M118 P0 L2 S{"WCS Zero Rear Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Centre, Top is X=" ^ var.materialCtrX ^ ", Y=" ^ var.materialCtrY ^ ", Z=" ^ var.materialZ}
 
 var wcsZeroSet = false
@@ -134,7 +134,7 @@ while true
     ;TODO: Move this _before_ probing, so we only have to probe 2 edges (unless we want WCS Zero at the center)
 
     ; Prompt user for WCS position.
-    M291 P"Move to position?" R"Position" S4 T0 J1 K{"FL","FR","BL","BR","CTR"}
+    M291 P"Move to position?" R"Position" S4 T0 J1 K{"FL","FR","RL","RR","CTR"}
     var movePosition = input
 
     if var.movePosition == 0
@@ -144,10 +144,10 @@ while true
         M118 P0 L2 S{"Moving " ^ global.touchProbeDistanceZ ^ "mm above Front Right"}
         G53 G0 X{var.materialX2} Y{var.materialY1}
     elif var.movePosition == 2
-        M118 P0 L2 S{"Moving " ^ global.touchProbeDistanceZ ^ "mm above Back Left"}
+        M118 P0 L2 S{"Moving " ^ global.touchProbeDistanceZ ^ "mm above Rear Left"}
         G53 G0 X{var.materialX1} Y{var.materialY2}
     elif var.movePosition == 3
-        M118 P0 L2 S{"Moving " ^ global.touchProbeDistanceZ ^ "mm above Back Right"}
+        M118 P0 L2 S{"Moving " ^ global.touchProbeDistanceZ ^ "mm above Rear Right"}
         G53 G0 X{var.materialX2} Y{var.materialY2}
     elif var.movePosition == 4
         M118 P0 L2 S{"Moving " ^ global.touchProbeDistanceZ ^ "mm above Centre"}
@@ -158,7 +158,7 @@ while true
     G53 G0 Z{var.materialZ + global.touchProbeDistanceZ}
 
     ; Confirm Zero position
-    M291 P{"Use current position, -" ^ global.touchProbeDistanceZ ^ "mm as WCS Zero?"} R"Confirm WCS Zero" S4 T0 J1 K{"Yes","No"}
+    M291 P{"Use current position, -" ^ global.touchProbeDistanceZ ^ "mm as WCS Zero?"} R"Confirm WCS Zero" S4 T0 J1 K{"Yes","No"}, X1, Y1, Z1
 
     ; If operator selected no, allow selection of another position
     if input == 1
