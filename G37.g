@@ -19,6 +19,9 @@ var toolOffset      = 0 ; The calculated offset of the tool
 if { state.currentTool == -1 }
     abort {"No tool selected, run T<N> to select a tool!"}
 
+if { global.expectedToolZ == 0 }
+    abort {"Must run G6000 before G37 to calculate expected toolsetter activation height!"}
+
 G10 P{state.currentTool} Z0
 
 M118 P0 L2 S{"Probing tool length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
