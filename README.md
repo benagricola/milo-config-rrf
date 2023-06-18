@@ -21,7 +21,7 @@ This config is open source, and provided as a basis for anyone to use to configu
 * Is at your own risk, as outlined in the `LICENSE`. If you break a bit, or cut your hand off, or kill your dog, it's not my fault. *WEAR EYE PROTECTION AND NO, SAFETY SQUINTS ARE NOT IT*.
 * Grab a copy of the config files.
 * Update to the relevant RRF, WIFI and DWC versions.
-* Modify `board.txt`, `drive.g`, network.g and `user-vars.g` to match your specific setup. _This will involve measuring offsets for certain things - it is your responsibility to get this right!_
+* Modify `board.txt`, `drive.g`, `network.g` and `user-vars.g` to match your specific setup. _This will involve measuring offsets for certain things - it is your responsibility to get this right!_
 * Set your machine name in `config.g`.
 * Upload the config files to RRF either by putting them in `/sys` on the sdcard, or uploading them via DWC.
 * Use DWC or a serial console to set passwords for WiFi, or to set the AP name if broadcasting its' own AP.
@@ -32,6 +32,7 @@ This config is open source, and provided as a basis for anyone to use to configu
 ## TODO
 * Tool change macros and postprocessing. This might be as simple as making sure `G37` is called once the tool has been changed.
 * Ability to run the config without the touch probe, using manual WCS setting and tool offsetting.
+* Add Work Zero detection on surface and hole.
 * CNC LCD menu.
 * Allow networking and drives to be configured via `user-vars.g`.
 * ? Feedback appreciated.
