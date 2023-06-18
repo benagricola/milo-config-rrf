@@ -13,19 +13,23 @@ G27 C1   ; park spindle
 
 ; Variables used to store tool position references.
 var actualToolZ     = 0 ; Actual Z co-ordinate probed with tool
+var toolOffset      = 0 ; The calculated offset of the tool
 
 ; Reset tool Z offset
+if { state.currentTool == -1 }
+    abort {"No tool selected, run T<N> to select a tool!"}
+
 G10 P{state.currentTool} Z0
 
 if global.probeConfirmMove
-    M291 P{"Move to X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY ^ then probe X=" ^ param.D ^ "?"} R"Safety check" S3
+    M291 P{"Move to X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY ^ "then probe X=" ^ param.D ^ "?"} R"Safety check" S3
 
 M118 P0 L2 S{"Probing tool length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
 
 ; Probe tool length multiple times and average
 ; Allow operator to jog tool over bolt after rough probing move to confirm
 ; lowest tool point.
-G6003 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} J1 K1 C{global.toolSetterNumProbes} A{global.toolSetterProbeSpeed}
+G6003 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} I{global.toolSetterJogDistanceZ} J1 K{global.toolSetterID} C{global.toolSetterNumProbes} A{global.toolSetterProbeSpeed}
 
 ; Park.
 G27 C1

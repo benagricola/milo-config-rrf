@@ -57,6 +57,9 @@ while var.retries <= global.touchProbeNumProbes
     ; Record current position
     set var.curPos = move.axes[1].machinePosition
 
+    ; Reset all speed limits after probe
+    M98 P"speed.g"
+
     ; Move away from the trigger point
     G53 G0 Y{var.backoffPos}
 
@@ -67,17 +70,16 @@ while var.retries <= global.touchProbeNumProbes
 
         M118 P0 L2 S{"Touch Probe " ^ var.retries ^ "/" ^ global.touchProbeNumProbes ^ ": Y=" ^ var.curPos}
 
-    else
-        ; Otherwise, reduce the probe speed to increase accuracy
-        M203 Y{global.touchProbeProbeSpeed}
-
     ; Dwell so machine can settle
     G4 P{global.touchProbeDwellTime}
+
+    ; Otherwise, reduce the probe speed to increase accuracy
+    M203 Y{global.touchProbeProbeSpeed}
 
     ; Iterate retry counter
     set var.retries = var.retries + 1
 
-; Reset all speed limits after probing
+; Make sure to reset all speed limits after probing complete
 M98 P"speed.g"
 
 var probePosAveraged = var.probePos / global.touchProbeNumProbes

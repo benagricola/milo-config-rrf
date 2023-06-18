@@ -166,7 +166,10 @@ while true
     var wcsNumber = input
 
     ; Zero the selected WCS to current X/Y position at material height.
-    G10 L20 P{var.wcsNumber+1} X0 Y0 Z{-global.touchProbeDistanceZ}
+    ; G10 L20 _subtracts_ co-ordinates from the current position so our
+    ; Z value needs to be positive to move the zero point _down_, closer
+    ; to the material.
+    G10 L20 P{var.wcsNumber+1} X0 Y0 Z{global.touchProbeDistanceZ}
 
     ; Sleep just in case of hotloop
     G4 P100

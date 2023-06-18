@@ -8,7 +8,7 @@
 ; If you use the wrong probe ID you will ALMOST CERTAINLY crash your tool or
 ; touch probe into something hard and break things.
 
-; YOU HAVE BEEN WARNED
+; YOU HAVE BEEN WARNED!
 
 ; IF IN DOUBT: Make sure the tool is fully retracted upwards before
 ; running this macro to lessen the chances of running the probe
@@ -40,6 +40,8 @@ if { !exists(param.C) }
 if { !exists(param.A) }
     { abort "Must provide a vertical (slow) probe speed!" }
 
+if { exists(param.J) && !exists(param.I) }
+    { abort "Must provide a backoff height (I=) for operator jogging!"}
 
 if global.probeConfirmMove
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe #" ^ param.K ^ " towards Z=" ^ global.zMin ^ "?"} R"Safety check" S3
@@ -66,8 +68,8 @@ while var.retries <= param.C
     ; Record current position
     set var.curPos = move.axes[2].machinePosition
 
-    ; Move away from the trigger point
-    G53 G0 Z{param.B}
+    ; Reset all speed limits after probe
+    M98 P"speed.g"
 
     ; If this is not the initial rough probe, record the position
     if var.retries > 0
@@ -75,20 +77,28 @@ while var.retries <= param.C
         set var.probePos = var.probePos+var.curPos
 
         M118 P0 L2 S{"Probe " ^ var.retries ^ "/" ^ param.C ^ ": Z=" ^ var.curPos}
+
+        ; Move away from the trigger point
+        G53 G0 Z{param.B}
  
     ; Otherwise, reduce the probe speed to increase accuracy
     else
-        M203 Z{param.A}
         if { exists(param.J) && param.J == 1}
+            ; Move away from the trigger point for tool jogging
+            G53 G0 Z{param.I}
+
             ; Z movement is allowed as well because we might need to jog the tool
             ; upwards to position the lowest point over the switch if param.B is
             ; not high enough.
             M291 P"Fine-tune the probe location" R"Fine Tuning" S3 X1 Y1 Z1
 
+    ; Drop speed in probe direction for next probe attempt
+    M203 Z{param.A}
+
     ; Iterate retry counter
     set var.retries = var.retries + 1
 
-; Reset all speed limits after probing
+; Make sure to reset all speed limits after probing complete
 M98 P"speed.g"
 
 var probePosAveraged = var.probePos / param.C

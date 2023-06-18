@@ -60,8 +60,9 @@ global probeConfirmMove=true
 global toolSetterHeight=42.5         ; Height of toolsetter sexbolt surface when activated.
                                      ; from touchprobe reference surface
 global toolSetterX=0                 ; X position of center of toolsetter
-global toolSetterY=93.5              ; Y position of center of toolsetter
-global toolSetterDistanceZ=10        ; Once rough position of tool is found, back off
+global toolSetterY=113               ; Y position of center of toolsetter
+global toolSetterDistanceZ=5         ; Re-probing distance
+global toolSetterJogDistanceZ=10     ; Once rough position of tool is found, back off
                                      ; to allow operator to jog tool over sexbolt.
                                        
 global toolSetterNumProbes=5         ; Number of times to activate the toolsetter
@@ -91,10 +92,6 @@ global touchProbeReferenceY=65    ; use. The reference surface is a known surfac
                                   ; probe activation point allows us to compensate for
                                   ; the length of the touch probe and tools. 
 
-global touchProbeMaxLength=70     ; This is the total length of the touch probe
-                                  ; when not installed in the spindle (including shank).
-                                  ; It gives us a safe offset to probe downwards from
-                                  ; so we do not have to probe from Z=0
 global touchProbeProbeSpeed=25    ; Speed to probe at in mm/min when calculating surface
                                   ; offsets.
 global touchProbeRoughSpeed=300   ; Initial probe towards a surface is performed at this
