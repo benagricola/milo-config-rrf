@@ -17,6 +17,12 @@ This config is open source, and provided as a basis for anyone to use to configu
 
 _REMEMBER_: If you are not using a Spider King and the exact driver setup I am, you will need to modify your `board.txt` and motor configs (`drive.g`) which are not currently deemed "operator configurable".
 
+## TODO:
+* Tool change macros and postprocessing. This might be as simple as making sure G37 is called once the tool has been changed.
+* Ability to run the config without the touch probe, using manual WCS setting and tool offsetting.
+* CNC LCD menu
+* ? Feedback appreciated
+
 ## Macros
 This configuration adds some macros to perform work piece touch probing and tool setting.
 * `G27` - Stops the spindle and parks it at a safe location (Z=0, usually).
