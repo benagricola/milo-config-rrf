@@ -55,6 +55,9 @@ global probeConfirmMove=true
                                   ; YOU ARE CERTAIN THAT THE PROBING MACROS WORK
                                   ; PERFECTLY FOR YOUR SETUP.
 
+global workZeroSafeHeight=2       ; Height above WCS Zero to confirm positioning
+                                  ; with user.
+
 ; Toolsetter measurements
 
 global toolSetterHeight=42.5         ; Height of toolsetter sexbolt surface when activated.
