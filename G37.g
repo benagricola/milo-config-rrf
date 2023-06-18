@@ -21,9 +21,6 @@ if { state.currentTool == -1 }
 
 G10 P{state.currentTool} Z0
 
-if global.probeConfirmMove
-    M291 P{"Move to X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY ^ "then probe X=" ^ param.D ^ "?"} R"Safety check" S3
-
 M118 P0 L2 S{"Probing tool length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
 
 ; Probe tool length multiple times and average
@@ -41,7 +38,7 @@ set var.actualToolZ = global.probeCoordinateZ
 set var.toolOffset = var.actualToolZ - global.expectedToolZ
 M118 P0 L2 S{"Expected Tool Z =" ^ global.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
 
-G10 P{state.currentTool} X0 Y0 Z{var.toolOffset} 
+G10 P{state.currentTool} X0 Y0 Z{-var.toolOffset}
 
 
 

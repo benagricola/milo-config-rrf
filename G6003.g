@@ -91,6 +91,9 @@ while var.retries <= param.C
             ; upwards to position the lowest point over the switch if param.B is
             ; not high enough.
             M291 P"Fine-tune the probe location" R"Fine Tuning" S3 X1 Y1 Z1
+        else
+            ; Move away from the trigger point
+            G53 G0 Z{param.B}
 
     ; Drop speed in probe direction for next probe attempt
     M203 Z{param.A}

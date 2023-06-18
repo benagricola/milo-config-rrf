@@ -55,8 +55,11 @@ global probeConfirmMove=true
                                   ; YOU ARE CERTAIN THAT THE PROBING MACROS WORK
                                   ; PERFECTLY FOR YOUR SETUP.
 
-global workZeroSafeHeight=2       ; Height above WCS Zero to confirm positioning
-                                  ; with user.
+global workZeroSafeHeight=5       ; Height above WCS Zero to confirm positioning
+                                  ; with user. Set this high if you're not certain
+                                  ; of the accuracy of your tool offset, as it avoids
+                                  ; the possibility of ramming the tool into the work
+                                  ; piece.
 
 ; Toolsetter measurements
 
@@ -99,9 +102,10 @@ global touchProbeProbeSpeed=25    ; Speed to probe at in mm/min when calculating
                                   ; offsets.
 global touchProbeRoughSpeed=300   ; Initial probe towards a surface is performed at this
                                   ; speed in mm/min
-global touchProbeDwellTime=0      ; Time to pause after backing away from a surface
+global touchProbeDwellTime=200    ; Time to pause after backing away from a surface
                                   ; before repeating a probe, to allow the machine
-                                  ; to settle.
+                                  ; to settle. Especially important if your machine limits
+                                  ; are high or your machine is not particularly rigid.
 
 
 
