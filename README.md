@@ -30,7 +30,9 @@ This config is open source, and provided as a basis for anyone to use to configu
 * Do not turn off any of the safety options (safe distances or `global.probeConfirmMove`) until you are 100% happy with the behaviour of the code.
 
 ## TODO
+* Account for optional mods: Tool length sensor, 3D touch probe, screen, as well as prompting manual inputs for users without these available.
 * Tool change macros and postprocessing. This might be as simple as making sure `G37` is called once the tool has been changed.
+* DOCUMENT.
 * Ability to run the config without the touch probe, using manual WCS setting and tool offsetting.
 * Add Work Zero detection on surface and hole.
 * CNC LCD menu.
