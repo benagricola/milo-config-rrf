@@ -1,8 +1,11 @@
+; G37.g
 ; Probe the current tool length and save its' offset.
 ; We calculate the offset based on the height of the
 ; toolsetter, and its' offset to the material surface
 ; we're working with.
-
+;
+; USAGE: "G37"
+;
 ; NOTE: This is designed to work with a NEGATIVE Z - that is, MAX is 0 and MIN is -<something>
 
 M5       ; stop spindle just in case

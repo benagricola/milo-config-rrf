@@ -1,12 +1,13 @@
+; G6000
 ; Probe WCS Zero based on the top and outside surfaces of a work piece.
-
+;
+; USAGE: "G6000"
+;
 ; NOTE: MUST be used with a negative Z (so 0 to -<n> rather than 0 to <n>)
 
 M5       ; stop spindle just in case
 
 G21      ; Switch to mm
-
-G28      ; home all axes
 
 G27      ; park spindle
 

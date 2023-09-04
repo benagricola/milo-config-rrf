@@ -39,3 +39,8 @@ global expectedToolZ=0
 
 global ledsReady=false ; Do not change, used to avoid addressing
                        ; LEDs before pin has been assigned.
+
+; Logging settings
+global logFilePath="/sys/log"
+global logFileNum=3
+global logFileName="rrf.log"

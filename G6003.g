@@ -47,7 +47,7 @@ if { !exists(param.A) }
 if { exists(param.J) && !exists(param.I) }
     { abort "Must provide a backoff height (I=) for operator jogging!"}
 
-if global.confirmUnsafeMove
+if { global.confirmUnsafeMove }
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe #" ^ param.K ^ " towards Z=" ^ global.zMin ^ "?"} R"Safety check" S3
 
 ; Absolute moves to find starting position

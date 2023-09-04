@@ -1,9 +1,6 @@
 ; Features
 ; Note we have to SET features, to override
 ; the defaults (all features disabled)
-set global.featureLeds=true
-set global.featureCasa=false
-set global.featureScreen=true
 set global.featureToolSetter=true
 set global.featureTouchProbe=true
 
@@ -13,10 +10,6 @@ global machineName="Milo V1.5 M016"
 ; Web UI Password
 global dwcPassword="rrf"
 
-; Logging settings
-global logFilePath="/sys/log"
-global logFileNum=3
-global logFileName="rrf.log"
 
 ; Axis Settings
 ; Min:  Axis Minimum
@@ -30,17 +23,19 @@ global xMin=0
 global xMax=335
 global xHome=-345
 global xHomeRepeat=5
+
 global yMin=0
 global yMax=209
 global yHome=215
 global yHomeRepeat=-5
+
 global zMin=-120
 global zMax=0
 global zHome=125
 global zHomeRepeat=-5
 
 ; Parking settings
-global parkX={(global.xMax - global.xMin)/2} ; Park with the "bed" approximately in the middle
+global parkX={(global.xMax - global.xMin)/2} ; Park approximately in the middle
 global parkY=global.yMax                     ; and at the front for operator ease-of-use.
 global parkZ=global.zMax                     ; Think VERY hard before parking this anywhere else
                                              ; except Z=0 (zMax)
@@ -48,11 +43,33 @@ global parkZ=global.zMax                     ; Think VERY hard before parking th
 ; Motor Current Overrides
 ; Note we have to SET these, to override
 ; the MCU default settings
-set global.motorCurrentLimitX=2500
-set global.motorCurrentLimitY=2500
-set global.motorCurrentLimitZ=2500
+; Settings in milliamps, peak
+set global.motorCurrentLimitX=1800
+set global.motorCurrentLimitY=1800
+set global.motorCurrentLimitZ=1800
+
+; Safety related configurations
+global confirmUnsafeMove=true     ; Set this to false to move automatically to
+                                  ; calculated probe locations. ONLY DO THIS WHEN
+                                  ; YOU ARE CERTAIN THAT THE PROBING MACROS WORK
+                                  ; PERFECTLY FOR YOUR SETUP.
+
+global confirmToolChange=true     ; Set this to false to disable requiring user
+                                  ; confirmation after the tool change procedure
+                                  ; before continuing. The tool will very likely be
+                                  ; spun up instantly when confirming here so be
+                                  ; very careful before you proceed!
+
+global workZeroSafeHeight=20      ; Height above WCS Zero to confirm positioning
+                                  ; with user when moving to WCS Zero using macro. 
+                                  ; Set this high if you're not certain of the 
+                                  ; accuracy of your tool offset, as it avoids the
+                                  ; possibility of ramming the tool into the work
+                                  ; piece.
+
 
 ; NOTE: The touch probe and toolsetter work in tandem.
+; when both features are enabled.
 ; When probing a surface, we don't know (and can't know)
 ; the probe stickout. But if we probe a reference surface
 ; (the X gantry face) and we know the absolute height 
@@ -62,23 +79,8 @@ set global.motorCurrentLimitZ=2500
 ; to be activated, and where it is actually activated
 ; and this is our tool offset. 
 
-; Used for both toolsetter and touch probe
-global confirmUnsafeMove=true     ; Set this to false to move automatically to
-                                  ; calculated probe locations. ONLY DO THIS WHEN
-                                  ; YOU ARE CERTAIN THAT THE PROBING MACROS WORK
-                                  ; PERFECTLY FOR YOUR SETUP.
+; Only configure these with featureToolSetter=true
 
-global workZeroSafeHeight=20      ; Height above WCS Zero to confirm positioning
-                                  ; with user. Set this high if you're not certain
-                                  ; of the accuracy of your tool offset, as it avoids
-                                  ; the possibility of ramming the tool into the work
-                                  ; piece.
-
-global confirmToolChange=true     ; Set this to false to disable requiring user
-                                  ; confirmation after the tool change procedure
-                                  ; before continuing. The tool will very likely be
-                                  ; spun up instantly when confirming here so be
-                                  ; very careful before you proceed!
 ; Toolsetter measurements
 
 global toolSetterHeight=42.5         ; Height of toolsetter sexbolt surface when activated.
@@ -94,6 +96,8 @@ global toolSetterNumProbes=5         ; Number of times to activate the toolsette
 global toolSetterProbeSpeed=50       ; Feed rate to probe at in the Z direction.
 global toolSetterProbeRoughSpeed=300 ; Feed rate to detect initial tool position
 
+
+; Only configure these with featureTouchProbe=true
 
 ; Touch probe measurements
 global touchProbeNumProbes=5
