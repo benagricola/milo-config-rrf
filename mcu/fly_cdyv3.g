@@ -13,8 +13,6 @@ global pinZStop="zstop"
 ; should always be wired normally closed.
 global pinEStop1="xstopmax" ; Estop1 is generally on the machine
 global pinEStop2="ystopmax" ; Estop2 may be on an enclosure
-                             ; TODO: Fix, these conflict. We need to move these to {x,y}stopmax
-                             ; and then move pinToolSetter to zstopmax.
 
 global pinTool="bed+Laser"   ; First pin is for PWM output of RPM, second pin is enable output.
 
