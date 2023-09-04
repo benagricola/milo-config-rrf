@@ -11,7 +11,14 @@ G21      ; Switch to mm
 
 G27 C1   ; park spindle
 
+G6004    ; probe reference surface
+
 ; Variables used to store tool position references.
+var expectedToolZ   = global.referenceSurfaceZ + global.toolSetterHeight ; Expected toolsetter activation height
+                                                                         ; if tool has exactly the same stickout
+                                                                         ; as the touch probe used to probe the
+                                                                         ; reference surface.
+ 
 var actualToolZ     = 0 ; Actual Z co-ordinate probed with tool
 var toolOffset      = 0 ; The calculated offset of the tool
 
@@ -19,8 +26,9 @@ var toolOffset      = 0 ; The calculated offset of the tool
 if { state.currentTool == -1 }
     abort {"No tool selected, run T<N> to select a tool!"}
 
-if { global.expectedToolZ == 0 }
-    abort {"Must run G6000 before G37 to calculate expected toolsetter activation height!"}
+
+if { var.expectedToolZ == 0 }
+    abort {"Expected tool height is not properly probed!"}
 
 G10 P{state.currentTool} Z0
 
@@ -38,8 +46,8 @@ G27 C1
 ; tool Z. Expected tool Z is calculated during G6000 by probing the reference
 ; surface and then adding the offset of the toolsetter to it.
 set var.actualToolZ = global.probeCoordinateZ
-set var.toolOffset = var.actualToolZ - global.expectedToolZ
-M118 P0 L2 S{"Expected Tool Z =" ^ global.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
+set var.toolOffset = var.actualToolZ - var.expectedToolZ
+M118 P0 L2 S{"Expected Tool Z =" ^ var.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
 
 G10 P{state.currentTool} X0 Y0 Z{-var.toolOffset}
 

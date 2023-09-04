@@ -1,3 +1,6 @@
+; homeall.g
+; Homes Z, then homes X and Y together using user-defined limits
+
 G91                               ; relative positioning
 G1 H1 Z{global.zHome} F1800       ; Move towards endstop  
 G1 H2 Z{global.zHomeRepeat} F6000 ; Back off a little 

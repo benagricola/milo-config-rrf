@@ -1,5 +1,5 @@
 ; Network
-M551 P"rrf" ; set password
+M551 P{global.dwcPassword} ; Set Duet Web Control password
 
 ; Disable WiFi, Dwell, enable WiFi and HTTP only
 M552 S0
@@ -7,7 +7,7 @@ M552 S0
 ; TODO: Wait for wifi to be disabled
 ; network.interfaces[].state
 
-G4 S5
+G4 S10
 
 M552 S2
 

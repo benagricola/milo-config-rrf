@@ -7,8 +7,8 @@ This config is open source, and provided as a basis for anyone to use to configu
 
 1. `M016` is running the FMJ mod, which means it has `120mm` of Z travel.
 2. It uses a NEGATIVE Z, which means the endstop at the top of the Z axis is `Z=0`, and the bottom of the travel is `-120mm`.
-3. It has a Fysetc 128x64 screen mounted in the front, which is used to report machine status using the included Neopixel colours.
-4. The Neopixels invert Red and Green for some reason, so this config assumes that `U` and `R` in `M150` calls are inverted.
+3. It has a Fysetc 128x64 screen mounted in the front, which is used to report machine status using the included led colours.
+4. The leds invert Red and Green for some reason, so this config assumes that `U` and `R` in `M150` calls are inverted.
 5. The screen itself is currently not used, as there are no CNC menu packs available (TBD).
 6. All operator-configurable options are in `user-vars.g` except for the machine name, which is in `config.g`.
 7. `M016` has the Long John Toolsetter which is an official mod for the Milo.
@@ -27,7 +27,7 @@ This config is open source, and provided as a basis for anyone to use to configu
 * Use DWC or a serial console to set passwords for WiFi, or to set the AP name if broadcasting its' own AP.
 * Reboot the controller (Run `M999`) and wait for it to be accessible on WiFi.
 * Test the movement, endstops, relevant macros.
-* Do not turn off any of the safety options (safe distances or `global.probeConfirmMove`) until you are 100% happy with the behaviour of the code.
+* Do not turn off any of the safety options (safe distances or `global.confirmUnsafeMove`) until you are 100% happy with the behaviour of the code.
 
 ## TODO
 * Account for optional mods: Tool length sensor, 3D touch probe, screen, as well as prompting manual inputs for users without these available.

@@ -22,22 +22,15 @@ var materialCtrY   = 0           ; Calculated center of material, Y
 var materialOpCtrX = 0           ; Operator approximate center of material, X
 var materialOpCtrY = 0           ; Operator approximate center of material, Y
 
+; Check if touchprobe feature is available
+if {!exists(global.featureTouchProbe) || !global.featureTouchProbe }
+    ; TODO: Walk user through manual probing process
+    abort "Unable to probe material without touch probe!"
+
 ; Start probing sequence
 M291 P"Install touch probe and confirm it is plugged in!" R"Installation check" S3
 
 ; TODO: Check status of probe in object model to confirm it is connected.
-
-M118 P0 L2 S{"Probing ref. surface at X=" ^ global.touchProbeReferenceX ^ ", Y=" ^ global.touchProbeReferenceY }
-
-; Probe reference surface multiple times and average.
-; Retract spindle fully for safe moves
-G6003 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeDistanceZ} K{global.touchProbeID} C{global.touchProbeNumProbes} A{global.touchProbeProbeSpeed}
-
-; Set our expected toolsetter activation height. 
-set global.expectedToolZ  = global.probeCoordinateZ + global.toolSetterHeight
-
-M118 P0 L2 S{"Reference Surface Z=" ^ global.probeCoordinateZ}
-M118 P0 L2 S{"Expected Toolsetter Z=" ^ global.expectedToolZ}
 
 ; Park, request center of X and Y as this is
 ; likely close to where the user needs to jog to.
@@ -119,6 +112,8 @@ M118 P0 L2 S{"WCS Zero Front Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.m
 M118 P0 L2 S{"WCS Zero Rear Left, Top is X=" ^ var.materialX1 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Rear Right, Top is X=" ^ var.materialX2 ^ ", Y=" ^ var.materialY2 ^ ", Z=" ^ var.materialZ}
 M118 P0 L2 S{"WCS Zero Centre, Top is X=" ^ var.materialCtrX ^ ", Y=" ^ var.materialCtrY ^ ", Z=" ^ var.materialZ}
+
+M118 P0 L2 S{"Material size is " ^ var.materialX2 - var.materialX1 ^ "mm in X and " ^ var.materialY2 - var.materialY1 ^ "mm in Y" }
 
 var wcsZeroSet = false
 

@@ -12,6 +12,10 @@ var curPos          = 0
 var backoffPos      = global.touchProbeDistanceXY
 var probeRadiusComp = -global.touchProbeRadius
 
+; Check if touchprobe feature is available
+if {!exists(global.featureTouchProbe) || !global.featureTouchProbe }
+    abort "Unable to probe material without touch probe!"
+
 if { !exists(param.D) || param.D == 0 }
     { abort "Must provide direction and distance (D=+-...) you want to probe in!" }
 
@@ -24,7 +28,7 @@ if param.D == param.Y
 if { !exists(param.S) }
     { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
 
-if global.probeConfirmMove
+if global.confirmUnsafeMove
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", down towards Z=" ^ param.Z ^ " and probe Y=" ^ param.D ^ "?"} R"Safety check" S3
 
 ; Absolute moves to find starting position

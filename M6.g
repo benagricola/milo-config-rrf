@@ -20,7 +20,8 @@
 ; to change to, which is more appropriate as full tool tables are
 ; not needed by RRF.
 
-G27      ; park spindle away from work piece
+G27      ; park spindle away from work piece to allow more room
+         ; for changing tool.
 
 ; If nextTool is -1, it probably means the user tried to change to
 ; tool 1, which is automatically processed by RRF and clears nextTool
@@ -39,9 +40,11 @@ M118 P0 L2 S{"Active Tool #" ^ var.toolIndex}
 ; but because it may be a dynamic tool, we'll just set
 ; the spindle active.
 
-T1 P0 ; Do not run any tool change macros.
+T1 P0 ; Do not run any static tool change macros.
 
 ; Probe tool offset
 G37
 
-; Continue
+; Continue after user confirmation if necessary
+if { global.confirmToolChange }
+    M291 R"Tool Ready?" P"CAUTION: Tool change complete. Ready to continue?" S3

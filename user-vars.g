@@ -1,17 +1,24 @@
-; Define pins used for configuring hardware
-global pinEStop="^ystopmax"
-global pinXStop="^xstop"
-global pinYStop="^ystop"
-global pinZStop="^zstop"
+; Features
+; Note we have to SET features, to override
+; the defaults (all features disabled)
+set global.featureLeds=true
+set global.featureCasa=false
+set global.featureScreen=true
+set global.featureToolSetter=true
+set global.featureTouchProbe=true
 
-global pinNeoPixel="^LCDD5"
-global pinFan0="!fan0+tacho0"
+; Machine Name
+global machineName="Milo V1.5 M016"
 
-global pinTool="he0+^fan1"
-global pinToolSetter="^xstopmax"
-global pinTouchProbe="!probe"
+; Web UI Password
+global dwcPassword="rrf"
 
+; Logging settings
+global logFilePath="/sys/log"
+global logFileNum=3
+global logFileName="rrf.log"
 
+; Axis Settings
 ; Min:  Axis Minimum
 ; Max:  Axis Maximum
 ; Home: Direction and distance to move towards endstops
@@ -26,7 +33,7 @@ global xHomeRepeat=5
 global yMin=0
 global yMax=209
 global yHome=215
-global yHomeRepeat=5
+global yHomeRepeat=-5
 global zMin=-120
 global zMax=0
 global zHome=125
@@ -37,6 +44,13 @@ global parkX={(global.xMax - global.xMin)/2} ; Park with the "bed" approximately
 global parkY=global.yMax                     ; and at the front for operator ease-of-use.
 global parkZ=global.zMax                     ; Think VERY hard before parking this anywhere else
                                              ; except Z=0 (zMax)
+
+; Motor Current Overrides
+; Note we have to SET these, to override
+; the MCU default settings
+set global.motorCurrentLimitX=2500
+set global.motorCurrentLimitY=2500
+set global.motorCurrentLimitZ=2500
 
 ; NOTE: The touch probe and toolsetter work in tandem.
 ; When probing a surface, we don't know (and can't know)
@@ -49,18 +63,22 @@ global parkZ=global.zMax                     ; Think VERY hard before parking th
 ; and this is our tool offset. 
 
 ; Used for both toolsetter and touch probe
-global probeConfirmMove=true
-                                  ; Set this to false to move automatically to
+global confirmUnsafeMove=true     ; Set this to false to move automatically to
                                   ; calculated probe locations. ONLY DO THIS WHEN
                                   ; YOU ARE CERTAIN THAT THE PROBING MACROS WORK
                                   ; PERFECTLY FOR YOUR SETUP.
 
-global workZeroSafeHeight=5       ; Height above WCS Zero to confirm positioning
+global workZeroSafeHeight=20      ; Height above WCS Zero to confirm positioning
                                   ; with user. Set this high if you're not certain
                                   ; of the accuracy of your tool offset, as it avoids
                                   ; the possibility of ramming the tool into the work
                                   ; piece.
 
+global confirmToolChange=true     ; Set this to false to disable requiring user
+                                  ; confirmation after the tool change procedure
+                                  ; before continuing. The tool will very likely be
+                                  ; spun up instantly when confirming here so be
+                                  ; very careful before you proceed!
 ; Toolsetter measurements
 
 global toolSetterHeight=42.5         ; Height of toolsetter sexbolt surface when activated.
@@ -109,20 +127,27 @@ global touchProbeDwellTime=200    ; Time to pause after backing away from a surf
 
 
 
-; Neopixel settings
-global neopixelUpdates=true   ; Auto-update neopixel colours based on printer and
-                              ; network status.
-global neopixelUpdateRate=500 ; Update neopixel colours every 500 milliseconds
+; LED settings
+global ledUpdates=true   ; Auto-update led colours based on printer and
+                         ; network status.
+global ledUpdateRate=500 ; Update led colours every 500 milliseconds
 
-global neopixelColourWarning={255, 255, 0, 255}    ; Yellow
-global neopixelColourCancelling={255, 165, 0, 255} ; Yellow
-global neopixelColourError={255, 0, 0, 255}        ; Red
-global neopixelColourStartup={255, 255, 255, 255}  ; White
-global neopixelColourReady={0, 255, 0, 255}        ; Green
-global neopixelColourBusy={0, 0, 255, 255}         ; Blue
-global neopixelColourPaused={0, 255, 255, 255}     ; Cyan
 
-; Logging settings
-global logFilePath="/sys/log"
-global logFileNum=3
-global logFileName="rrf.log"
+; Colours needed for spider king which flips green and red
+global ledColourWarning={255, 255, 0, 255}    ; Yellow
+global ledColourCancelling={165, 255, 0, 255} ; Yellow
+global ledColourError={0, 255, 0, 255}        ; Red
+global ledColourStartup={255, 255, 255, 255}  ; White
+global ledColourReady={255, 0, 0, 255}        ; Green
+global ledColourBusy={0, 0, 255, 255}         ; Blue
+global ledColourPaused={255, 0, 255, 255}     ; Cyan
+
+; For non-broken boards
+; Note R and G channels are flipped
+; global ledColourWarning={255, 255, 0, 255}    ; Yellow
+; global ledColourCancelling={255, 165, 0, 255} ; Yellow
+; global ledColourError={255, 0, 0, 255}        ; Red
+; global ledColourStartup={255, 255, 255, 255}  ; White
+; global ledColourReady={0, 255, 0, 255}        ; Green
+; global ledColourBusy={0, 0, 255, 255}         ; Blue
+; global ledColourPaused={0, 255, 255, 255}     ; Cyan

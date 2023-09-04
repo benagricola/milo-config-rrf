@@ -1,5 +1,8 @@
-; Tools
-M950 R1 C{global.pinTool} L24000  Q40  ; Create spindle index 1, with PWM on he0, enable pin on fan1 (12v configured fan) and 24kRPM achieved at full PWM
+; tool1.g
+; Configures attached spindle
+
+M950 R1 C{global.pinTool} L{global.spindleMaxRPM}  Q{global.spindlePWMFrequency} 
+
 M563 P1 S"Spindle 1" R1                ; Assign spindle index 1 name
 
 G10 P1 X0 Y0 Z0                        ; Set tool axis offsets

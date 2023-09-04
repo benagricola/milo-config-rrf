@@ -1,7 +1,5 @@
 // Board Hardware configuration file for Fysetc Spider King 407 Version
-
 board = fysetc_spider_king407;
-
 
 //TMC Smart Drivers
 stepper.numSmartDrivers = 3;

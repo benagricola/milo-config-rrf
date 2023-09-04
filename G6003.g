@@ -22,6 +22,10 @@ var retries       = 0
 var probePos      = 0
 var curPos        = 0
 
+; Check if touchprobe feature is available
+if {!exists(global.featureTouchProbe) || !global.featureTouchProbe }
+    abort "Unable to probe material without touch probe!"
+
 if { !exists(param.X) || !exists(param.Y) }
     { abort "Must provide starting position (X=, Y=)!" }
 
@@ -43,7 +47,7 @@ if { !exists(param.A) }
 if { exists(param.J) && !exists(param.I) }
     { abort "Must provide a backoff height (I=) for operator jogging!"}
 
-if global.probeConfirmMove
+if global.confirmUnsafeMove
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe #" ^ param.K ^ " towards Z=" ^ global.zMin ^ "?"} R"Safety check" S3
 
 ; Absolute moves to find starting position
