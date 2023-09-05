@@ -7,7 +7,7 @@ This config is open source, and provided as a basis for anyone to use to configu
 
 ## Use
 * Is at your own risk, as outlined in the `LICENSE`. If you break a bit, or cut your hand off, or kill your dog, it's not our fault. *WEAR EYE PROTECTION AND NO, SAFETY SQUINTS ARE NOT IT*.
-* Download the zip or .tar.gz of the latest version from the [releases](./releases) page
+* Download the zip or .tar.gz of the latest version from the [releases](../../releases/latest) page
 * Extract it to the `/sys` folder on your SD card
 * Copy the relevant board file for your MCU from the `boards` subdirectory to `/sys/board.txt`
 * Configure `user-vars.g` to match your specific setup.
