@@ -47,7 +47,7 @@ var upperLimit = global.hsscPreviousAdjustmentRPM + global.hsscVariance
 var baseRPM = global.hsscPreviousAdjustmentRPM
 
 ; If current RPM is outside of our calculated adjustment limits, then
-; safe the RPM as our 'new' base, starting adjustment at the next cycle
+; store the RPM as our 'new' base, starting adjustment at the next cycle
 if { var.upperLimit < var.curSpindleSpeed || var.curSpindleSpeed < var.lowerLimit }
     if { global.hsscDebug }
         M118 P0 L2 S{"[HSSC] New base spindle RPM detected: " ^ var.curSpindleSpeed }
