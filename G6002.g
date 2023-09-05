@@ -48,7 +48,7 @@ G91
 
 ; If moving in a positive direction, back off in negative
 ; Compensate for probe width in positive (when probe touches
-; surface, it is at an X co-ordinate LESS than where the actual
+; surface, it is at a Y co-ordinate LESS than where the actual
 ; surface is, by the radius of the probe).
 if { param.Y < param.D }
     set var.backoffPos      = -var.backoffPos

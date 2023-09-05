@@ -33,3 +33,9 @@ global pinLed="^LCDD5"
 global motorCurrentLimitX=1000
 global motorCurrentLimitY=1000
 global motorCurrentLimitZ=1000
+
+; Set maximum axis speeds (used for travel moves)
+; in millimeters per minute
+global maxSpeedLimitX=1500
+global maxSpeedLimitY=1500
+global maxSpeedLimitZ=600

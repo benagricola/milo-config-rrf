@@ -49,6 +49,12 @@ set global.motorCurrentLimitX=1800
 set global.motorCurrentLimitY=1800
 set global.motorCurrentLimitZ=1800
 
+; Speed Limit Overrides
+; in millimeters per minute
+set global.maxSpeedLimitX=2500
+set global.maxSpeedLimitY=2500
+set global.maxSpeedLimitZ=2500
+
 ; Safety related configurations
 global confirmUnsafeMove=true     ; Set this to false to move automatically to
                                   ; calculated probe locations. ONLY DO THIS WHEN
