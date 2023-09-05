@@ -17,16 +17,16 @@ if {!exists(global.featureTouchProbe) || !global.featureTouchProbe }
     abort "Unable to probe material without touch probe!"
 
 if { !exists(param.D) || param.D == 0 }
-    { abort "Must provide direction and distance (D=+-...) you want to probe in!" }
+    { abort "Must provide direction and distance (D+-..) you want to probe in!" }
 
 if { !exists(param.X) || !exists(param.Y) || !exists(param.Z) }
-    { abort "Must provide starting position (X=, Y=, Z=)!" }
+    { abort "Must provide starting position (X.., Y.., Z..)!" }
 
 if param.D == param.Y
-    { abort "Parameters Y= and D= cannot be the same!" }
+    { abort "Parameters Y and D cannot be the same!" }
 
 if { !exists(param.S) }
-    { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
+    { abort "Must provide a safe height (S..) to retreat to after probing for subsequent moves!" }
 
 if { global.confirmUnsafeMove }
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", down towards Z=" ^ param.Z ^ " and probe Y=" ^ param.D ^ "?"} R"Safety check" S3

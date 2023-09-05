@@ -27,25 +27,25 @@ if {!exists(global.featureTouchProbe) || !global.featureTouchProbe }
     abort "Unable to probe material without touch probe!"
 
 if { !exists(param.X) || !exists(param.Y) }
-    { abort "Must provide starting position (X=, Y=)!" }
+    { abort "Must provide starting position (X.., Y..)!" }
 
 if { !exists(param.S) }
-    { abort "Must provide a safe height (S=) to retreat to after probing for subsequent moves!" }
+    { abort "Must provide a safe height (S..) to retreat to after probing for subsequent moves!" }
 
 if { !exists(param.B) }
-    { abort "Must provide a backoff height (B=) to retreat to after each probe!" }
+    { abort "Must provide a backoff height (B..) to retreat to after each probe!" }
 
 if { !exists(param.K) }
-    { abort "Must provide a sensor (K=) to use as probe!" }
+    { abort "Must provide a sensor (K..) to use as probe!" }
 
 if { !exists(param.C) }
-    { abort "Must provide a number of probes (C=) to run!" }
+    { abort "Must provide a number of probes (C..) to run!" }
 
 if { !exists(param.A) }
-    { abort "Must provide a vertical (slow) probe speed!" }
+    { abort "Must provide a vertical (V..) probe speed!" }
 
 if { exists(param.J) && !exists(param.I) }
-    { abort "Must provide a backoff height (I=) for operator jogging!"}
+    { abort "Must provide a backoff height (I..) for operator jogging!"}
 
 if { global.confirmUnsafeMove }
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", probe #" ^ param.K ^ " towards Z=" ^ global.zMin ^ "?"} R"Safety check" S3

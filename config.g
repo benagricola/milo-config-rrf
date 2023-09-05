@@ -2,9 +2,25 @@
 
 
 ; DO NOT EDIT. All user configuration can be made in user-vars.g
-M98 P"mcu.g" ; Load mcu and static configuration first to allow user overrides
-M98 P"vars.g"
-M98 P"user-vars.g"
+
+; Load MCU configuration once
+if { !exists(global.mcuLoaded) }
+    M98 P"mcu.g"
+    global mcuLoaded = true
+
+; Load Vars once
+if { !exists(global.varsLoaded) }
+    M98 P"vars.g"
+    global varsLoaded = true
+
+; Load User Vars once
+if { !exists(global.userVarsLoaded) }
+    M98 P"user-vars.g"
+    global UserVarsLoaded = true
+
+; If MCU config or any vars need updating,
+; you must restart the MCU (use M999).
+
 M98 P"leds.g"
 M98 P"general.g"
 M98 P"estop.g"

@@ -3,6 +3,7 @@
 ; the defaults (all features disabled)
 set global.featureToolSetter=true
 set global.featureTouchProbe=true
+set global.featureHSSC=true
 
 ; Machine Name
 global machineName="Milo V1.5 M016"
@@ -131,27 +132,15 @@ global touchProbeDwellTime=200    ; Time to pause after backing away from a surf
 
 
 
-; LED settings
-global ledUpdates=true   ; Auto-update led colours based on printer and
-                         ; network status.
-global ledUpdateRate=500 ; Update led colours every 500 milliseconds
+; Daemon settings
+; Required for featureLeds and featureHSSC.
+global daemonEnable=true     ; Run background tasks in daemon.g
+global daemonUpdateRate=500  ; Re-trigger background tasks every 1000ms
+                             ; don't reduce this below 500!
 
+                            
+; Enable LEDs
+set global.ledsEnabled=true
 
-; Colours needed for spider king which flips green and red
-global ledColourWarning={255, 255, 0, 255}    ; Yellow
-global ledColourCancelling={165, 255, 0, 255} ; Yellow
-global ledColourError={0, 255, 0, 255}        ; Red
-global ledColourStartup={255, 255, 255, 255}  ; White
-global ledColourReady={255, 0, 0, 255}        ; Green
-global ledColourBusy={0, 0, 255, 255}         ; Blue
-global ledColourPaused={255, 0, 255, 255}     ; Cyan
-
-; For non-broken boards
-; Note R and G channels are flipped
-; global ledColourWarning={255, 255, 0, 255}    ; Yellow
-; global ledColourCancelling={255, 165, 0, 255} ; Yellow
-; global ledColourError={255, 0, 0, 255}        ; Red
-; global ledColourStartup={255, 255, 255, 255}  ; White
-; global ledColourReady={0, 255, 0, 255}        ; Green
-; global ledColourBusy={0, 0, 255, 255}         ; Blue
-; global ledColourPaused={0, 255, 255, 255}     ; Cyan
+; Override colours
+set global.ledColourWarning={255, 0, 0, 255}    ; Red instead of Yellow
