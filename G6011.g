@@ -1,4 +1,4 @@
-; G6002: Repeatable edge (horizontal) probe, Y axis
+; G6011: Repeatable edge (horizontal) probe, Y axis
 
 ; Assume probe is clear to move in X/Y to starting position,
 ; then plunge to Z starting position.
@@ -9,8 +9,8 @@ G21
 var retries         = 0
 var probePos        = 0
 var curPos          = 0
-var backoffPos      = global.touchProbeDistanceXY
-var probeRadiusComp = -global.touchProbeRadius
+var backoffPos      = global.touchProbeRepeatXY
+var probeCompensation = -(global.touchProbeRadius - global.touchProbeDeflection)
 
 ; Check if touchprobe feature is available
 if {!exists(global.featureTouchProbe) || !global.featureTouchProbe }
@@ -27,6 +27,9 @@ if param.D == param.Y
 
 if { !exists(param.S) }
     { abort "Must provide a safe height (S..) to retreat to after probing for subsequent moves!" }
+
+if { param.S < param.Z }
+    { abort "Safe height (S..) must be greater than starting height (Z..)!" }
 
 if { global.confirmUnsafeMove }
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", down towards Z=" ^ param.Z ^ " and probe Y=" ^ param.D ^ "?"} R"Safety check" S3
@@ -52,11 +55,17 @@ G91
 ; surface is, by the radius of the probe).
 if { param.Y < param.D }
     set var.backoffPos      = -var.backoffPos
-    set var.probeRadiusComp = { abs(var.probeRadiusComp) }
+    set var.probeCompensation = { abs(var.probeCompensation) }
 
 while var.retries <= global.touchProbeNumProbes
     ; Probe towards surface
     G53 G38.2 Y{param.D} K{global.touchProbeID}
+
+    ; Abort if an error was encountered 
+    if { result != 0 }
+        ; Reset all speed limits after probe
+        M98 P"speed.g"
+        abort "Probe experienced an error, aborting!"
     
     ; Record current position
     set var.curPos = move.axes[1].machinePosition
@@ -96,4 +105,4 @@ G90
 ; Move to safe height
 G53 G0 Z{param.S}
 
-set global.touchProbeCoordinateY=var.probePosAveraged + var.probeRadiusComp
+set global.touchProbeCoordinateY=var.probePosAveraged + var.probeCompensation

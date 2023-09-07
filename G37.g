@@ -14,7 +14,7 @@ G21      ; Switch to mm
 
 G27 C1   ; park spindle
 
-G6004    ; probe reference surface
+G6013    ; probe reference surface
 
 ; Variables used to store tool position references.
 var expectedToolZ   = global.referenceSurfaceZ + global.toolSetterHeight ; Expected toolsetter activation height
@@ -40,13 +40,13 @@ M118 P0 L2 S{"Probing tool length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.
 ; Probe tool length multiple times and average
 ; Allow operator to jog tool over bolt after rough probing move to confirm
 ; lowest tool point.
-G6003 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} I{global.toolSetterJogDistanceZ} J1 K{global.toolSetterID} C{global.toolSetterNumProbes} A{global.toolSetterProbeSpeed}
+G6012 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} I{global.toolSetterJogDistanceZ} J1 K{global.toolSetterID} C{global.toolSetterNumProbes} A{global.toolSetterProbeSpeed}
 
 ; Park.
 G27 C1
 
 ; Our tool offset is the difference between our expected tool Z and our actual
-; tool Z. Expected tool Z is calculated during G6000 by probing the reference
+; tool Z. Expected tool Z is calculated during G6013 by probing the reference
 ; surface and then adding the offset of the toolsetter to it.
 set var.actualToolZ = global.probeCoordinateZ
 set var.toolOffset = var.actualToolZ - var.expectedToolZ

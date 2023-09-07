@@ -24,8 +24,34 @@ global motorMicroSteps=32
 global motorStepDegrees=1.8
 global leadScrewPitch=8
 
+; Default motor performance settings, these will be
+; overridden by MCU configuration where appropriate
+
+; Set motor current limits in milliamps.
+global motorCurrentLimitX=1000
+global motorCurrentLimitY=1000
+global motorCurrentLimitZ=1000
+
+; Set maximum axis speeds (used for travel moves)
+; in millimeters per minute
+global maxSpeedLimitX=1000
+global maxSpeedLimitY=1000
+global maxSpeedLimitZ=300
+
+; Set maximum acceleration speeds
+; in mm/s^2
+global maxAccelLimitX=500
+global maxAccelLimitY=500
+global maxAccelLimitZ=60
+
+; Set maximum instantaneous speed changes
+; in mm/min
+global maxJerkLimitX=60
+global maxJerkLimitY=60
+global maxJerkLimitZ=10
+
 ; Spindle settings
-global spindleID=1
+global spindleID=1             ; The tool ID of the Milo spindle.
 global spindleMinRPM=0         ; Note BOM / Chinese spindles generally don't like
                                ; running at lower than 8000RPM. Don't override
                                ; this unless you know your spindle can handle it.

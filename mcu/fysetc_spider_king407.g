@@ -32,12 +32,24 @@ global pinLed="^LCDD5"
 
 ; Set motor current limits in milliamps.
 ; These can be overridden in user-vars if necessary.
-global motorCurrentLimitX=1000
-global motorCurrentLimitY=1000
-global motorCurrentLimitZ=1000
+set global.motorCurrentLimitX=1200
+set global.motorCurrentLimitY=1200
+set global.motorCurrentLimitZ=1200
 
 ; Set maximum axis speeds (used for travel moves)
 ; in millimeters per minute
-global maxSpeedLimitX=1500
-global maxSpeedLimitY=1500
-global maxSpeedLimitZ=600
+set global.maxSpeedLimitX=3000
+set global.maxSpeedLimitY=3000
+set global.maxSpeedLimitZ=1000
+
+; Set maximum acceleration speeds
+; in mm/s^2
+set global.maxAccelLimitX=800
+set global.maxAccelLimitY=800
+set global.maxAccelLimitZ=400
+
+; Set maximum instantaneous speed changes
+; in mm/min
+set global.maxJerkLimitX=600
+set global.maxJerkLimitY=600
+set global.maxJerkLimitZ=400

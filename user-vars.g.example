@@ -1,3 +1,15 @@
+; Safety Note:
+;
+; Do not copy any of these settings blindly!
+; Setting the wrong axis dimensions, motor amperage or
+; any number of other settings can easily break your
+; machine or WORSE, injure you.
+; You owe it to yourself to understand these settings
+; before using a machine like the Milo.
+
+; SAFETY FIRST!
+
+
 ; Features
 ; Note we have to SET features, to override
 ; the defaults (all features disabled)
@@ -44,16 +56,27 @@ global parkZ=global.zMax                     ; Think VERY hard before parking th
 ; Motor Current Overrides
 ; Note we have to SET these, to override
 ; the MCU default settings
-; Settings in milliamps, peak
-set global.motorCurrentLimitX=1800
-set global.motorCurrentLimitY=1800
-set global.motorCurrentLimitZ=1800
+set global.motorCurrentLimitX=2500
+set global.motorCurrentLimitY=2500
+set global.motorCurrentLimitZ=2500
 
 ; Speed Limit Overrides
 ; in millimeters per minute
 set global.maxSpeedLimitX=2500
 set global.maxSpeedLimitY=2500
-set global.maxSpeedLimitZ=2500
+set global.maxSpeedLimitZ=600
+
+; Set maximum acceleration speeds
+; in mm/s^2
+set global.maxAccelLimitX=600
+set global.maxAccelLimitY=600
+set global.maxAccelLimitZ=200
+
+; Set maximum instantaneous speed changes
+; in mm/min
+set global.maxJerkLimitX=60
+set global.maxJerkLimitY=60
+set global.maxJerkLimitZ=40
 
 ; Safety related configurations
 global confirmUnsafeMove=true     ; Set this to false to move automatically to
@@ -107,34 +130,48 @@ global toolSetterProbeRoughSpeed=300 ; Feed rate to detect initial tool position
 ; Only configure these with featureTouchProbe=true
 
 ; Touch probe measurements
-global touchProbeNumProbes=5
-global touchProbeRadius=1         ; Radius of ball head on probe. Compensates for
-                                  ; the direction in which the probe touches the surface
-                                  ; when probing in X/Y directions.
-global touchProbeDistanceXY=2     ; Distances that probe will be driven
-global touchProbeDistanceZ=2      ; towards X, Y and Z faces of work piece.
-                                  ; These values should be _lower_ than the
-                                  ; over-travel protection of the touch probe
-                                  ; being used, so as not to cause damage to
-                                  ; the probe in the event of a failure to
-                                  ; trigger.
-global touchProbeSafeDistanceZ=10 ; Safe distance above probed work surface for
-                                  ; non-probing X/Y moves.
-global touchProbeReferenceX=0     ; X,Y co-ordinates of the reference surface to
-global touchProbeReferenceY=65    ; use. The reference surface is a known surface
-                                  ; from which offsets can be calculated. The distance
-                                  ; in Z from the reference surface to the touch-
-                                  ; probe activation point allows us to compensate for
-                                  ; the length of the touch probe and tools. 
+global touchProbeNumProbes=5         ; Repeat and average each probe this number of times
+global touchProbeRadius=1            ; Radius of ball head on probe. Compensates for
+                                     ; the direction in which the probe touches the surface
+                                     ; when probing in X/Y directions.
+global touchProbeDeflection=0.232    ; Deflection of tool probe before triggering.
+                                     ; This needs to be measured against a work piece with
+                                     ; a known dimension. Probe the piece using G6000 and
+                                     ; it will report the width and length of the workpiece
+                                     ; in the console. Divide the difference in the known
+                                     ; dimension of the workpiece vs. the measured dimension
+                                     ; and then divide by two to get the deflection value
+                                     ; (_on that axis_).
+                                     ; Deflection will be a _positive_ value if your measured
+                                     ; dimension is less than the known dimension and _negative_
+                                     ; if the measured dimension is more than known.
+global touchProbeRepeatXY=2          ; Distances that probe will be driven
+global touchProbeRepeatZ=2           ; towards X, Y and Z faces of work piece.
+                                     ; These values should be _lower_ than the
+                                     ; over-travel protection of the touch probe
+                                     ; being used, so as not to cause damage to
+                                     ; the probe in the event of a failure to
+                                     ; trigger.
+global touchProbeSafeDistanceXY=20   ; Safe distance to add to operator workpiece size estimates
+                                     ; this will avoid us moving down into a work piece that
+                                     ; the operator guesstimated was smaller than it was.
+global touchProbeSafeDistanceZ=10    ; Safe distance above probed work surface for
+                                     ; non-probing X/Y moves.
+global touchProbeReferenceX=0        ; X,Y co-ordinates of the reference surface to
+global touchProbeReferenceY=65       ; use. The reference surface is a known surface
+                                     ; from which offsets can be calculated. The distance
+                                     ; in Z from the reference surface to the touch-
+                                     ; probe activation point allows us to compensate for
+                                     ; the length of the touch probe and tools. 
 
-global touchProbeProbeSpeed=25    ; Speed to probe at in mm/min when calculating surface
-                                  ; offsets.
-global touchProbeRoughSpeed=300   ; Initial probe towards a surface is performed at this
-                                  ; speed in mm/min
-global touchProbeDwellTime=200    ; Time to pause after backing away from a surface
-                                  ; before repeating a probe, to allow the machine
-                                  ; to settle. Especially important if your machine limits
-                                  ; are high or your machine is not particularly rigid.
+global touchProbeProbeSpeed=25       ; Speed to probe at in mm/min when calculating surface
+                                     ; offsets.
+global touchProbeRoughSpeed=300      ; Initial probe towards a surface is performed at this
+                                     ; speed in mm/min
+global touchProbeDwellTime=200       ; Time to pause after backing away from a surface
+                                     ; before repeating a probe, to allow the machine
+                                     ; to settle. Especially important if your machine limits
+                                     ; are high or your machine is not particularly rigid.
 
 
 

@@ -40,7 +40,12 @@ This configuration adds some macros to perform work piece touch probing and tool
   - Probe the rear edge of the work piece at the selected height.
   - Allow the user to pick the location of the zero point (`FR`, `FL`, `RL`, `RR`, `CTR`. Top surface is `Z=0`) and jog for manual adjustment.
   - Allow the user to pick the WCS index to set the zero on.
-* `G6001` - Perform a safe, repeatable probe on the X axis from either the left or right. Called by `G6000`.
-* `G6002` - Perform a safe, repeatable probe on the Y axis from either the front or rear. Called by `G6000`.
-* `G6003` - Perform a safe, repeatable probe on the Z axis. Can use the toolsetter or the touch probe. Called by `G6000` and `G37`.
-* `G6004` - Perform a safe, repeatable probe on the configured reference surface. Called by `G37`.
+* `G6010` - Perform a safe, repeatable probe on the X axis from either the left or right. Called by `G6000`.
+* `G6011` - Perform a safe, repeatable probe on the Y axis from either the front or rear. Called by `G6000`.
+* `G6012` - Perform a safe, repeatable probe on the Z axis. Can use the toolsetter or the touch probe. Called by `G6000` and `G37`.
+* `G6013` - Perform a safe, repeatable probe on the configured reference surface. Called by `G37`.
+* `G7000` - Enable Harmonic Spindle Speed Control, which helps to reduce chatter by constantly varying the spindle speed within a range
+* `G7001` - Disable Harmonic Spindle Speed Control.
+
+Further information about our macros can be viewed in the [Milo gcode dialect](GCODE.md).
+Macros are written following a set of [guidelines](MACROS.md) - if you intend to write additional macros for the Milo, you should follow these guidelines as closely as you can as well.

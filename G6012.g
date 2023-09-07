@@ -1,4 +1,4 @@
-; G6003: Repeatable surface (vertical) probe, Z axis
+; G6012: Repeatable surface (vertical) probe, Z axis
 
 ; Z Probing will move to the safe height (S) _before_ moving
 ; horizontally.
@@ -41,7 +41,7 @@ if { !exists(param.K) }
 if { !exists(param.C) }
     { abort "Must provide a number of probes (C..) to run!" }
 
-if { !exists(param.A) }
+if { !exists(param.V) }
     { abort "Must provide a vertical (V..) probe speed!" }
 
 if { exists(param.J) && !exists(param.I) }
@@ -68,6 +68,12 @@ while var.retries <= param.C
     ; Probe towards surface.
     ; Z probes only run in one direction
     G53 G38.2 K{param.K} Z{global.zMin}
+
+    ; Abort if an error was encountered 
+    if { result != 0 }
+        ; Reset all speed limits after probe
+        M98 P"speed.g"
+        abort "Probe experienced an error, aborting!"
     
     ; Record current position
     set var.curPos = move.axes[2].machinePosition
@@ -100,7 +106,7 @@ while var.retries <= param.C
             G53 G0 Z{param.B}
 
     ; Drop speed in probe direction for next probe attempt
-    M203 Z{param.A}
+    M203 Z{param.V}
 
     ; Iterate retry counter
     set var.retries = var.retries + 1

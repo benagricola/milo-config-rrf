@@ -3,15 +3,15 @@
 
 ; DO NOT EDIT. All user configuration can be made in user-vars.g
 
-; Load MCU configuration once
-if { !exists(global.mcuLoaded) }
-    M98 P"mcu.g"
-    global mcuLoaded = true
-
 ; Load Vars once
 if { !exists(global.varsLoaded) }
     M98 P"vars.g"
     global varsLoaded = true
+
+; Load MCU configuration once
+if { !exists(global.mcuLoaded) }
+    M98 P"mcu.g"
+    global mcuLoaded = true
 
 ; Load User Vars once
 if { !exists(global.userVarsLoaded) }
