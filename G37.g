@@ -46,7 +46,7 @@ if { var.toolIndex == -1 }
 if { var.expectedToolZ == 0 }
     abort {"Expected tool height is not properly probed!"}
 
-G10 P{var.toolIndex} Z0
+G10 P{global.spindleID} Z0
 
 ; Deactivate spindle
 M98 P"tool-deactivate.g"
@@ -65,10 +65,11 @@ set var.actualToolZ = global.probeCoordinateZ
 set var.toolOffset = var.actualToolZ - var.expectedToolZ
 M118 P0 L2 S{"Tool #" ^ var.toolIndex ^ " Expected Tool Z =" ^ var.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
 
-G10 P{var.toolIndex} X0 Y0 Z{-var.toolOffset}
+; Re-activate spindle before setting offset, otherwise
+; the tool offset is lost.
+M98 P"tool-activate.g"
+
+G10 P{global.spindleID} X0 Y0 Z{-var.toolOffset}
 
 ; Park.
 G27
-
-; Re-activate spindle
-M98 P"tool-activate.g"

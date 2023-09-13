@@ -51,8 +51,10 @@ if { global.confirmToolChange }
 else
     M98 P"tool-activate.g" ; Reactivate the spindle
 
+; Wait for RRF to process the tool activation
+G4 S2
+
 ; At this point the tool has technically been changed,
 ; but because it may be a dynamic tool, we'll just set
 ; the spindle active.
-
 T{global.spindleID} P0 ; Do not run any static tool change macros.
