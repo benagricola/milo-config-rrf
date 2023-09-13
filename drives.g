@@ -9,7 +9,7 @@ M569 P2 S1                           ; Physical drive 2 (Z) goes forwards using 
 M584 X0 Y1 Z2                        ; Set drive mapping
 
 ; Configure microstepping with interpolation
-M350 X{global.motorMicroSteps} Y{global.motorMicroSteps} Z{global.motorMicroSteps} I1
+M350 X{global.motorMicroSteps} Y{global.motorMicroSteps} Z{global.motorMicroSteps} I0
 
 ; Calculate steps-per-mm based on microstep setting
 ; Milo lead-screws are 8mm pitch, with 1.8 degree motors or 200 steps per revolution

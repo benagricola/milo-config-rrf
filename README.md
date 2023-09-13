@@ -31,21 +31,25 @@ This configuration adds some macros to perform work piece touch probing and tool
   - Otherwise, parks the X/Y area at user-specified co-ordinates.
 * `G37` - Performs tool offset calculation, using previously probed reference surface.
 * `G6000` - Performs 3 axis work piece probing using the 3D touch probe, running the following steps:
+  - Ask the operator for approximate length and width dimensions of the work piece.
+  - Ask the operator for a depth at which X and Y edge probing will occur (below the probed Z height of the work piece).
+  - Allow the user to pick the location of the zero point (`FR`, `FL`, `RL`, `RR`, `CTR`. Top surface is `Z=0`) and jog for manual adjustment.
+  - Allow the user to pick the WCS index to set the zero on.
   - Probe the Z height of a reference surface on the X axis. This surface should be a known, static distance from the activation point of the toolsetter, configured in `global.toolSetterHeight`.
   - Allow the operator to move over the work piece surface and probe its Z height multiple times, averaging each result.
-  - Ask the operator for a depth at which X and Y edge probing will occur (below the probed Z height of the work piece).
   - Probe the left edge of the work piece at the selected height.
   - Probe the right edge of the work piece at the selected height.
   - Probe the front edge of the work piece at the selected height.
   - Probe the rear edge of the work piece at the selected height.
-  - Allow the user to pick the location of the zero point (`FR`, `FL`, `RL`, `RR`, `CTR`. Top surface is `Z=0`) and jog for manual adjustment.
-  - Allow the user to pick the WCS index to set the zero on.
 * `G6010` - Perform a safe, repeatable probe on the X axis from either the left or right. Called by `G6000`.
 * `G6011` - Perform a safe, repeatable probe on the Y axis from either the front or rear. Called by `G6000`.
 * `G6012` - Perform a safe, repeatable probe on the Z axis. Can use the toolsetter or the touch probe. Called by `G6000` and `G37`.
 * `G6013` - Perform a safe, repeatable probe on the configured reference surface. Called by `G37`.
-* `G7000` - Enable Harmonic Spindle Speed Control, which helps to reduce chatter by constantly varying the spindle speed within a range
-* `G7001` - Disable Harmonic Spindle Speed Control.
+* `M6`    - Implement tool changes using user prompt
+* `M4000` - Register tool index with a description to be used when performing manual tool changes
+* `M4001` - Unset tool index description
+* `M7000` - Enable Harmonic Spindle Speed Control, which helps to reduce chatter by constantly varying the spindle speed within a range
+* `M7001` - Disable Harmonic Spindle Speed Control.
 
 Further information about our macros can be viewed in the [Milo gcode dialect](GCODE.md).
 Macros are written following a set of [guidelines](MACROS.md) - if you intend to write additional macros for the Milo, you should follow these guidelines as closely as you can as well.

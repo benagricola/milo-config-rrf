@@ -4,6 +4,14 @@
 ; toolsetter, and its' offset to the material surface
 ; we're working with.
 ;
+; Operators _must_ call G6013 before this macro,
+; as the reference surface must be probed with a touch
+; probe, which will interfere with the tool changing
+; process.
+; You should call G6013 in the preamble of your gcode
+; file, if you are expecting to have to change tools.
+;
+;
 ; USAGE: "G37"
 ;
 ; NOTE: This is designed to work with a NEGATIVE Z - that is, MAX is 0 and MIN is -<something>
@@ -13,8 +21,6 @@ M5       ; stop spindle just in case
 G21      ; Switch to mm
 
 G27 C1   ; park spindle
-
-G6013    ; probe reference surface
 
 ; Variables used to store tool position references.
 var expectedToolZ   = global.referenceSurfaceZ + global.toolSetterHeight ; Expected toolsetter activation height
@@ -40,7 +46,7 @@ M118 P0 L2 S{"Probing tool length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.
 ; Probe tool length multiple times and average
 ; Allow operator to jog tool over bolt after rough probing move to confirm
 ; lowest tool point.
-G6012 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} I{global.toolSetterJogDistanceZ} J1 K{global.toolSetterID} C{global.toolSetterNumProbes} A{global.toolSetterProbeSpeed}
+G6012 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} I{global.toolSetterJogDistanceZ} J1 K{global.toolSetterID} C{global.toolSetterNumProbes} V{global.toolSetterProbeSpeed}
 
 ; Park.
 G27 C1

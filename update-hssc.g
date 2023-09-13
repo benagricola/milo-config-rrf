@@ -43,6 +43,13 @@ if { var.curSpindleSpeed == 0 }
 var lowerLimit = global.hsscPreviousAdjustmentRPM - global.hsscVariance
 var upperLimit = global.hsscPreviousAdjustmentRPM + global.hsscVariance
 
+if { var.upperLimit > global.spindleMaxRPM }
+    set var.upperLimit = global.spindleMaxRPM
+    set var.lowerLimit = { global.spindleMaxRPM - (2*global.hsscVariance) }
+    if { ! global.hsscSpeedWarningIssued }
+        M118 P0 L2 S{"[HSSC]: Cannot increase spindle speed above " ^ global.spindleMaxRPM ^ "! HSSC running between " ^ var.lowerLimit ^ " and " ^ var.upperLimit ^"RPM instead!" }
+        set global.hsscSpeedWarningIssued=true
+
 ; Fetch the previously stored base RPM
 var baseRPM = global.hsscPreviousAdjustmentRPM
 
@@ -51,7 +58,7 @@ var baseRPM = global.hsscPreviousAdjustmentRPM
 if { var.upperLimit < var.curSpindleSpeed || var.curSpindleSpeed < var.lowerLimit }
     if { global.hsscDebug }
         M118 P0 L2 S{"[HSSC] New base spindle RPM detected: " ^ var.curSpindleSpeed }
-
+    set global.hsscSpeedWarningIssued=false
     ; Set the RPM that we're going to adjust over in the next cycle
     set global.hsscPreviousAdjustmentRPM = var.curSpindleSpeed
 

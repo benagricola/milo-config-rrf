@@ -1,9 +1,12 @@
-G1 Z0 F6000       ; lift Z
+; homey.g
+; Home Y axis
 
-G91                 ; relative positioning
+G0 Z0 ; lift Z
 
-G1 H1 Y{global.yHome} F1800       ; move quickly to Y axis endstops and stop there (first pass)
-G1 H2 Y{global.yHomeRepeat} F6000 ; go back a few mm
-G1 H1 Y{global.yHome} F360        ; move slowly to Y axis endstops once more (second pass)
+G91   ; relative positioning
 
-G90                 ; absolute positioning
+G0 H1 Y{global.yHome}                             ; move quickly to Y axis endstop and stop there (first pass)
+G0 H2 Y{global.yHomeRepeat}                       ; go back a few mm
+G1 H1 Y{global.yHome} F{global.xyHomeRepeatSpeed} ; move slowly to Y axis endstop once more (second pass)
+
+G90 ; absolute positioning

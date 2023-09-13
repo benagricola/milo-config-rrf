@@ -28,11 +28,9 @@ G27      ; park spindle away from work piece to allow more room
 ; automatically.
 var toolIndex = state.nextTool == -1 ? 1 : state.nextTool
 
+var toolDescription = global.toolTable[var.toolIndex-1]
 ; Prompt user to change tool
-if { exists(param.S) }
-    M291 R"Change Tool" P{"Insert Tool #" ^ var.toolIndex ^ ": " ^ param.S ^ ". OK when ready." } S3
-else
-    M291 R"Change Tool" P{"Insert Tool #" ^ var.toolIndex ^ ". OK when ready." } S3
+M291 R"Change Tool" P{"Insert Tool #" ^ var.toolIndex ^ ": " ^ var.toolDescription ^ ". OK when ready." } S3
 
 M118 P0 L2 S{"Active Tool #" ^ var.toolIndex}
 
@@ -40,11 +38,11 @@ M118 P0 L2 S{"Active Tool #" ^ var.toolIndex}
 ; but because it may be a dynamic tool, we'll just set
 ; the spindle active.
 
-T1 P0 ; Do not run any static tool change macros.
+T{global.spindleID} P0 ; Do not run any static tool change macros.
 
 ; Probe tool offset
 G37
 
 ; Continue after user confirmation if necessary
 if { global.confirmToolChange }
-    M291 R"Tool Ready?" P"CAUTION: Tool change complete. Ready to continue?" S3
+    M291 R"Tool Ready?" P"CAUTION: Tool change complete. Ready to continue? Get away from the tool!" S3

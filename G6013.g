@@ -1,3 +1,4 @@
+; G6013.g
 ; G6013: Probe reference surface
 
 ; Uses the safe Z probe macro G6012 to probe a user-defined
@@ -10,20 +11,21 @@
 
 ; Check if toolsetter feature is available
 ; No need to probe reference surface if we don't have a toolsetter
-if {!exists(global.featureToolSetter) || !global.featureToolSetter }
+if { !exists(global.featureToolSetter) || !global.featureToolSetter }
     abort "No need to probe reference surface with toolsetter feature disabled!"
 
 ; Check if touchprobe feature is available
-if {!exists(global.featureTouchProbe) || !global.featureTouchProbe }
+if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
     abort "Unable to probe material without touch probe!"
     
-if { global.referenceSurfaceZ == 0 || exists(params.F) } 
+if { global.referenceSurfaceZ == 0 || exists(param.R) } 
+
     ; Start probing sequence
     M291 P"Install touch probe in spindle and confirm it is plugged in!" R"Installation check" S3
 
     M118 P0 L2 S{"Probing ref. surface at X=" ^ global.touchProbeReferenceX ^ ", Y=" ^ global.touchProbeReferenceY }
 
-    G6012 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} A{global.touchProbeProbeSpeed}
+    G6012 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} V{global.touchProbeProbeSpeed}
 
     ; Set our reference surface height for storage
     set global.referenceSurfaceZ = global.probeCoordinateZ

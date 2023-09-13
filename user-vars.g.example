@@ -25,27 +25,9 @@ global dwcPassword="rrf"
 
 
 ; Axis Settings
-; Min:  Axis Minimum
-; Max:  Axis Maximum
-; Home: Direction and distance to move towards endstops
-; Repeat: Direction and distance to move away from endstops when repeating probe
-; Home and Repeat MUST be in opposite directions otherwise you will crash into
-; your endstops.
-
-global xMin=0
-global xMax=335
-global xHome=-345
-global xHomeRepeat=5
-
-global yMin=0
-global yMax=209
-global yHome=215
-global yHomeRepeat=-5
-
-global zMin=-120
-global zMax=0
-global zHome=125
-global zHomeRepeat=-5
+; Override standard axis dimensions or homing speed
+set global.xMax=400
+set global.xyHomeRepeatSpeed=360
 
 ; Parking settings
 global parkX={(global.xMax - global.xMin)/2} ; Park approximately in the middle
@@ -90,7 +72,7 @@ global confirmToolChange=true     ; Set this to false to disable requiring user
                                   ; spun up instantly when confirming here so be
                                   ; very careful before you proceed!
 
-global workZeroSafeHeight=20      ; Height above WCS Zero to confirm positioning
+global safeDistanceZ=20      ; Height above WCS Zero to confirm positioning
                                   ; with user when moving to WCS Zero using macro. 
                                   ; Set this high if you're not certain of the 
                                   ; accuracy of your tool offset, as it avoids the
@@ -137,9 +119,9 @@ global touchProbeRadius=1            ; Radius of ball head on probe. Compensates
 global touchProbeDeflection=0.232    ; Deflection of tool probe before triggering.
                                      ; This needs to be measured against a work piece with
                                      ; a known dimension. Probe the piece using G6000 and
-                                     ; it will report the width and length of the workpiece
+                                     ; it will report the width and length of the work piece
                                      ; in the console. Divide the difference in the known
-                                     ; dimension of the workpiece vs. the measured dimension
+                                     ; dimension of the work piece vs. the measured dimension
                                      ; and then divide by two to get the deflection value
                                      ; (_on that axis_).
                                      ; Deflection will be a _positive_ value if your measured
@@ -152,10 +134,10 @@ global touchProbeRepeatZ=2           ; towards X, Y and Z faces of work piece.
                                      ; being used, so as not to cause damage to
                                      ; the probe in the event of a failure to
                                      ; trigger.
-global touchProbeSafeDistanceXY=20   ; Safe distance to add to operator workpiece size estimates
+global touchProbeSafeDistanceXY=20   ; Safe distance to add to operator work piece size estimates
                                      ; this will avoid us moving down into a work piece that
                                      ; the operator guesstimated was smaller than it was.
-global touchProbeSafeDistanceZ=10    ; Safe distance above probed work surface for
+global safeDistanceZ=10    ; Safe distance above probed work surface for
                                      ; non-probing X/Y moves.
 global touchProbeReferenceX=0        ; X,Y co-ordinates of the reference surface to
 global touchProbeReferenceY=65       ; use. The reference surface is a known surface

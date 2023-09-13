@@ -1,7 +1,7 @@
-; G7001.g
+; M7001.g
 ; Disable Harmonic Spindle Speed Control
 ;
-; USAGE: "G7001"
+; USAGE: "M7001"
 
 ; Disable the daemon process
 set global.hsscEnabled  = false

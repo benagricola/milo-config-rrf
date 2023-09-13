@@ -2,6 +2,7 @@
 ; Park spindle, move work area to an easily accessible spot for the operator.
 ;
 ; USAGE: "G27" or "G27 C1"
+
 M5                                     ; make sure spindle is stopped or powering down
 G90                                    ; absolute positioning
 G21                                    ; use MM
