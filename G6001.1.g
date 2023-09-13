@@ -32,9 +32,6 @@ var wcsNumber             = null ; WCS Zero to set
 var startPosX         = 0
 var startPosY         = 0
 
-; Confirm touch probe available and connected
-G6999
-
 ; Check all required parameters
 if { !exists(param.C) || param.C < 0 || param.C > #global.originCorners }
     abort { "Must specify corner to probe (FL:0, FR:1, RL:2, RR:3)" }
@@ -51,6 +48,8 @@ elif { param.D <= global.touchProbeRadius }
 if { !exists(param.W) }
     abort {"Must specify WCS number (W...) to zero on selected corner!" }
 
+; Confirm touch probe available and connected
+M7002
 
 set var.probeCorner           = param.C
 set var.probeCornerDistanceXY = param.D
@@ -61,13 +60,10 @@ set var.wcsNumber             = param.W
 ; likely close to where the user needs to jog to.
 G27 C1
 
-; Start probing sequence
-M291 P"Install touch probe in spindle and confirm it is plugged in!" R"Installation check" S3
-
 ; Ask the operator to move the touch probe above the corner that needs probing
 ; Allow Z movement because it can be hard to see exactly where the probe is in X
 ; and Y if it is too far from the material.
-M291 P{"Jog the Touch Probe above the " ^ global.originCorners[var.probeCorner] ^ " corner"} R"Jog to corner" S3 X1 Y1 Z1
+M291 P{"Jog the Touch Probe within " ^ var.probeCornerDistanceXY ^ "mm of the edges of the " ^ global.originCorners[var.probeCorner] ^ " corner"} R"Jog to corner" S3 X1 Y1 Z1
 
 set var.materialOpCornerX = move.axes[0].machinePosition
 set var.materialOpCornerY = move.axes[1].machinePosition
@@ -152,4 +148,4 @@ M291 P{"Use current position, -" ^ var.safeOffsetZ ^ "mm as X=0, Y=0, Z=0 for WC
 G10 L20 P{var.wcsNumber} X0 Y0 Z{var.safeOffsetZ}
 
 ; Park
-G27 C1
+G27

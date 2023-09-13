@@ -30,9 +30,6 @@ var materialOpLenY     = null        ; Operator approximate material length, Y
 var probeDepthRelative = null        ; Depth below material surface to probe edges
 var probeZ             = null        ; Actual probe-depth co-ordinate
 
-; Confirm touch probe available and connected
-G6999
-
 ; Check all required parameters
 if { !exists(param.I) || param.I < 1 }
     abort { "G6000.1: Must specify probe depth below material surface (I...) to probe edges at!" }
@@ -52,6 +49,9 @@ if { var.materialOpLenX > (global.xMax - global.xMin) }
 if { var.materialOpLenY > (global.yMax - global.yMin) }
     abort { "G6000.1: Entered Y material dimension is larger than work area of machine!" }
 
+; Confirm touch probe available and connected
+M7002
+
 set var.probeDepthRelative = param.I
 set var.materialOpLenX     = param.X
 set var.materialOpLenY     = param.Y
@@ -65,9 +65,6 @@ var startPosY2         = 0
 ; Park, request center of X and Y as this is
 ; likely close to where the user needs to jog to.
 G27 C1
-
-; Confirm touch probe available and connected
-G6999
 
 ; Prompt user to place the touch probe over the work piece
 M291 P"Jog the Touch Probe above the approximate centre of the work piece" R"Jog to center" S3 X1 Y1 Z1
@@ -205,4 +202,4 @@ while true
     break
 
 ; Park
-G27 C1
+G27

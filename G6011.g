@@ -12,9 +12,6 @@ var curPos            = 0
 var backoffPos        = global.touchProbeRepeatXY
 var probeCompensation = { - (global.touchProbeRadius - global.touchProbeDeflection) }
 
-; Confirm touch probe available and connected
-G6999
-
 if { !exists(param.D) || param.D == 0 }
     abort { "Must provide direction and distance (D+-..) you want to probe in!" }
 
@@ -29,6 +26,9 @@ if { !exists(param.S) }
 
 if { param.S < param.Z }
     abort { "Safe height (S..) must be greater than starting height (Z..)!" }
+
+; Confirm touch probe available and connected
+M7002
 
 if { global.confirmUnsafeMove }
     M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", down towards Z=" ^ param.Z ^ " and probe Y=" ^ param.D ^ "?"} R"Safety check" S3

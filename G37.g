@@ -20,7 +20,7 @@ M5       ; stop spindle just in case
 
 G21      ; Switch to mm
 
-G27 C1   ; park spindle
+G27      ; park spindle
 
 ; Variables used to store tool position references.
 var expectedToolZ   = global.referenceSurfaceZ + global.toolSetterHeight ; Expected toolsetter activation height
@@ -31,34 +31,44 @@ var expectedToolZ   = global.referenceSurfaceZ + global.toolSetterHeight ; Expec
 var actualToolZ     = 0 ; Actual Z co-ordinate probed with tool
 var toolOffset      = 0 ; The calculated offset of the tool
 
+; Select next tool if current tool unset
+var toolIndex = state.currentTool == -1 ? state.nextTool : state.currentTool
+
+; Check all required parameters
+if { exists(param.I) && param.I > -1 }
+    set var.toolIndex = param.I
+
 ; Reset tool Z offset
-if { state.currentTool == -1 }
+if { var.toolIndex == -1 }
     abort {"No tool selected, run T<N> to select a tool!"}
 
 
 if { var.expectedToolZ == 0 }
     abort {"Expected tool height is not properly probed!"}
 
-G10 P{state.currentTool} Z0
+G10 P{var.toolIndex} Z0
 
-M118 P0 L2 S{"Probing tool length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
+; Deactivate spindle
+M98 P"tool-deactivate.g"
+
+M118 P0 L2 S{"Probing tool #" ^ var.toolIndex ^ " length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
 
 ; Probe tool length multiple times and average
 ; Allow operator to jog tool over bolt after rough probing move to confirm
 ; lowest tool point.
 G6012 X{global.toolSetterX} Y{global.toolSetterY} S{global.zMax} B{global.toolSetterDistanceZ} I{global.toolSetterJogDistanceZ} J1 K{global.toolSetterID} C{global.toolSetterNumProbes} V{global.toolSetterProbeSpeed}
 
-; Park.
-G27 C1
-
 ; Our tool offset is the difference between our expected tool Z and our actual
 ; tool Z. Expected tool Z is calculated during G6013 by probing the reference
 ; surface and then adding the offset of the toolsetter to it.
 set var.actualToolZ = global.probeCoordinateZ
 set var.toolOffset = var.actualToolZ - var.expectedToolZ
-M118 P0 L2 S{"Expected Tool Z =" ^ var.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
+M118 P0 L2 S{"Tool #" ^ var.toolIndex ^ " Expected Tool Z =" ^ var.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
 
-G10 P{state.currentTool} X0 Y0 Z{-var.toolOffset}
+G10 P{var.toolIndex} X0 Y0 Z{-var.toolOffset}
 
+; Park.
+G27
 
-
+; Re-activate spindle
+M98 P"tool-activate.g"

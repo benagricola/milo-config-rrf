@@ -10,10 +10,4 @@
 ; quarter of anyway.
 ; The VFD must be setup to treat 0v as our minimum spindle speed of 133.33Hz.
 
-M950 R{global.spindleID} C{global.pinTool} L{global.spindleMinRPM}:{global.spindleMaxRPM} Q{global.spindlePWMFrequency} 
- 
-M563 P{global.spindleID} R{global.spindleID} S"Spindle"   ; Assign spindle index 1 name
-
-G10 P{global.spindleID} X0 Y0 Z0                          ; Set tool axis offsets
-
-T{global.spindleID} ; Select tool
+M98 p"tool-activate.g" ; Activate tool on start.

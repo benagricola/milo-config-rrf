@@ -27,9 +27,6 @@ var curPos        = 0
 var probePosMin   = { abs(global.zMin) }
 var probePosMax   = 0
 
-; Confirm touch probe available and connected
-G6999
-
 if { !exists(param.X) || !exists(param.Y) }
     abort { "Must provide starting position (X.., Y..)!"  }
 
@@ -128,8 +125,6 @@ while var.retries <= param.C
     ; Drop speed in probe direction for next probe attempt
     M203 Z{param.V}
     
-    M118 P0 L2 S{"Min=" ^ var.probePosMin ^ " Max=" ^ var.probePosMax }
-
     ; Dwell so machine can settle
     G4 P{global.touchProbeDwellTime}
 

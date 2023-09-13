@@ -23,10 +23,14 @@
 G27      ; park spindle away from work piece to allow more room
          ; for changing tool.
 
+
 ; If nextTool is -1, it probably means the user tried to change to
 ; tool 1, which is automatically processed by RRF and clears nextTool
 ; automatically.
+; Record tool before deactivating spindle
 var toolIndex = state.nextTool == -1 ? 1 : state.nextTool
+
+M98 P"tool-deactivate.g" ; Deactivate the spindle
 
 var toolDescription = global.toolTable[var.toolIndex-1]
 ; Prompt user to change tool
@@ -34,15 +38,21 @@ M291 R"Change Tool" P{"Insert Tool #" ^ var.toolIndex ^ ": " ^ var.toolDescripti
 
 M118 P0 L2 S{"Active Tool #" ^ var.toolIndex}
 
+; Probe tool offset
+; Pass tool index to G37 so it does not use its'
+; internal tool selection process
+G37 I{var.toolIndex}
+
+; Continue after user confirmation if necessary
+if { global.confirmToolChange }
+    M291 R"Tool Ready?" P"CAUTION: Tool change complete. Ready to continue? Spindle will be re-activated when you click OK!" S3
+    if result == 0
+        M98 P"tool-activate.g" ; Reactivate the spindle
+else
+    M98 P"tool-activate.g" ; Reactivate the spindle
+
 ; At this point the tool has technically been changed,
 ; but because it may be a dynamic tool, we'll just set
 ; the spindle active.
 
 T{global.spindleID} P0 ; Do not run any static tool change macros.
-
-; Probe tool offset
-G37
-
-; Continue after user confirmation if necessary
-if { global.confirmToolChange }
-    M291 R"Tool Ready?" P"CAUTION: Tool change complete. Ready to continue? Get away from the tool!" S3

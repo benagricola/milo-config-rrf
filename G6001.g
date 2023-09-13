@@ -14,11 +14,6 @@ var probeDistanceZ  = null
 var probeDistanceXY = null
 var zeroWCS         = null
 
-; Check if touchprobe feature is available
-if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
-    ; TODO: Walk user through manual probing process
-    abort { "G6001: Unable to probe material without touch probe!" }
-
 ; Prompt user to place the touch probe over the work piece
 ; Allow the user to pick the corner that we're probing
 M291 P"Select corner to probe" R"Corner to probe" S4 T0 J1 K{global.originCorners}

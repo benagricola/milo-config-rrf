@@ -14,13 +14,10 @@
 if { !exists(global.featureToolSetter) || !global.featureToolSetter }
     abort "No need to probe reference surface with toolsetter feature disabled!"
 
-; Confirm touch probe available and connected
-G6999
     
 if { global.referenceSurfaceZ == 0 || exists(param.R) } 
-
-    ; Start probing sequence
-    M291 P"Install touch probe in spindle and confirm it is plugged in!" R"Installation check" S3
+    ; Confirm touch probe available and connected
+    M7002
 
     M118 P0 L2 S{"Probing ref. surface at X=" ^ global.touchProbeReferenceX ^ ", Y=" ^ global.touchProbeReferenceY }
 
