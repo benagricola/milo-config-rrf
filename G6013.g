@@ -14,9 +14,8 @@
 if { !exists(global.featureToolSetter) || !global.featureToolSetter }
     abort "No need to probe reference surface with toolsetter feature disabled!"
 
-; Check if touchprobe feature is available
-if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
-    abort "Unable to probe material without touch probe!"
+; Confirm touch probe available and connected
+G6999
     
 if { global.referenceSurfaceZ == 0 || exists(param.R) } 
 

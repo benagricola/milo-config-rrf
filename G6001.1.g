@@ -4,7 +4,7 @@
 ; Allow WCS Zero to be set on given
 ; corner.
 ;
-; USAGE: "G6001"
+; USAGE: "G6001.1"
 ; PARAMS:
 ;   C<corner-index-to-probe> 
 ;   D<probe-dist-from-edge-xy> 

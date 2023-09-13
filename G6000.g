@@ -16,7 +16,7 @@ var zeroWCS         = null
 ; Check if touchprobe feature is available
 if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
     ; TODO: Walk user through manual probing process
-    abort "G6000: Unable to probe material without touch probe!"
+    abort { "G6000: Unable to probe material without touch probe!" }
 
 ; Prompt user to enter the approximate length of the workpiece (X)
 ; X is length because it is the longest axis

@@ -30,28 +30,27 @@ var materialOpLenY     = null        ; Operator approximate material length, Y
 var probeDepthRelative = null        ; Depth below material surface to probe edges
 var probeZ             = null        ; Actual probe-depth co-ordinate
 
-; Check if touchprobe feature is available
-if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
-    abort { "Unable to probe material without touch probe!" }
+; Confirm touch probe available and connected
+G6999
 
 ; Check all required parameters
 if { !exists(param.I) || param.I < 1 }
-    abort {"Must specify probe depth below material surface (I...) to probe edges at!" }
+    abort { "G6000.1: Must specify probe depth below material surface (I...) to probe edges at!" }
 
 if { !exists(param.X) }
-    abort {"Must specify approximate length of work piece (X...) before probing can commence!" }
+    abort { "G6000.1: Must specify approximate length of work piece (X...) before probing can commence!" }
 
 if { !exists(param.Y) }
-    abort {"Must specify approximate width of work piece (Y...) before probing can commence!" }
+    abort { "G6000.1: Must specify approximate width of work piece (Y...) before probing can commence!" }
 
 if { !exists(param.W) }
-    abort {"Must specify WCS number (W...) to zero on selected corner!" }
+    abort { "G6000.1: Must specify WCS number (W...) to zero on selected corner!" }
 
 if { var.materialOpLenX > (global.xMax - global.xMin) }
-    abort "Entered X material dimension is larger than work area of machine!"
+    abort { "G6000.1: Entered X material dimension is larger than work area of machine!" }
 
 if { var.materialOpLenY > (global.yMax - global.yMin) }
-    abort "Entered Y material dimension is larger than work area of machine!"
+    abort { "G6000.1: Entered Y material dimension is larger than work area of machine!" }
 
 set var.probeDepthRelative = param.I
 set var.materialOpLenX     = param.X
@@ -67,7 +66,7 @@ var startPosY2         = 0
 ; likely close to where the user needs to jog to.
 G27 C1
 
-; Confirm touch probe connected
+; Confirm touch probe available and connected
 G6999
 
 ; Prompt user to place the touch probe over the work piece
@@ -183,7 +182,7 @@ while true
         M118 P0 L2 S{"Moving Z=" ^ var.safeZ ^ "mm above Centre"}
         G53 G0 X{var.materialCtrX} Y{var.materialCtrY}
     else
-        abort "G6000.1: Unknown position input " ^ var.movePosition ^ "!"
+        abort { "G6000.1: Unknown position input " ^ var.movePosition ^ "!" }
 
     ; Material Z and Safe Z are co-ordinates, we are already over the corner
     ; at Z=Safe Z so we need the relative difference between our current

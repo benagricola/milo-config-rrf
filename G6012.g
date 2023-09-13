@@ -14,9 +14,8 @@
 ; running this macro to lessen the chances of running the probe
 ; into anything on the work surface.
 
-; Switch to mm / relative positions for repeated probing.
+; Switch to mm
 G21
-G91
 
 var retries       = 0
 
@@ -28,9 +27,8 @@ var curPos        = 0
 var probePosMin   = { abs(global.zMin) }
 var probePosMax   = 0
 
-; Check if touchprobe feature is available
-if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
-    abort { "Unable to probe material without touch probe!" }
+; Confirm touch probe available and connected
+G6999
 
 if { !exists(param.X) || !exists(param.Y) }
     abort { "Must provide starting position (X.., Y..)!"  }
@@ -87,7 +85,7 @@ while var.retries <= param.C
     if { result != 0 }
         ; Reset all speed limits after probe
         M98 P"speed.g"
-        abort "Probe experienced an error, aborting!"
+        abort {"Probe experienced an error, aborting!"}
     
     ; Record current position
     set var.curPos = { abs(move.axes[2].machinePosition) }

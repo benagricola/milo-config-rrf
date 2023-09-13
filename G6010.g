@@ -12,9 +12,8 @@ var curPos            = 0
 var backoffPos        = global.touchProbeRepeatXY
 var probeCompensation = { - (global.touchProbeRadius - global.touchProbeDeflection) }
 
-; Check if touchprobe feature is available
-if { ! exists(global.featureTouchProbe) || !global.featureTouchProbe }
-    abort "Unable to probe material without touch probe!"
+; Confirm touch probe available and connected
+G6999
 
 if { !exists(param.D) || param.D == 0 }
     abort { "Must provide direction and distance (D+-..) you want to probe in!" }
@@ -65,13 +64,15 @@ while var.retries <= global.touchProbeNumProbes
     if { result != 0 }
         ; Reset all speed limits after probe
         M98 P"speed.g"
-        abort "Probe experienced an error, aborting!"
+        abort { "Probe experienced an error, aborting!" }
 
     ; Record current position
     set var.curPos = move.axes[0].machinePosition
 
-    ; Reset all speed limits after probe
-    M98 P"speed.g"
+    ; Increase Z speed for backing off
+    ; Reduce acceleration
+    M203 X{global.touchProbeRoughSpeed}
+    M201 X{global.maxAccelLimitX/2}
 
     ; Move away from the trigger point
     G53 G0 X{var.backoffPos}

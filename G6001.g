@@ -17,7 +17,7 @@ var zeroWCS         = null
 ; Check if touchprobe feature is available
 if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
     ; TODO: Walk user through manual probing process
-    abort "G6001: Unable to probe material without touch probe!"
+    abort { "G6001: Unable to probe material without touch probe!" }
 
 ; Prompt user to place the touch probe over the work piece
 ; Allow the user to pick the corner that we're probing
@@ -41,7 +41,7 @@ if { !exists(param.W) }
     M291 P"Select WCS to set X=0, Y=0, Z=0 on" R"WCS to zero" S4 T0 J1 K{global.wcsNames}
     if input != null
         ; Add 1 to the selection because we get a zero-indexed number
-        set var.zeroWCS = input+1
+        set var.zeroWCS = { (input+1) }
 else
     set var.zeroWCS = param.W
 
