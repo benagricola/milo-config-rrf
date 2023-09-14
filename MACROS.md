@@ -7,7 +7,7 @@ that is not overly restrictive.
 
 1. Expose all options to the user - prompt if they're undefined, but allow them to override them with macro parameters.
   - This allows a novice user to be walked through a complex process by simply executing the macro with no parameters (e.g. `G6001` to probe a work piece).
-  - It allows post-processors to control the macro functionality directly, removing the need for most user interaction where cycle time is of importance
+  - It allows post-processors to control the macro functionality directly (e.g. `G6001.1`), removing the need for most user interaction where cycle time is of importance
 2. Think about what a macro should do if it relies on a feature that is disabled.
   - Example: Can a corner probing macro be written to accommodate both probing with a touch probe _as well as_ walking the user through a manual probing procedure if `featureTouchProbe=false`?
   - If there is no substitute for a feature (e.g. there is no alternate manual process, for example with the HSSC macro `G7000`), how do we respond when the macro is called? Do we abort the entire gcode file or ignore and continue? Which option we choose here depends on safety. If there is any possibility that continuing could cause a safety issue during the remainder of the file, then we _must_ abort the entire file.
