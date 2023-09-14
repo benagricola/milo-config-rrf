@@ -38,9 +38,14 @@ global parkZ=global.zMax                     ; Think VERY hard before parking th
 ; Motor Current Overrides
 ; Note we have to SET these, to override
 ; the MCU default settings
-set global.motorCurrentLimitX=2500
-set global.motorCurrentLimitY=2500
-set global.motorCurrentLimitZ=2500
+set global.motorCurrentLimitX=1500
+set global.motorCurrentLimitY=1500
+set global.motorCurrentLimitZ=1500
+
+; Override Standstill Currents
+set global.motorHoldCurrentPercentX=50
+set global.motorHoldCurrentPercentY=50
+set global.motorHoldCurrentPercentZ=10
 
 ; Speed Limit Overrides
 ; in millimeters per minute
@@ -72,7 +77,7 @@ global confirmToolChange=true     ; Set this to false to disable requiring user
                                   ; spun up instantly when confirming here so be
                                   ; very careful before you proceed!
 
-global safeDistanceZ=20      ; Height above WCS Zero to confirm positioning
+global safeDistanceZ=20           ; Height above WCS Zero to confirm positioning
                                   ; with user when moving to WCS Zero using macro. 
                                   ; Set this high if you're not certain of the 
                                   ; accuracy of your tool offset, as it avoids the
@@ -137,8 +142,6 @@ global touchProbeRepeatZ=2           ; towards X, Y and Z faces of work piece.
 global touchProbeSafeDistanceXY=20   ; Safe distance to add to operator work piece size estimates
                                      ; this will avoid us moving down into a work piece that
                                      ; the operator guesstimated was smaller than it was.
-global safeDistanceZ=10    ; Safe distance above probed work surface for
-                                     ; non-probing X/Y moves.
 global touchProbeReferenceX=0        ; X,Y co-ordinates of the reference surface to
 global touchProbeReferenceY=65       ; use. The reference surface is a known surface
                                      ; from which offsets can be calculated. The distance
