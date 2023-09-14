@@ -61,6 +61,18 @@ global motorCurrentLimitX=1000
 global motorCurrentLimitY=1000
 global motorCurrentLimitZ=1000
 
+; Set motor hold current percentages.
+; If you are receiving driver over-temperature warnings
+; when one axis is in standstill for a long time
+; (for example Z is stationary while clearing a large
+; area at a single depth) then you might want to
+; override these settings. This is particularly important
+; if you have high power drivers with a high current limit.
+global motorHoldCurrentPercentX=50
+global motorHoldCurrentPercentY=50
+global motorHoldCurrentPercentZ=30
+
+
 ; Set maximum axis speeds (used for travel moves)
 ; in millimeters per minute
 global maxSpeedLimitX=1000
@@ -92,8 +104,13 @@ global spindlePWMFrequency=10
 ; defined, so pick a large enough number here to
 ; accommodate as many tools as we can.
 global toolDefaultName="Unknown Tool"
-global toolTable=vector(50,global.toolDefaultName) ; Tools can be passed from postprocessor
-                                                   ; using M6000 or defined here manually.
+global activeToolIndex=-1
+global toolTable={vector(50,global.toolDefaultName)} ; Tools can be passed from postprocessor
+                                                     ; using M6000 or defined here manually.
+
+global toolZTable={vector(50,0)}                     ; Store offsets for each tool during
+                                                     ; tool changes so we have no chance of
+                                                     ; accidentally using the wrong offset.
 
 global originCorners = {"Front Left","Front Right","Rear Left","Rear Right"}
 global originAll     = {"Front Left","Front Right","Rear Left","Rear Right","Center"}

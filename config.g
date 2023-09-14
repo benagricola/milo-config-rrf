@@ -16,7 +16,7 @@ if { !exists(global.mcuLoaded) }
 ; Load User Vars once
 if { !exists(global.userVarsLoaded) }
     M98 P"user-vars.g"
-    global UserVarsLoaded = true
+    global userVarsLoaded = true
 
 ; If MCU config or any vars need updating,
 ; you must restart the MCU (use M999).

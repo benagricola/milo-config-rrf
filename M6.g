@@ -33,6 +33,7 @@ var toolIndex = state.nextTool == -1 ? 1 : state.nextTool
 M98 P"tool-deactivate.g" ; Deactivate the spindle
 
 var toolDescription = global.toolTable[var.toolIndex-1]
+
 ; Prompt user to change tool
 M291 R"Change Tool" P{"Insert Tool #" ^ var.toolIndex ^ ": " ^ var.toolDescription ^ ". OK when ready." } S3
 
@@ -41,7 +42,9 @@ M118 P0 L2 S{"Active Tool #" ^ var.toolIndex}
 ; Probe tool offset
 ; Pass tool index to G37 so it does not use its'
 ; internal tool selection process
-G37 I{var.toolIndex}
+; Run G37 "unsafely" as we control tool activation in
+; M6 instead.
+G37 I{var.toolIndex} U1
 
 ; Continue after user confirmation if necessary
 if { global.confirmToolChange }
@@ -51,10 +54,9 @@ if { global.confirmToolChange }
 else
     M98 P"tool-activate.g" ; Reactivate the spindle
 
-; Wait for RRF to process the tool activation
-G4 S2
+var toolOffset = global.toolZTable[var.toolIndex-1]
 
-; At this point the tool has technically been changed,
-; but because it may be a dynamic tool, we'll just set
-; the spindle active.
-T{global.spindleID} P0 ; Do not run any static tool change macros.
+M118 P0 L2 S{"Setting tool offset to " ^ var.toolOffset ^ "mm"}
+
+; Set the current tool offset using the probed offset from the tool number
+G10 P{global.spindleID} X0 Y0 Z{var.toolOffset}

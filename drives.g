@@ -20,6 +20,10 @@ var stepsPerMM = {((360 / global.motorStepDegrees) / global.leadScrewPitch) * gl
 ; Set steps per mm. Z is geared 2:1
 M92 X{var.stepsPerMM} Y{var.stepsPerMM} Z{var.stepsPerMM * 2}
 
-M906 X{global.motorCurrentLimitX} Y{global.motorCurrentLimitY} Z{global.motorCurrentLimitZ} ; Set motor currents (mA)
+; Set motor currents (mA)
+M906 X{global.motorCurrentLimitX} Y{global.motorCurrentLimitY} Z{global.motorCurrentLimitZ}
 
-M84                                  ; Disable motor idle current reduction
+; Set standstill current reduction
+M917 X{global.motorHoldCurrentPercentX} Y{global.motorHoldCurrentPercentY} Z{global.motorHoldCurrentPercentZ}
+
+M84 S30 ; Enable motor idle current reduction

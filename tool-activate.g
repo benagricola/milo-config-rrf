@@ -12,5 +12,10 @@
 ;M950 R{global.spindleID} C{global.pinTool} L{global.spindleMinRPM}:{global.spindleMaxRPM Q{global.spindlePWMFrequency}
 M950 R{global.spindleID} C{global.pinTool} L{global.spindleMaxRPM} Q{global.spindlePWMFrequency}
 M563 P{global.spindleID} R{global.spindleID} S"Spindle"   ; Assign spindle index 1 name
-T{global.spindleID}                                       ; Select tool
+
+T{global.spindleID} ; Select tool
+
+; Note: At this point, the tool has _NO_ offset configured.
+; It is up to the calling macro to set the correct tool offset (usually M6)
+
 M118 P0 L2 S{"Spindle " ^ global.spindleID ^ " activated"}

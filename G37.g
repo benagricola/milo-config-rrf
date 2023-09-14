@@ -30,6 +30,7 @@ var expectedToolZ   = global.referenceSurfaceZ + global.toolSetterHeight ; Expec
  
 var actualToolZ     = 0 ; Actual Z co-ordinate probed with tool
 var toolOffset      = 0 ; The calculated offset of the tool
+var safe            = true
 
 ; Select next tool if current tool unset
 var toolIndex = state.currentTool == -1 ? state.nextTool : state.currentTool
@@ -38,18 +39,25 @@ var toolIndex = state.currentTool == -1 ? state.nextTool : state.currentTool
 if { exists(param.I) && param.I > -1 }
     set var.toolIndex = param.I
 
+; When called with U1, G37 runs "unsafely".
+; It does not disable the spindle, as we
+; assume the spindle has already been disabled
+; by the macro that called this one.
+; DO NOT RUN G37 U1 by hand.
+set var.safe = { !exists(param.U) || param.U == 1 }
+
 ; Reset tool Z offset
 if { var.toolIndex == -1 }
     abort {"No tool selected, run T<N> to select a tool!"}
-
 
 if { var.expectedToolZ == 0 }
     abort {"Expected tool height is not properly probed!"}
 
 G10 P{global.spindleID} Z0
 
-; Deactivate spindle
-M98 P"tool-deactivate.g"
+if { var.safe }
+    ; Deactivate spindle
+    M98 P"tool-deactivate.g"
 
 M118 P0 L2 S{"Probing tool #" ^ var.toolIndex ^ " length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
 
@@ -65,11 +73,13 @@ set var.actualToolZ = global.probeCoordinateZ
 set var.toolOffset = var.actualToolZ - var.expectedToolZ
 M118 P0 L2 S{"Tool #" ^ var.toolIndex ^ " Expected Tool Z =" ^ var.expectedToolZ ^ ", Actual Tool Z=" ^ var.actualToolZ ^ " Tool Offset = " ^ var.toolOffset }
 
-; Re-activate spindle before setting offset, otherwise
-; the tool offset is lost.
-M98 P"tool-activate.g"
+set global.toolZTable[var.toolIndex-1] = { -var.toolOffset }
 
-G10 P{global.spindleID} X0 Y0 Z{-var.toolOffset}
+; Re-activate the spindle. Tool offset is set to the saved value
+; just before activating the tool.
+if { var.safe }
+    M98 P"tool-activate.g"
 
+G10 P{global.spindleID} X0 Y0 Z{global.toolZTable[var.toolIndex-1]}
 ; Park.
 G27
