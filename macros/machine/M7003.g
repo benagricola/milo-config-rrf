@@ -12,4 +12,4 @@ if { global.touchProbeConnected == true }
     M291 P{"Unplug, remove your touch probe and stow the cable securely before proceeding!"} R"Safety Check" S3
     if result == 0
         set global.touchProbeConnected = false
-        M98 P"tool-activate.g"
+        M98 P"macros/tool/tool-activate.g"

@@ -3,8 +3,8 @@ while global.daemonEnable
     G4 P{global.daemonUpdateRate} ; Minimum interval between daemon runs
 
     if { exists(global.featureLeds) && global.featureLeds == true && global.ledsEnabled }
-        M98 P"update-leds.g" ; Update LEDs based on machine status
+        M98 P"macros/misc/update-leds.g" ; Update LEDs based on machine status
 
     ; Only run HSSC when enabled
     if { exists(global.featureHSSC) && global.featureHSSC == true && global.hsscEnabled }
-        M98 P"update-hssc.g" ; Update active spindle speed based on timings
+        M98 P"macros/tool/update-hssc.g" ; Update active spindle speed based on timings
