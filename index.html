@@ -162,7 +162,7 @@
                                     <input name="motor_voltage" id="motor_voltage_1" type="radio" aria-describedby="motor_voltageHelpBlock" class="custom-control-input" value="48" required="required">
                                     <label for="motor_voltage_1" class="custom-control-label">48v</label>
                                 </div>
-                                <span id="motor_voltageHelpBlock" class="form-text text-muted">Select voltage your motors will be driven at.</span>
+                                <span id="motor_voltageHelpBlock" class="form-text text-muted">Select the voltage your motors will be driven at.</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -252,28 +252,20 @@
                             <div class="form-group row">
                                 <label class="col-4">Confirm Tool Changes</label>
                                 <div class="col-8">
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="confirm_tool_changes" id="confirm_tool_changes_0" type="radio" checked="checked" aria-describedby="confirm_tool_changesHelpBlock" required="required" class="custom-control-input" value="1">
-                                    <label for="confirm_tool_changes_0" class="custom-control-label">Yes</label>
+                                <div class="custom-control custom-switch">
+                                    <input name="confirm_tool_changes" id="confirm_tool_changes" type="checkbox" checked="checked" aria-describedby="confirm_tool_changesHelpBlock" required="required" class="custom-control-input" value="1">
+                                    <label for="confirm_tool_changes" class="custom-control-label">Require confirmation after tool changes</label>
                                 </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="confirm_tool_changes" id="confirm_tool_changes_1" type="radio" aria-describedby="confirm_tool_changesHelpBlock" required="required" class="custom-control-input" value="0">
-                                    <label for="confirm_tool_changes_1" class="custom-control-label">No</label>
-                                </div>
-                                <span id="confirm_tool_changesHelpBlock" class="form-text text-muted">Selecting 'Yes' here will enable a prompt in the user interface to confirm that a tool change is complete and the machine is about to re-enable the Spindle. Select 'No' here if you are happy with a single confirmation for tool changes which happens prior to any tool length probing.</span>
+                                <span id="confirm_tool_changesHelpBlock" class="form-text text-muted">Enabling this option will prompt in the user interface to confirm that a tool change is complete and the machine is about to re-enable the Spindle. Disable this option if you are happy with a single confirmation for tool changes which happens prior to any tool length probing.</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-4">Confirm Unsafe Moves</label>
                                 <div class="col-8">
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="confirm_unsafe_moves" id="confirm_unsafe_moves_0" type="radio" checked="checked" aria-describedby="confirm_unsafe_movesHelpBlock" class="custom-control-input" value="1" required="required">
-                                    <label for="confirm_unsafe_moves_0" class="custom-control-label">Yes</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="confirm_unsafe_moves" id="confirm_unsafe_moves_1" type="radio" aria-describedby="confirm_unsafe_movesHelpBlock" class="custom-control-input" value="0" required="required">
-                                    <label for="confirm_unsafe_moves_1" class="custom-control-label">No</label>
-                                </div>
+                                    <div class="custom-control custom-switch">
+                                        <input name="confirm_unsafe_moves" id="confirm_unsafe_moves" type="checkbox" checked="checked" aria-describedby="confirm_unsafe_movesHelpBlock" required="required" class="custom-control-input" value="1">
+                                        <label for="confirm_unsafe_moves" class="custom-control-label">Require confirmation before unsafe moves</label>
+                                    </div>
                                 <span id="confirm_unsafe_movesHelpBlock" class="form-text text-muted">During tool setting and touch probing, novice users are likely worried about collisions with items on the table such as vices, tool setters or work pieces. Select 'Yes' here to enable a prompt in the user interface every time a probing move is triggered that may be unsafe, so co-ordinates can be verified by the operator.</span>
                                 </div>
                             </div>
