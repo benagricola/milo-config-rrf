@@ -144,13 +144,25 @@
                                 <div class="col-8">
                                     <select id="driver_type" name="driver_type" aria-describedby="driver_typeHelpBlock"
                                         required="required" class="custom-select">
-                                        <option value="tmc2209_24">TMC2209 (24v)</option>
-                                        <option value="tmc2209_24">TMC2209 (48v)</option>
-                                        <option value="tmc5160_24">TMC5160 (24v)</option>
-                                        <option value="tmc5160_48">TMC5160 (48v)</option>
+                                        <option value="tmc2209">TMC2209</option>
+                                        <option value="tmc5160">TMC5160</option>
                                     </select>
                                     <span id="driver_typeHelpBlock" class="form-text text-muted">Select the type of motor
                                         drivers you're using.</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4">Motor Voltage</label>
+                                <div class="col-8">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input name="motor_voltage" id="motor_voltage_0" type="radio" checked="checked" aria-describedby="motor_voltageHelpBlock" class="custom-control-input" value="24" required="required">
+                                    <label for="motor_voltage_0" class="custom-control-label">24v</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input name="motor_voltage" id="motor_voltage_1" type="radio" aria-describedby="motor_voltageHelpBlock" class="custom-control-input" value="48" required="required">
+                                    <label for="motor_voltage_1" class="custom-control-label">48v</label>
+                                </div>
+                                <span id="motor_voltageHelpBlock" class="form-text text-muted">Select voltage your motors will be driven at.</span>
                                 </div>
                             </div>
                             <div class="form-group row">
