@@ -537,6 +537,16 @@
                                     RepRapFirmware using this configurator.</span>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="run-once" class="col-2 col-form-label">run-once.g</label>
+                            <div class="col-10">
+                                <textarea id="run-once" name="run-once" cols="80" rows="10" class="form-control"
+                                    aria-describedby="run-onceHelpBlock"></textarea>
+                                <span id="run-onceHelpBlock" class="form-text text-muted">Generated <strong>run-once.g</strong>.
+                                    Overwrite the contents in <strong>/sys/run-once.g</strong> if you have already installed
+                                    RepRapFirmware using this configurator.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -689,7 +699,35 @@
             set global.motorHoldCurrentPercentZ=${mcrz}
         `;
 
+        var wifiConfigG = "; WiFi Disabled!";
+        var wifiModeG   = 0;
+
+        var netMode     = f['network_mode'];
+
+        if (netMode == "wifi_client") {
+            wifiConfigG = `M587 S"${f['wifi_ap_name']}" P"${f['wifi_password']}"`;
+            wifiModeG = 1;
+        } else if (netMode == "wifi_ap") {
+            wifiConfigG = `M589 S"${f['wifi_ap_name']}" P"${f['wifi_password']}" I${f['wifi_ap_ip']}`;
+            wifiModeG = 2;
+        }
+
+        var runOnceG = `
+            ; Enable WiFi adapter in idle mode
+            M552 S0
+
+            ; Wait for WiFi adapter to boot.
+            ; This can take some time, so the wait
+            ; is very conservative.
+            G4 S20
+
+            ; Configure WiFi
+            ${wifiConfigG}
+
+            M552 S${wifiModeG}
+        `;
         $('textarea[id="user-vars"]').val(dedent(userVarsGeneralG + userVarsMotorG));
+        $('textarea[id="run-once"]').val(dedent(runOnceG));
     };
 </script>
 
