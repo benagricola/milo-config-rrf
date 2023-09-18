@@ -193,7 +193,7 @@
                                         </div>
                                     </div>
                                     <select id="mcu_type" name="mcu_type" aria-describedby="mcu_typeHelpBlock"
-                                        required="required" class="custom-select">
+                                        class="custom-select">
                                         <option value="fly_cdyv3" selected>Mellow Fly CDY V3</option>
                                         <option value="fysetc_spider_king407">FYSETC Spider King F407</option>
                                     </select>
@@ -208,13 +208,13 @@
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input name="motor_voltage" id="motor_voltage_0" type="radio" checked="checked"
                                         aria-describedby="motor_voltageHelpBlock" class="custom-control-input"
-                                        value="24" required="required">
+                                        value="24">
                                     <label for="motor_voltage_0" class="custom-control-label">24v</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input name="motor_voltage" id="motor_voltage_1" type="radio"
                                         aria-describedby="motor_voltageHelpBlock" class="custom-control-input"
-                                        value="48" required="required">
+                                        value="48">
                                     <label for="motor_voltage_1" class="custom-control-label">48v</label>
                                 </div>
                                 <span id="motor_voltageHelpBlock" class="form-text text-muted">Select the voltage your
@@ -231,7 +231,7 @@
                                         </div>
                                     </div>
                                     <select id="driver_type" name="driver_type" aria-describedby="driver_typeHelpBlock"
-                                        required="required" class="custom-select">
+                                        required class="custom-select">
                                         <option data-24v-only value="tmc2209">TMC2209</option>
                                         <option value="tmc5160">TMC5160</option>
                                     </select>
@@ -364,7 +364,7 @@
                                 <div class="custom-control custom-switch">
                                     <input name="confirm_tool_changes" id="confirm_tool_changes" type="checkbox"
                                         checked="checked" aria-describedby="confirm_tool_changesHelpBlock"
-                                        required="required" class="custom-control-input" value="1">
+                                        class="custom-control-input" value="1">
                                     <label for="confirm_tool_changes" class="custom-control-label">Require confirmation
                                         after tool changes</label>
                                 </div>
@@ -381,7 +381,7 @@
                                 <div class="custom-control custom-switch">
                                     <input name="confirm_unsafe_moves" id="confirm_unsafe_moves" type="checkbox"
                                         checked="checked" aria-describedby="confirm_unsafe_movesHelpBlock"
-                                        required="required" class="custom-control-input" value="1">
+                                        class="custom-control-input" value="1">
                                     <label for="confirm_unsafe_moves" class="custom-control-label">Require confirmation
                                         before unsafe moves</label>
                                 </div>
@@ -429,20 +429,20 @@
                             <label class="col-4">Network Mode</label>
                             <div class="col-8">
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="network_mode" id="network_mode_1" type="radio" required="required"
+                                    <input name="network_mode" id="network_mode_1" type="radio"
                                         class="custom-control-input" value="wifi_client" checked
                                         aria-describedby="network_modeHelpBlock">
                                     <label for="network_mode_1" class="custom-control-label">WiFi Client</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="network_mode" id="network_mode_0" type="radio" required="required"
+                                    <input name="network_mode" id="network_mode_0" type="radio"
                                         class="custom-control-input" value="wifi_ap"
                                         aria-describedby="network_modeHelpBlock">
                                     <label for="network_mode_0" class="custom-control-label">WiFi Access Point</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input name="network_mode" id="network_mode_2" type="radio"
-                                        aria-describedby="network_modeHelpBlock" required="required"
+                                        aria-describedby="network_modeHelpBlock"
                                         class="custom-control-input" value="none">
                                     <label for="network_mode_2" class="custom-control-label">None</label>
                                 </div>
