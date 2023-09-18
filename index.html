@@ -1,284 +1,696 @@
-<html>
+<!doctype html>
+<html lang="en">
 
-    <head>
-        <title>Millennium Machines Milo V1.5 Configurator</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-            integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-            crossorigin="anonymous"></script>
+<head>
+    <title>Millennium Machines Milo V1.5 Configurator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/solid.min.css"
+        crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
 
-    </head>
+</head>
 
-    <body>
-        <div id="app">
-            <div class="container">
-                <h1>Milo Configurator</h1>
-                <form class="form-horizontal">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="general-tab" data-toggle="tab" data-target="#general"
-                                type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="control-board-tab" data-toggle="tab" data-target="#control-board"
-                                type="button" role="tab" aria-controls="control-board">Control Board</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="features-tab" data-toggle="tab" data-target="#features"
-                                type="button" role="tab" aria-controls="features" aria-selected="false">Features</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="spindle-tab" data-toggle="tab" data-target="#spindle" type="button"
-                                role="tab" aria-controls="spindle" aria-selected="false">Spindle</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="safety-tab" data-toggle="tab" data-target="#safety" type="button"
-                                role="tab" aria-controls="safety" aria-selected="false">Safety</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content" style="padding-top: 1em">
-                        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
-                            <div class="form-group row">
-                                <label for="machine_name" class="col-4 col-form-label">Machine Name</label>
-                                <div class="col-8">
-                                    <input id="machine_name" name="machine_name" placeholder="Millennium Machines Milo V1.5"
-                                        type="text" class="form-control" aria-describedby="machine_nameHelpBlock"
-                                        required="required">
-                                    <span id="machine_nameHelpBlock" class="form-text text-muted">Enter a nice name for your
-                                        machine. Maybe include your serial once you have one!</span>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>Milo Configurator</h1>
+            <form class="form-horizontal" method="POST">
+                <ul id="nav" class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="general-tab" data-toggle="tab" data-target="#general"
+                            type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="hardware-tab" data-toggle="tab" data-target="#hardware"
+                            type="button" role="tab" aria-controls="hardware">Hardware</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="features-tab" data-toggle="tab" data-target="#features"
+                            type="button" role="tab" aria-controls="features" aria-selected="false">Features</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="spindle-tab" data-toggle="tab" data-target="#spindle" type="button"
+                            role="tab" aria-controls="spindle" aria-selected="false">Spindle</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="safety-tab" data-toggle="tab" data-target="#safety" type="button"
+                            role="tab" aria-controls="safety" aria-selected="false">Safety</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="network-tab" data-toggle="tab" data-target="#network" type="button"
+                            role="tab" aria-controls="network" aria-selected="false">Network</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link disabled" id="generated-config-tab" data-toggle="tab"
+                            data-target="#generated-config" type="button" role="tab" aria-controls="generated-config"
+                            aria-selected="false">Generated Config</button>
+                    </li>
+                </ul>
+                <div class="tab-content" style="padding-top: 1em">
+                    <div class="tab-pane show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                        <div class="form-group row">
+                            <label for="machine_name" class="col-4 col-form-label">Machine Name</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-signature"></i>
+                                        </div>
+                                    </div>
+                                    <input id="machine_name" name="machine_name"
+                                        placeholder="Millennium Machines Milo V1.5" type="text" class="form-control"
+                                        aria-describedby="machine_nameHelpBlock">
                                 </div>
+                                <span id="machine_nameHelpBlock" class="form-text text-muted">Enter a nice name for your
+                                    machine. Maybe include your serial once you have one!</span>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-4 col-form-label">Machine Features</label>
-                                <div class="col-8">
-                                    <div class="custom-controls-stacked">
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="features" id="features_0" type="checkbox"
-                                                aria-describedby="featuresHelpBlock" class="custom-control-input"
-                                                value="touchprobe">
-                                            <label for="features_0" class="custom-control-label">3D Touch Probe</label>
-                                        </div>
-                                    </div>
-                                    <div class="custom-controls-stacked">
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="features" id="features_1" type="checkbox"
-                                                aria-describedby="featuresHelpBlock" class="custom-control-input"
-                                                value="toolsetter">
-                                            <label for="features_1" class="custom-control-label">Tool Setter</label>
-                                        </div>
-                                    </div>
-                                    <div class="custom-controls-stacked">
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="features" id="features_2" type="checkbox"
-                                                aria-describedby="featuresHelpBlock" class="custom-control-input"
-                                                value="casa">
-                                            <label for="features_2" class="custom-control-label">Enclosure</label>
-                                        </div>
-                                    </div>
-                                    <div class="custom-controls-stacked">
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="features" id="features_3" type="checkbox"
-                                                aria-describedby="featuresHelpBlock" class="custom-control-input"
-                                                value="leds">
-                                            <label for="features_3" class="custom-control-label">Status LEDs</label>
-                                        </div>
-                                    </div>
-                                    <div class="custom-controls-stacked">
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="features" id="features_4" type="checkbox"
-                                                aria-describedby="featuresHelpBlock" class="custom-control-input"
-                                                value="screen">
-                                            <label for="features_4" class="custom-control-label">LED Screen</label>
-                                        </div>
-                                    </div>
-                                    <div class="custom-controls-stacked">
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="features" id="features_5" type="checkbox"
-                                                aria-describedby="featuresHelpBlock" class="custom-control-input"
-                                                value="hssc">
-                                            <label for="features_5" class="custom-control-label">Harmonic Spindle Speed
-                                                Control</label>
-                                        </div>
-                                    </div>
-                                    <div class="custom-controls-stacked">
-                                        <div class="custom-control custom-checkbox">
-                                            <input name="features" id="features_6" type="checkbox"
-                                                aria-describedby="featuresHelpBlock" class="custom-control-input"
-                                                value="fmj">
-                                            <label for="features_6" class="custom-control-label">Full Metal Jacket</label>
-                                        </div>
-                                    </div>
-                                    <span id="featuresHelpBlock" class="form-text text-muted">Enable the features that your
-                                        machine is capable of. These are hardware / software choices that are NOT part of a
-                                        standard Millennium Machines Milo V1.5 but can be added to further improve the user
-                                        experience.</span>
-                                </div>
-                            </div>
-                                    <div class="form-group row">
-                                        <div class="offset-11 col-1">
-                                            <button name="next" type="submit" class="btn btn-primary">Next</button>
-                                        </div>
-                                    </div>
                         </div>
-                        <div class="tab-pane fade show" id="control-board" role="tabpanel"
-                            aria-labelledby="control-board-tab">
-                            <div class="form-group row">
-                                <label for="mcu_type" class="col-4 col-form-label">Main Control Unit Type</label>
-                                <div class="col-8">
-                                    <select id="mcu_type" name="mcu_type" aria-describedby="mcu_typeHelpBlock"
-                                        required="required" class="custom-select">
-                                        <option value="fly_cdyv3" selected="selected">Mellow Fly CDY V3</option>
-                                        <option value="fysetc_spider_king407">FYSETC Spider King F407</option>
-                                    </select>
-                                    <span id="mcu_typeHelpBlock" class="form-text text-muted">Select the MCU (control board)
-                                        to generate a configuration for.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="driver_type" class="col-4 col-form-label">Motor Driver Type</label>
-                                <div class="col-8">
-                                    <select id="driver_type" name="driver_type" aria-describedby="driver_typeHelpBlock"
-                                        required="required" class="custom-select">
-                                        <option value="tmc2209">TMC2209</option>
-                                        <option value="tmc5160">TMC5160</option>
-                                    </select>
-                                    <span id="driver_typeHelpBlock" class="form-text text-muted">Select the type of motor
-                                        drivers you're using.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-4">Motor Voltage</label>
-                                <div class="col-8">
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="motor_voltage" id="motor_voltage_0" type="radio" checked="checked" aria-describedby="motor_voltageHelpBlock" class="custom-control-input" value="24" required="required">
-                                    <label for="motor_voltage_0" class="custom-control-label">24v</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input name="motor_voltage" id="motor_voltage_1" type="radio" aria-describedby="motor_voltageHelpBlock" class="custom-control-input" value="48" required="required">
-                                    <label for="motor_voltage_1" class="custom-control-label">48v</label>
-                                </div>
-                                <span id="motor_voltageHelpBlock" class="form-text text-muted">Select the voltage your motors will be driven at.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="motor_current" class="col-4 col-form-label">Motor Maximum Current</label>
-                                <div class="col-8">
-                                    <div class="input-group">
-                                        <input id="motor_current" name="motor_current" placeholder="1000" type="text"
-                                            class="form-control" aria-describedby="motor_currentHelpBlock"
-                                            required="required">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">mA</div>
-                                        </div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label">Machine Features</label>
+                            <div class="col-8">
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_0" type="checkbox"
+                                            aria-describedby="touchProbeHelpBlock" class="custom-control-input"
+                                            value="touchprobe">
+                                        <label for="features_0" class="custom-control-label">3D Touch Probe</label>
+                                        <small id="touchProbeHelpBlock" class="form-text text-muted">
+                                            Your Milo loves reaching out and touching things.
+                                            You get easy work piece measurement and corner probing for setting origins. When
+                                            combined with Tool Setter, allows for faster tool changes by calculating
+                                            offsets from a reference surface.
+                                        </small>
                                     </div>
-                                    <span id="motor_currentHelpBlock" class="form-text text-muted">Enter your motor's peak
-                                        current rating, in milliamps.</span>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-11 col-1">
-                                    <button name="next" type="submit" class="btn btn-primary">Next</button>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_1" type="checkbox"
+                                            aria-describedby="toolSetterHelpBlock" class="custom-control-input"
+                                            value="toolsetter">
+                                        <label for="features_1" class="custom-control-label">Tool Setter</label>
+                                        <small id="toolSetterHelpBlock" class="form-text text-muted">
+                                            Long and Strong (your tool). Or at least that's what your Milo will be able to
+                                            ascertain, by automating tool length compensation during tool changes.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_2" type="checkbox"
+                                            aria-describedby="featuresHelpBlock" class="custom-control-input"
+                                            value="casa">
+                                        <label aria-describedby="casaHelpBlock" for="features_2"
+                                            class="custom-control-label">Enclosure</label>
+                                        <small id="casaHelpBlock" class="form-text text-muted">
+                                            Your Milo has its' own little Casa. It is protected from the elements, and the elements are protected
+                                            from flying chips! Adds <strong>+5 to safety</strong>, with an additional emergency stop!
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_3" type="checkbox"
+                                            aria-describedby="ledsHelpBlock" class="custom-control-input" value="leds">
+                                        <label for="features_3" class="custom-control-label">Status LEDs</label>
+                                        <small id="ledsHelpBlock" class="form-text text-muted">
+                                            Your Milo lets you know what's up using a bunch of blinkenlights.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_4" type="checkbox"
+                                            aria-describedby="screenHelpBlock" class="custom-control-input"
+                                            value="screen">
+                                        <label for="features_4" class="custom-control-label">LED Screen</label>
+                                        <small id="screenHelpBlock" class="form-text text-muted">
+                                            Not content with just lights for working out what's up, your Milo
+                                            <strong>shows</strong> you what's up with simple pictures!
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_6" type="checkbox"
+                                            aria-describedby="fmjHelpBlock" class="custom-control-input" value="fmj">
+                                        <label for="features_6" class="custom-control-label">Full Metal Jacket
+                                            (FMJ)</label>
+                                        <small id="fmjHelpBlock" class="form-text text-muted">
+                                            Your Milo wears a solid metal jacket, making it insanely strong! adds <strong>+5 rigidity</strong>
+                                            (and <strong>+5 charisma</strong> for that matter). Speed limits boosted accordingly.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_6" type="checkbox"
+                                            aria-describedby="hoiHelpBlock" class="custom-control-input" value="hoi">
+                                        <label for="features_6" class="custom-control-label">Heart of Iron (HOI)</label>
+                                        <small id="hoiHelpBlock" class="form-text text-muted">
+                                            Your Milo has a heart of iron (probably aluminium, in this case), providing an
+                                            instant <strong>+5 to rigidity</strong>. Speed limits (and bragging rights) boosted accordingly.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-checkbox">
+                                        <input name="features" id="features_5" type="checkbox"
+                                            aria-describedby="vsscHelpBlock" class="custom-control-input" value="vssc" checked>
+                                        <label for="features_5" class="custom-control-label">Variable Spindle Speed
+                                            Control</label>
+                                        <small id="vsscHelpBlock" class="form-text text-muted">
+                                            Reduce chatter caused by resonance between the tool and your work piece by
+                                            constantly varying the spindle speed. Must be enabled before cuts using
+                                            <strong>M7000</strong>. No hardware changes to Milo required!
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="features" role="tabpanel" aria-labelledby="features-tab">
-                            <h2>Feature config goes here</h2>
-                            <div class="form-group row">
-                                <div class="offset-11 col-1">
-                                    <button name="next" type="submit" class="btn btn-primary">Next</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="spindle" role="tabpanel" aria-labelledby="spindle-tab">
-                            <div class="form-group row">
-                                <label for="spindle_min_rpm" class="col-4 col-form-label">Spindle Min Speed</label>
-                                <div class="col-8">
-                                    <div class="input-group">
-                                        <input id="spindle_min_rpm" name="spindle_min_rpm" placeholder="8000" type="text"
-                                            class="form-control" aria-describedby="spindle_min_rpmHelpBlock">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">rpm</div>
-                                        </div>
-                                    </div>
-                                    <span id="spindle_min_rpmHelpBlock" class="form-text text-muted">Most cheap spindles
-                                        used with Milo do not like running at low speeds. They either suffer from a lack of
-                                        torque, or in the case of air cooled spindles, are unable to effectively cool
-                                        themselves. Do not lower this unless you are certain that your spindle can run
-                                        safely at lower RPM.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="spindle_max_rpm" class="col-4 col-form-label">Spindle Max Speed</label>
-                                <div class="col-8">
-                                    <div class="input-group">
-                                        <input id="spindle_max_rpm" name="spindle_max_rpm" placeholder="24000" type="text"
-                                            class="form-control" aria-describedby="spindle_max_rpmHelpBlock">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">rpm</div>
-                                        </div>
-                                    </div>
-                                    <span id="spindle_max_rpmHelpBlock" class="form-text text-muted">Enter the rated RPM of
-                                        your spindle.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="spindle_pwm_freq" class="col-4 col-form-label">Spindle Speed PWM Frequency
-                                    Output</label>
-                                <div class="col-8">
-                                    <div class="input-group">
-                                        <input id="spindle_pwm_freq" name="spindle_pwm_freq" placeholder="100" type="text"
-                                            class="form-control" aria-describedby="spindle_pwm_freqHelpBlock">
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">Hz</div>
-                                        </div>
-                                    </div>
-                                    <span id="spindle_pwm_freqHelpBlock" class="form-text text-muted">Lowering this can
-                                        sometimes produce more accurate RPM output depending on your PWM to 0-10v converter
-                                        and VFD.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-11 col-1">
-                                    <button name="next" type="submit" class="btn btn-primary">Next</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade show" id="safety" role="tabpanel" aria-labelledby="safety-tab">
-                            <div class="form-group row">
-                                <label class="col-4">Confirm Tool Changes</label>
-                                <div class="col-8">
-                                <div class="custom-control custom-switch">
-                                    <input name="confirm_tool_changes" id="confirm_tool_changes" type="checkbox" checked="checked" aria-describedby="confirm_tool_changesHelpBlock" required="required" class="custom-control-input" value="1">
-                                    <label for="confirm_tool_changes" class="custom-control-label">Require confirmation after tool changes</label>
-                                </div>
-                                <span id="confirm_tool_changesHelpBlock" class="form-text text-muted">Enabling this option will prompt in the user interface to confirm that a tool change is complete and the machine is about to re-enable the Spindle. Disable this option if you are happy with a single confirmation for tool changes which happens prior to any tool length probing.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-4">Confirm Unsafe Moves</label>
-                                <div class="col-8">
-                                    <div class="custom-control custom-switch">
-                                        <input name="confirm_unsafe_moves" id="confirm_unsafe_moves" type="checkbox" checked="checked" aria-describedby="confirm_unsafe_movesHelpBlock" required="required" class="custom-control-input" value="1">
-                                        <label for="confirm_unsafe_moves" class="custom-control-label">Require confirmation before unsafe moves</label>
-                                    </div>
-                                <span id="confirm_unsafe_movesHelpBlock" class="form-text text-muted">During tool setting and touch probing, novice users are likely worried about collisions with items on the table such as vices, tool setters or work pieces. Select 'Yes' here to enable a prompt in the user interface every time a probing move is triggered that may be unsafe, so co-ordinates can be verified by the operator.</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                    <button name="submit" type="submit" class="btn btn-primary">Generate and
-                                        Download</button>
-                                </div>
+                        <div class="form-group row">
+                            <div class="offset-11 col-1">
+                                <button name="next-tab" type="submit" class="btn btn-primary">Next</button>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="tab-pane show" id="hardware" role="tabpanel" aria-labelledby="hardware-tab">
+                        <!-- <div class="form-group row">
+                            <label for="mcu_type" class="col-4 col-form-label">Main Control Unit Type</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-robot"></i>
+                                        </div>
+                                    </div>
+                                    <select id="mcu_type" name="mcu_type" aria-describedby="mcu_typeHelpBlock"
+                                        required="required" class="custom-select">
+                                        <option value="fly_cdyv3" selected>Mellow Fly CDY V3</option>
+                                        <option value="fysetc_spider_king407">FYSETC Spider King F407</option>
+                                    </select>
+                                </div>
+                                <span id="mcu_typeHelpBlock" class="form-text text-muted">Select the MCU (control board)
+                                    to generate a configuration for. Supported devices are identified automatically.</span>
+                            </div>
+                        </div>-->
+                        <div class="form-group row">
+                            <label class="col-4">Motor Voltage</label>
+                            <div class="col-8">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input name="motor_voltage" id="motor_voltage_0" type="radio" checked="checked"
+                                        aria-describedby="motor_voltageHelpBlock" class="custom-control-input"
+                                        value="24" required="required">
+                                    <label for="motor_voltage_0" class="custom-control-label">24v</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input name="motor_voltage" id="motor_voltage_1" type="radio"
+                                        aria-describedby="motor_voltageHelpBlock" class="custom-control-input"
+                                        value="48" required="required">
+                                    <label for="motor_voltage_1" class="custom-control-label">48v</label>
+                                </div>
+                                <span id="motor_voltageHelpBlock" class="form-text text-muted">Select the voltage your
+                                    motors will be driven at.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="driver_type" class="col-4 col-form-label">Motor Driver Type</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-atom"></i>
+                                        </div>
+                                    </div>
+                                    <select id="driver_type" name="driver_type" aria-describedby="driver_typeHelpBlock"
+                                        required="required" class="custom-select">
+                                        <option data-24v-only value="tmc2209">TMC2209</option>
+                                        <option value="tmc5160">TMC5160</option>
+                                    </select>
+                                </div>
+                                <span id="driver_typeHelpBlock" class="form-text text-muted">Select the type of motor
+                                    drivers you're using.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="motor_current" class="col-4 col-form-label">Motor Maximum Current</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <input type="range" class="custom-range" min="500" max="5000" step="100"
+                                        value="1000" id="motor_current_range"
+                                        oninput="motor_current.value = this.value">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                    </div>
+                                    <input id="motor_current" name="motor_current" min="500" max="5000" step="100"
+                                        placeholder="1000" type="number" class="form-control"
+                                        aria-describedby="motor_currentHelpBlock"
+                                        oninput="motor_current_range.value = this.value">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">mA</div>
+                                    </div>
+                                </div>
+                                <span id="motor_currentHelpBlock" class="form-text text-muted">Enter your motor's peak
+                                    current rating, in milliamps. For most NEMA23 motors, this will be below
+                                    3000!</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="offset-4 col-1">
+                                <button name="last-tab" type="submit" class="btn btn-primary">Back</button>
+                            </div>
+                            <div class="offset-6 col-1">
+                                <button name="next-tab" type="submit" class="btn btn-primary">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="features" role="tabpanel" aria-labelledby="features-tab">
+                        <h2>Feature config goes here</h2>
+                        <div class="form-group row">
+                            <div class="offset-4 col-1">
+                                <button name="last-tab" type="submit" class="btn btn-primary">Back</button>
+                            </div>
+                            <div class="offset-6 col-1">
+                                <button name="next-tab" type="submit" class="btn btn-primary">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="spindle" role="tabpanel" aria-labelledby="spindle-tab">
+                        <div class="form-group row">
+                            <label for="spindle_min_rpm" class="col-4 col-form-label">Spindle Min Speed</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-sailboat"></i>
+                                        </div>
+                                    </div>
+                                    <input id="spindle_min_rpm" name="spindle_min_rpm" placeholder="8000" type="text"
+                                        class="form-control" aria-describedby="spindle_min_rpmHelpBlock">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">rpm</div>
+                                    </div>
+                                </div>
+                                <span id="spindle_min_rpmHelpBlock" class="form-text text-muted">Most cheap spindles
+                                    used with Milo do not like running at low speeds. They either suffer from a lack of
+                                    torque, or in the case of air cooled spindles, are unable to effectively cool
+                                    themselves. Do not lower this unless you are certain that your spindle can run
+                                    safely at lower RPM.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="spindle_max_rpm" class="col-4 col-form-label">Spindle Max Speed</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-meteor"></i>
+                                        </div>
+                                    </div>
+                                    <input id="spindle_max_rpm" name="spindle_max_rpm" placeholder="24000" type="text"
+                                        class="form-control" aria-describedby="spindle_max_rpmHelpBlock">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">rpm</div>
+                                    </div>
+                                </div>
+                                <span id="spindle_max_rpmHelpBlock" class="form-text text-muted">Enter the rated RPM of
+                                    your spindle.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="spindle_pwm_freq" class="col-4 col-form-label">Spindle Speed PWM Frequency
+                                Output</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-wave-square"></i>
+                                        </div>
+                                    </div>
+                                    <input id="spindle_pwm_freq" name="spindle_pwm_freq" placeholder="100" type="text"
+                                        class="form-control" aria-describedby="spindle_pwm_freqHelpBlock">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">Hz</div>
+                                    </div>
+                                </div>
+                                <span id="spindle_pwm_freqHelpBlock" class="form-text text-muted">Lowering this can
+                                    sometimes produce more accurate RPM output depending on your PWM to 0-10v converter
+                                    and VFD.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="offset-4 col-1">
+                                <button name="last-tab" type="submit" class="btn btn-primary">Back</button>
+                            </div>
+                            <div class="offset-6 col-1">
+                                <button name="next-tab" type="submit" class="btn btn-primary">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane show" id="safety" role="tabpanel" aria-labelledby="safety-tab">
+                        <div class="form-group row">
+                            <label class="col-4">Confirm Tool Changes</label>
+                            <div class="col-8">
+                                <div class="custom-control custom-switch">
+                                    <input name="confirm_tool_changes" id="confirm_tool_changes" type="checkbox"
+                                        checked="checked" aria-describedby="confirm_tool_changesHelpBlock"
+                                        required="required" class="custom-control-input" value="1">
+                                    <label for="confirm_tool_changes" class="custom-control-label">Require confirmation
+                                        after tool changes</label>
+                                </div>
+                                <span id="confirm_tool_changesHelpBlock" class="form-text text-muted">Enabling this
+                                    option will prompt in the user interface to confirm that a tool change is complete
+                                    and the machine is about to re-enable the Spindle. Disable this option if you are
+                                    happy with a single confirmation for tool changes which happens prior to any tool
+                                    length probing.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-4">Confirm Unsafe Moves</label>
+                            <div class="col-8">
+                                <div class="custom-control custom-switch">
+                                    <input name="confirm_unsafe_moves" id="confirm_unsafe_moves" type="checkbox"
+                                        checked="checked" aria-describedby="confirm_unsafe_movesHelpBlock"
+                                        required="required" class="custom-control-input" value="1">
+                                    <label for="confirm_unsafe_moves" class="custom-control-label">Require confirmation
+                                        before unsafe moves</label>
+                                </div>
+                                <span id="confirm_unsafe_movesHelpBlock" class="form-text text-muted">During tool
+                                    setting and touch probing, novice users are likely worried about collisions with
+                                    items on the table such as vices, tool setters or work pieces. Select 'Yes' here to
+                                    enable a prompt in the user interface every time a probing move is triggered that
+                                    may be unsafe, so co-ordinates can be verified by the operator.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="safe_z_distance" class="col-4 col-form-label">Safe Z Distance</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <input type="range" class="custom-range" min="1" max="50" step="1"
+                                        value="20" id="safe_z_distance_range"
+                                        oninput="safe_z_distance.value = this.value">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-ruler"></i>
+                                        </div>
+                                    </div>
+                                    <input id="safe_z_distance" name="safe_z_distance" min="1" max="50" step="1"
+                                        placeholder="20" type="number" class="form-control"
+                                        aria-describedby="safe_z_distanceHelpBlock"
+                                        oninput="safe_z_distance_range.value = this.value">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">mm</div>
+                                    </div>
+                                </div>
+                                <span id="safe_z_distanceHelpBlock" class="form-text text-muted">Enter a distance in millimeters above probed surfaces where RepRapFirmware can safely move.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="offset-4 col-1">
+                                <button name="last-tab" type="submit" class="btn btn-primary">Back</button>
+                            </div>
+                            <div class="offset-6 col-1">
+                                <button name="next-tab" type="submit" class="btn btn-primary">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="network" role="tabpanel" aria-labelledby="network-tab">
+                        <div class="form-group row">
+                            <label class="col-4">Network Mode</label>
+                            <div class="col-8">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input name="network_mode" id="network_mode_1" type="radio" required="required"
+                                        class="custom-control-input" value="wifi_client" checked
+                                        aria-describedby="network_modeHelpBlock">
+                                    <label for="network_mode_1" class="custom-control-label">WiFi Client</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input name="network_mode" id="network_mode_0" type="radio" required="required"
+                                        class="custom-control-input" value="wifi_ap"
+                                        aria-describedby="network_modeHelpBlock">
+                                    <label for="network_mode_0" class="custom-control-label">WiFi Access Point</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input name="network_mode" id="network_mode_2" type="radio"
+                                        aria-describedby="network_modeHelpBlock" required="required"
+                                        class="custom-control-input" value="none">
+                                    <label for="network_mode_2" class="custom-control-label">None</label>
+                                </div>
+                                <span id="network_modeHelpBlock" class="form-text text-muted">Select which network mode
+                                    to configure your MCU in. Note: All configuration is generated in your browser -
+                                    your WiFi details are never sent to a server!</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="wifi_ap_name" class="col-4 col-form-label">Access Point Name</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-wifi"></i>
+                                        </div>
+                                    </div>
+                                    <input id="wifi_ap_name" name="wifi_ap_name"
+                                        placeholder="Millennium Mills Milo V1.5" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="wifi_password" class="col-4 col-form-label">WiFi Password</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-user-secret"></i>
+                                        </div>
+                                    </div>
+                                    <input id="wifi_password" name="wifi_password" type="password" class="form-control"
+                                        aria-describedby="wifi_passwordHelpBlock" required>
+                                </div>
+                                <span id="wifi_passwordHelpBlock" class="form-text text-muted">All configuration
+                                    generation is performed in your browser, and your WiFi details are
+                                    <strong>NEVER</strong> sent
+                                    anywhere by this configurator. RepRapFirmware only supports
+                                    <strong>WPA2-PSK</strong>
+                                    authentication.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="dwc_password" class="col-4 col-form-label">Web Interface Password</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-user-secret"></i>
+                                        </div>
+                                    </div>
+                                    <input id="dwc_password" name="dwc_password" type="password" class="form-control"
+                                        aria-describedby="dwc_passwordHelpBlock" required>
+                                </div>
+                                <span id="dwc_passwordHelpBlock" class="form-text text-muted">Choose a password for the Duet Web Control interface.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="wifi_ap_ip" class="col-4 col-form-label">IP Address</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-address-book"></i>
+                                        </div>
+                                    </div>
+                                    <input id="wifi_ap_ip" name="wifi_ap_ip" placeholder="192.168.10.1" type="text"
+                                        class="form-control" aria-describedby="wifi_ap_ipHelpBlock">
+                                </div>
+                                <span id="wifi_ap_ipHelpBlock" class="form-text text-muted">The address where you will
+                                    be able to access the Duet Web Control interface. If unsure, leave as the
+                                    default.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="offset-4 col-1">
+                                <button name="last-tab" type="submit" class="btn btn-primary">Back</button>
+                            </div>
+                            <div class="offset-6 col-1">
+                                <button name="submit" type="submit" class="btn btn-primary">Finish</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="generated-config" role="tabpanel" aria-labelledby="generated-config-tab">
+                        <div class="form-group row">
+                            <label for="user-vars" class="col-2 col-form-label">user-vars.g</label>
+                            <div class="col-10">
+                                <textarea id="user-vars" name="user-vars" cols="80" rows="10" class="form-control"
+                                    aria-describedby="user-varsHelpBlock"></textarea>
+                                <span id="user-varsHelpBlock" class="form-text text-muted">Generated <strong>user-vars.g</strong>.
+                                    Overwrite the contents in <strong>/sys/user-vars.g</strong> if you have already installed
+                                    RepRapFirmware using this configurator.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </body>
+    </div>
+</body>
+<script type="text/javascript">
+    // Implement next and back buttons
+    $('button[name="next-tab"]').on('click', function (e) {
+        e.preventDefault();
+
+        // Check visible form fields when clicking next.
+        var valid = true;
+        $('input:visible').each(function(_, e) {
+            if(!e.reportValidity()) {
+                valid = false;
+            }
+        });
+
+        if(!valid) {
+            return true;
+        }
+
+        var nextTabId = e.target.closest('div.tab-pane').nextElementSibling.id;
+        $(`#nav li button[id="${nextTabId}-tab"]`).tab('show');
+    });
+    $('button[name="last-tab"]').on('click', function (e) {
+        e.preventDefault();
+        var lastTabId = e.target.closest('div.tab-pane').previousElementSibling.id;
+        $(`#nav li button[id="${lastTabId}-tab"]`).tab('show');
+    });
+
+    $("#nav li button[id='generated-config-tab']").on('show.bs.tab', function (e) {
+        console.log(e);
+        var formValues = {};
+        $('form').serializeArray().forEach(function(a) {
+            var val = a.value != "" ? a.value : $(`form input[name="${a.name}"]`).prop('placeholder');
+            if (a.name in formValues) {
+                if (formValues[a.name].push) {
+                    formValues[a.name].push(val);
+                } else {
+                    formValues[a.name] = [val];
+                }
+            } else {
+                formValues[a.name] = val;
+            }
+        });
+        generateConfig(formValues);
+    });
+
+    // Process finish button and enable generated config
+    $('button[name="submit"]').on('click', function (e) {
+        if (!$('form')[0].reportValidity()) {
+            return true;
+        }
+        $("#nav li button[id='generated-config-tab']").removeClass('disabled').tab('show');
+        return false;
+    });
+
+    $()
+
+    // Disable low voltage drivers when 48v selected
+    $('input[name="motor_voltage"]').on('change', function () {
+        var disable = this.value == 48;
+
+        // Disable 24v-only drivers
+        $('select[name="driver_type"] option[data-24v-only]').prop('disabled', disable);
+
+        // Select first driver capable of 48v when disabled
+        if (disable) {
+            $('select[name="driver_type"] option[data-24v-only!=""]').prop('selected', true);
+        }
+    });
+
+    // Function stolen from https://codepen.io/gskinner/pen/BVEzox to allow indentation
+    // of config files within JS code without breaking output.
+    function dedent(str) {
+        str = str.replace(/^\n/, "");
+        let match = str.match(/^\s+/);
+        return match ? str.replace(new RegExp("^"+match[0], "gm"), "") : str;
+    }
+	
+    function generateConfig(f) {
+        console.log(f);
+        var ft = f['features'];
+
+        var userVarsGeneralG = `
+            ; user-vars.g
+            ; Holds user-configurable values and overrides for Milo RepRapFirmware configuration.
+            ; Generated by the Milo Configurator 
+            ; ${(new Date()).toString()}
+
+            ; Set machine name
+            global machineName="${f['machine_name']}"
+
+            ; Set features
+            set global.featureToolSetter=${ft.includes("toolsetter")}
+            set global.featureTouchProbe=${ft.includes("touchprobe")}
+            set global.featureVSSC=${ft.includes("vssc")}
+            set global.featureCasa=${ft.includes("casa")}
+            set global.featureLeds=${ft.includes("leds")}
+            set global.featureScreen=${ft.includes("screen")}
+
+            ; Web UI Password
+            global dwcPassword="${f['dwc_password']}"
+
+            global parkX={(global.xMax - global.xMin)/2} ; Park approximately in the middle
+            global parkY=global.yMax                     ; and at the front for operator ease-of-use.
+            global parkZ=global.zMax                     ; Think VERY hard before parking this anywhere else
+
+            ; Confirm with operator on calculated probe moves
+            global confirmUnsafeMove = ${f['confirm_unsafe_moves'] == "1"}
+
+            ; Confirm with operator after tool probing
+            global confirmToolChange = ${f['confirm_tool_changes'] == "1"}
+
+            ; Safe distance above probed work pieces for travel moves
+            global safeDistanceZ     = ${f['safe_z_distance']}
+
+            ; Daemon settings
+            ; Required for featureLeds and featureHSSC.
+            global daemonEnable=true     ; Run background tasks in daemon.g
+            global daemonUpdateRate=500  ; Re-trigger background tasks every 1000ms
+        `;
+
+        var mcrxy = 50;
+        var mcrz  = 30;
+
+        // Scaling motor current standstill reduction
+        if(3500 < f['motor_current']) {
+            mcrxy = 7.5;
+            mcrz  = 5;
+        } else if (2500 < f['motor_current']) {
+            mcrxy = 15;
+            mcrz  = 10;
+        } else if (1500 < f['motor_current']) {
+            mcrxy = 30;
+            mcrz  = 20;
+        }
+
+        var userVarsMotorG = `
+            ; Set motor currents
+            set global.motorCurrentLimitX=${f['motor_current']}
+            set global.motorCurrentLimitY=${f['motor_current']}
+            set global.motorCurrentLimitZ=${f['motor_current']}
+
+            ; Set Standstill Currents
+            set global.motorHoldCurrentPercentX=${mcrxy}
+            set global.motorHoldCurrentPercentY=${mcrxy}
+            set global.motorHoldCurrentPercentZ=${mcrz}
+        `;
+
+        $('textarea[id="user-vars"]').val(dedent(userVarsGeneralG + userVarsMotorG));
+    };
+</script>
+
 </html>
