@@ -56,7 +56,7 @@ jobs:
           path: "macro/machine"
           ext: ".g"
       - name: List Misc Macro Files
-        id: list-general-macro-files
+        id: list-misc-macro-files
         uses: mirko-felice/list-files-action@v3.0.5
         with:
           repo: ${{ github.repository }}
@@ -64,7 +64,7 @@ jobs:
           path: "macro/misc"
           ext: ".g"
       - name: List Tool Macro Files
-        id: list-general-macro-files
+        id: list-tool-macro-files
         uses: mirko-felice/list-files-action@v3.0.5
         with:
           repo: ${{ github.repository }}
