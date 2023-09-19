@@ -1,0 +1,52 @@
+name: Generate file lists
+on:
+  push:
+    tags-ignore:
+      - '*'
+    branches:
+      - 'generic'
+      - 'workflow'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  list-files:
+    name: Generate source and destination file list
+    runs-on: ubuntu-latest
+
+    outputs:
+      gcode-paths: ${{ steps.list-gcode-files.outputs.json }}
+
+    steps:
+      - name: Check out current branch
+        uses: actions/checkout@v4
+        with:
+          path: current
+
+      - name: Check out generator branch
+        uses: actions/checkout@v4
+        with:
+          path: generator
+          ref: generator
+
+      - name: List Gcode Files using Tree
+        id: list-gcode-files
+        working-directory: current
+        run: tree -P '*.g' -J --gitignore --noreport -fin . > gcode-files-raw.json
+
+      - name: Reformat tree output
+        uses: sergeysova/jq-action@v2
+        id: reformat-tree-output
+        with:
+          cmd: |
+            cd generator
+            jq '[.[0] | recurse(.contents[]?) | select(.type == "file") | .name]' ../current/gcode-files-raw.json > gcode-files.json
+
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        with:
+          add: gcode-files.json --force
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          message: "Update gcode file list"
+          pull: --rebase --autostash
+          cwd: "generator"
