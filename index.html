@@ -737,6 +737,17 @@
         $('textarea[id="user-vars"]').val(dedent(userVarsGeneralG + userVarsMotorG));
         $('textarea[id="run-once"]').val(dedent(runOnceG));
     };
+
+
+    $(function() {
+        loadFileList();
+    });
+
+    async function loadFileList() {
+        const response = await fetch("/gcode-files.json");
+        const gcode = await response.json();
+        console.log(gcode);
+    }
 </script>
 
 </html>
