@@ -18,13 +18,16 @@ jobs:
       gcode-paths: ${{ steps.list-gcode-files.outputs.json }}
 
     steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
       - name: List Gcode Files using Tree
         id: list-gcode-files
-        run: echo "json=$(tree -P '*.g' -J --gitignore --noreport -fin)" >> "${GITHUB_OUTPUT}"
+        run: echo "json=$(tree -P '*.g' -J --gitignore --noreport -fin ${{ github.workspace }})" >> "${GITHUB_OUTPUT}"
 
       - name: Write file list JSON
         id: write-json
-        run: echo "${{ toJSON(steps) }}" > files.json
+        run: echo "${{ steps.list-gcode-files.outputs.json }}" > files.json
 
       - name: Read JSON
         id: read-json
