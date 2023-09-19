@@ -20,12 +20,14 @@ jobs:
     steps:
       - name: Check out current branch
         uses: actions/checkout@v4
-        path: current
+        with:
+          path: current
 
       - name: Check out generator branch
         uses: actions/checkout@v4
-        path: generator
-        ref: generator
+        with:
+          path: generator
+          ref: generator
 
       - name: List Gcode Files using Tree
         id: list-gcode-files
