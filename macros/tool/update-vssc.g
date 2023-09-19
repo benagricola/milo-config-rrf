@@ -1,5 +1,5 @@
-; update-hssc.g
-; Implements Harmonic Spindle Speed Control.
+; update-vssc.g
+; Implements Variable Spindle Speed Control.
 ; The intention here is to periodically vary the
 ; spindle speed by a user-configured variance
 ; above and below the requested spindle speed
@@ -19,8 +19,8 @@ if { spindles[global.spindleID].state != "forward" }
 ; Use uptime to get millisecond precision
 var curTime  = { mod(state.upTime, 1000000) * 1000 + state.msUpTime }
 
-; Calculate time elapsed since previous HSSC speed adjustment
-var elapsedTime = var.curTime - global.hsscPreviousAdjustmentTime
+; Calculate time elapsed since previous VSSC speed adjustment
+var elapsedTime = var.curTime - global.vsscPreviousAdjustmentTime
 
 ; This deals with time rollovers if machine is on for more than ~24 days
 ; see https://forum.duet3d.com/topic/27608/time-measurements/8
@@ -28,7 +28,7 @@ if { var.elapsedTime < 0 }
   set var.elapsedTime = var.elapsedTime + 1000000 * 1000
 
 ; Check if we need to adjust the spindle speed
-if { var.elapsedTime < global.hsscPeriod }
+if { var.elapsedTime < global.vsscPeriod }
     M99 ; return, not enough time passed for adjustment
 
 ; Find the current spindle speed
@@ -40,27 +40,27 @@ if { var.curSpindleSpeed == 0 }
 
 ; Calculate the upper and lower speeds around the previously
 ; stored base RPM.
-var lowerLimit = global.hsscPreviousAdjustmentRPM - global.hsscVariance
-var upperLimit = global.hsscPreviousAdjustmentRPM + global.hsscVariance
+var lowerLimit = global.vsscPreviousAdjustmentRPM - global.vsscVariance
+var upperLimit = global.vsscPreviousAdjustmentRPM + global.vsscVariance
 
 if { var.upperLimit > global.spindleMaxRPM }
     set var.upperLimit = global.spindleMaxRPM
-    set var.lowerLimit = { global.spindleMaxRPM - (2*global.hsscVariance) }
-    if { ! global.hsscSpeedWarningIssued }
-        M118 P0 L2 S{"[HSSC]: Cannot increase spindle speed above " ^ global.spindleMaxRPM ^ "! HSSC running between " ^ var.lowerLimit ^ " and " ^ var.upperLimit ^"RPM instead!" }
-        set global.hsscSpeedWarningIssued=true
+    set var.lowerLimit = { global.spindleMaxRPM - (2*global.vsscVariance) }
+    if { ! global.vsscSpeedWarningIssued }
+        M118 P0 L2 S{"[VSSC]: Cannot increase spindle speed above " ^ global.spindleMaxRPM ^ "! VSSC running between " ^ var.lowerLimit ^ " and " ^ var.upperLimit ^"RPM instead!" }
+        set global.vsscSpeedWarningIssued=true
 
 ; Fetch the previously stored base RPM
-var baseRPM = global.hsscPreviousAdjustmentRPM
+var baseRPM = global.vsscPreviousAdjustmentRPM
 
 ; If current RPM is outside of our calculated adjustment limits, then
 ; store the RPM as our 'new' base, starting adjustment at the next cycle
 if { var.upperLimit < var.curSpindleSpeed || var.curSpindleSpeed < var.lowerLimit }
-    if { global.hsscDebug }
-        M118 P0 L2 S{"[HSSC] New base spindle RPM detected: " ^ var.curSpindleSpeed }
-    set global.hsscSpeedWarningIssued=false
+    if { global.vsscDebug }
+        M118 P0 L2 S{"[VSSC] New base spindle RPM detected: " ^ var.curSpindleSpeed }
+    set global.vsscSpeedWarningIssued=false
     ; Set the RPM that we're going to adjust over in the next cycle
-    set global.hsscPreviousAdjustmentRPM = var.curSpindleSpeed
+    set global.vsscPreviousAdjustmentRPM = var.curSpindleSpeed
 
 else
     ; Use the previous adjustment RPM for calculations
@@ -68,17 +68,17 @@ else
     var adjustedSpindleRPM = var.upperLimit
 
     ; But override if it was positive
-    if { global.hsscPreviousAdjustmentDir }
+    if { global.vsscPreviousAdjustmentDir }
         ; Previous adjustment was positive, so adjust negative
         set var.adjustedSpindleRPM = var.lowerLimit 
 
     ; Update the adjustment direction by negating the boolean
-    set global.hsscPreviousAdjustmentDir = !global.hsscPreviousAdjustmentDir
+    set global.vsscPreviousAdjustmentDir = !global.vsscPreviousAdjustmentDir
 
     ; Set adjusted spindle RPM
-    if { global.hsscDebug }
-        M118 P0 L2 S{"[HSSC] Adjusted spindle RPM: " ^ var.adjustedSpindleRPM }
+    if { global.vsscDebug }
+        M118 P0 L2 S{"[VSSC] Adjusted spindle RPM: " ^ var.adjustedSpindleRPM }
     M568 P{global.spindleID} F{ var.adjustedSpindleRPM }
 
 ; Update adjustment time
-set global.hsscPreviousAdjustmentTime = var.curTime
+set global.vsscPreviousAdjustmentTime = var.curTime

@@ -13,7 +13,7 @@ This config is open source, and provided as a basis for anyone to use to configu
   * Deactivates and re-activates the Spindle during probing and tool changing.
     - Avoids the spindle being accidentally spun up from the web interface or gcode.
     - Assumes your spindle hardware is connected and configured properly.
-  * Harmonic Spindle Speed Control to avoid chatter from resonance.
+  * Variable Spindle Speed Control to avoid chatter from resonance.
     - Varies the spindle RPM up and down within a given range over a given period.
 
 

@@ -9,7 +9,7 @@ global featureCasa=false
 global featureScreen=false
 global featureToolSetter=false
 global featureTouchProbe=false
-global featureHSSC=false
+global featureVSSC=false
 
 ; Axis Settings
 ; Min:  Axis Minimum
@@ -140,14 +140,14 @@ global ledColourReady={0, 255, 0, 255}        ; Green
 global ledColourBusy={0, 0, 255, 255}         ; Blue
 global ledColourPaused={0, 255, 255, 255}     ; Cyan
 
-global hsscEnabled=false
-global hsscPeriod=0
-global hsscVariance=0
-global hsscDebug=false
-global hsscSpeedWarningIssued=false
-global hsscPreviousAdjustmentTime=0
-global hsscPreviousAdjustmentRPM=0.0
-global hsscPreviousAdjustmentDir=true
+global vsscEnabled=false
+global vsscPeriod=0
+global vsscVariance=0
+global vsscDebug=false
+global vsscSpeedWarningIssued=false
+global vsscPreviousAdjustmentTime=0
+global vsscPreviousAdjustmentRPM=0.0
+global vsscPreviousAdjustmentDir=true
 
 ; Logging settings
 global logFilePath="/sys/log"

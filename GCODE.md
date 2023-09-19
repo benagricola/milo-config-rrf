@@ -32,11 +32,11 @@ To help make tool changes simpler, we can allow the post-processor to submit the
 # `M4001` - REMOVE A TOOL BY INDEX
 Remove a previously defined tool by its' index. Not really necessary as tools can simply be overwritten with `M4000`.
 
-# `M7000` - ENABLE HSSC
-Enables harmonic spindle speed control. When the spindle is active, this adjusts the RPM of the spindle up and down by a given value over a given period to avoid harmonics between the spindle and the work piece.
+# `M7000` - ENABLE VSSC
+Enables variable spindle speed control. When the spindle is active, this adjusts the RPM of the spindle up and down by a given value over a given period to avoid resonances between the spindle and the work piece.
 
-# `M7001` - DISABLE HSSC
-Turns off harmonic spindle speed control and if spindle is active, resets the RPM to the base RPM that adjustments were being executed on.
+# `M7001` - DISABLE VSSC
+Turns off variable spindle speed control and if spindle is active, resets the RPM to the base RPM that adjustments were being executed on.
 
 # `M7002` - PROMPT OPERATOR TO INSERT TOUCH PROBE
 Raises a RepRapFirmware prompt asking the operator to install the touch probe. While the touch probe is installed, the spindle is deactivated and cannot be controlled by the firmware itself. Called automatically by existing probing mechanisms. Can be called multiple times, will only prompt the operator if the probe has not been confirmed connected since the last call to `M7003` (remove touch probe.)

@@ -1,24 +1,24 @@
 ; M7001.g
-; Disable Harmonic Spindle Speed Control
+; Disable Variable Spindle Speed Control
 ;
 ; USAGE: "M7001"
 
 ; Disable the daemon process
-set global.hsscEnabled  = false
+set global.vsscEnabled  = false
 
 ; If spindle is active, adjust speed to last recorded
 ; 'base' RPM
 if { spindles[global.spindleID].state == "foward" }
     ; Set spindle RPM
-    M568 P0 F{ global.hsscPreviousAdjustmentRPM }
+    M568 P0 F{ global.vsscPreviousAdjustmentRPM }
 
-    if { global.hsscDebug }
-        M118 P0 L2 S{"[HSSC]: State: Disabled RPM: " ^ global.hsscPreviousAdjustmentRPM }
+    if { global.vsscDebug }
+        M118 P0 L2 S{"[VSSC]: State: Disabled RPM: " ^ global.vsscPreviousAdjustmentRPM }
 else
-    if { global.hsscDebug }
-        M118 P0 L2 S{"[HSSC]: State: Disabled" }
+    if { global.vsscDebug }
+        M118 P0 L2 S{"[VSSC]: State: Disabled" }
 
 ; Update adjustment time, RPM and direction
-set global.hsscPreviousAdjustmentTime = 0
-set global.hsscPreviousAdjustmentRPM  = 0
-set global.hsscPreviousAdjustmentDir  = true
+set global.vsscPreviousAdjustmentTime = 0
+set global.vsscPreviousAdjustmentRPM  = 0
+set global.vsscPreviousAdjustmentDir  = true

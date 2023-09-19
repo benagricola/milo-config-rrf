@@ -15,7 +15,7 @@
 ; the defaults (all features disabled)
 set global.featureToolSetter=true
 set global.featureTouchProbe=true
-set global.featureHSSC=true
+set global.featureVSSC=true
 
 ; Machine Name
 global machineName="Milo V1.5 M016"
@@ -161,7 +161,7 @@ global touchProbeDwellTime=200       ; Time to pause after backing away from a s
 
 
 ; Daemon settings
-; Required for featureLeds and featureHSSC.
+; Required for featureLeds and featureVSSC.
 global daemonEnable=true     ; Run background tasks in daemon.g
 global daemonUpdateRate=500  ; Re-trigger background tasks every 1000ms
                              ; don't reduce this below 500!

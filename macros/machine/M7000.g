@@ -1,5 +1,5 @@
 ; M7000.g
-; Enable and configure Harmonic Spindle Speed Control
+; Enable and configure Variable Spindle Speed Control
 ;
 ; USAGE: "M7000 P<period-in-ms> V<variance>"
 
@@ -16,10 +16,10 @@ if { param.P < global.daemonUpdateRate }
 if { mod(param.P, global.daemonUpdateRate) > 0 }
     abort { "Period must be a multiple of daemonUpdateRate (" ^ global.daemonUpdateRate ^ ")ms" }
 
-set global.hsscPeriod             = param.P
-set global.hsscVariance           = param.V
-set global.hsscEnabled            = true
-set global.hsscSpeedWarningIssued = false
+set global.vsscPeriod             = param.P
+set global.vsscVariance           = param.V
+set global.vsscEnabled            = true
+set global.vsscSpeedWarningIssued = false
 
-if { global.hsscDebug }
-    M118 P0 L2 S{"[HSSC] State: Enabled Period: " ^ param.P ^ "ms Variance: " ^ param.V ^ "RPM" }
+if { global.vsscDebug }
+    M118 P0 L2 S{"[VSSC] State: Enabled Period: " ^ param.P ^ "ms Variance: " ^ param.V ^ "RPM" }
