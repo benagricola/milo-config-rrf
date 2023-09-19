@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: List Gcode Files using Tree
         id: list-gcode-files
-        run: echo "json=$(tree -P '*.g' -J --gitignore --noreport -f)" >> "${GITHUB_OUTPUT}"
+        run: echo "json=$(tree -P '*.g' -J --gitignore --noreport -fin)" >> "${GITHUB_OUTPUT}"
 
       - name: Write file list JSON
         id: write-json
