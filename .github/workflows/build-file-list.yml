@@ -17,8 +17,10 @@ jobs:
     outputs:
       system-paths: ${{ steps.list-system-files.outputs.paths }}
       mcu-paths: ${{ steps.list-mcu-files.outputs.paths }}
-      command-macro-paths: ${{ steps.list-command-macro-files.outputs.paths }}
-      general-macro-paths: ${{ steps.list-general-macro-files.outputs.paths }}
+      movement-macro-paths: ${{ steps.list-movement-macro-files.outputs.paths }}
+      machine-macro-paths: ${{ steps.list-machine-macro-files.outputs.paths }}
+      tool-macro-paths: ${{ steps.list-tool-macro-files.outputs.paths }}
+      misc-macro-paths: ${{ steps.list-misc-macro-files.outputs.paths }}
 
     steps:
       - name: List System Files
@@ -37,27 +39,43 @@ jobs:
           ref: ${{ github.ref }}
           path: "mcu"
           ext: ".g"
-      - name: List Command Macro Files
-        id: list-command-macro-files
+      - name: List Movement Macro Files
+        id: list-movement-macro-files
         uses: mirko-felice/list-files-action@v3.0.5
         with:
           repo: ${{ github.repository }}
           ref: ${{ github.ref }}
-          path: "macro/{movement,machine}"
+          path: "macro/movement"
           ext: ".g"
-      - name: List General Macro Files
+      - name: List Machine Macro Files
+        id: list-machine-macro-files
+        uses: mirko-felice/list-files-action@v3.0.5
+        with:
+          repo: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          path: "macro/machine"
+          ext: ".g"
+      - name: List Misc Macro Files
         id: list-general-macro-files
         uses: mirko-felice/list-files-action@v3.0.5
         with:
           repo: ${{ github.repository }}
           ref: ${{ github.ref }}
-          path: "macro/{misc,tool}"
+          path: "macro/misc"
+          ext: ".g"
+      - name: List Tool Macro Files
+        id: list-general-macro-files
+        uses: mirko-felice/list-files-action@v3.0.5
+        with:
+          repo: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          path: "macro/tool"
           ext: ".g"
 
 
       - name: Write file list JSON
         id: write-json
-        run: echo "${{ steps }}" > files.json
+        run: echo "${{ toJSON(steps) }}" > files.json
 
       - name: Read JSON
         id: read-json
