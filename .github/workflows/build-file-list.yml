@@ -38,8 +38,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: reformat-tree-output
         with:
-          working-directory: generator
-          cmd: jq '[.[0] | recurse(.contents[]?) | select(.type == "file") | .name]' gcode-files-raw.json > gcode-files.json
+          cmd: cd ${{ github.workspace }}/generator && jq '[.[0] | recurse(.contents[]?) | select(.type == "file") | .name]' gcode-files-raw.json > gcode-files.json
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
