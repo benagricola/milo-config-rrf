@@ -23,12 +23,13 @@ jobs:
 
       - name: List Gcode Files using Tree
         id: list-gcode-files
-        run: echo "json=$(tree -P '*.g' -J --gitignore --noreport -fin ${{ github.workspace }})" >> "${GITHUB_OUTPUT}"
+        run: tree -P '*.g' -J --gitignore --noreport -fin ${{ github.workspace }} > ${{ github.workspace }}/gcode-files.json
 
-      - name: Write file list JSON
-        id: write-json
-        run: echo "${{ steps.list-gcode-files.outputs.json }}" > files.json
-
-      - name: Read JSON
-        id: read-json
-        run: cat files.json
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        with:
+          add: gcode-files.json --force
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          message: "Update gcode file list for generator"
+          new_branch: generator
+          pull: --rebase
