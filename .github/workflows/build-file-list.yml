@@ -1,0 +1,56 @@
+name: Generate file lists
+on:
+  push:
+    tags-ignore:
+      - '*'
+    branches:
+      - 'generic'
+      - 'workflow'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  list-files:
+    name: Generate source and destination file list
+    runs-on: ubuntu-latest
+
+    outputs:
+      system-paths: ${{ steps.list-system-files.outputs.paths }}
+      mcu-paths: ${{ steps.list-mcu-files.outputs.paths }}
+      command-macro-paths: ${{ steps.list-command-macro-files.outputs.paths }}
+      general-macro-paths: ${{ steps.list-general-macro-files.outputs.paths }}
+
+    steps:
+      - name: List System Files
+        id: list-system-files
+        uses: mirko-felice/list-files-action@v3.0.5
+        with:
+          repo: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          path: "system"
+          ext: ".g"
+      - name: List MCU Files
+        id: list-mcu-files
+        uses: mirko-felice/list-files-action@v3.0.5
+        with:
+          repo: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          path: "mcu"
+          ext: ".g"
+      - name: List Command Macro Files
+        id: list-command-macro-files
+        uses: mirko-felice/list-files-action@v3.0.5
+        with:
+          repo: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          path: "macro/{movement,machine}"
+          ext: ".g"
+
+      - name: List General Macro Files
+        id: list-general-macro-files
+        uses: mirko-felice/list-files-action@v3.0.5
+        with:
+          repo: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          path: "macro/{misc,tool}"
+          ext: ".g"
