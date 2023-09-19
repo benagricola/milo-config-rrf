@@ -18,18 +18,23 @@ jobs:
       gcode-paths: ${{ steps.list-gcode-files.outputs.json }}
 
     steps:
-      - name: Check out repo
+      - name: Check out current branch
         uses: actions/checkout@v4
+        path: current
+
+      - name: Check out generator branch
+        uses: actions/checkout@v4
+        path: generator
+        ref: generator
 
       - name: List Gcode Files using Tree
         id: list-gcode-files
-        run: tree -P '*.g' -J --gitignore --noreport -in ${{ github.workspace }} > ${{ github.workspace }}/gcode-files.json
+        run: tree -P '*.g' -J --gitignore --noreport -in ${{ github.workspace }}/current > ${{ github.workspace }}/generator/gcode-files.json
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
           add: gcode-files.json --force
           committer_name: GitHub Actions
           committer_email: actions@github.com
-          message: "Update gcode file list for generator"
-          new_branch: generator
-          pull: origin generator --rebase --autostash
+          message: "Update gcode file list"
+          cwd: "${{ github.workspace }}/generator"
