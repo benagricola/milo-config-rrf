@@ -40,4 +40,4 @@ jobs:
           committer_email: actions@github.com
           message: "Update gcode file list"
           pull: --rebase --autostash
-          cwd: "${{ github.workspace }}/generator/"
+          cwd: "generator"
