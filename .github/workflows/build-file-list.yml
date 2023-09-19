@@ -32,4 +32,4 @@ jobs:
           committer_email: actions@github.com
           message: "Update gcode file list for generator"
           new_branch: generator
-          pull: --rebase --autostash
+          pull: origin/generator --rebase --autostash
