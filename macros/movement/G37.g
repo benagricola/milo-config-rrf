@@ -57,7 +57,7 @@ G10 P{global.spindleID} Z0
 
 if { var.safe }
     ; Deactivate spindle
-    M98 P"tool-deactivate.g"
+    M98 P"macros/tool/tool-deactivate.g"
 
 M118 P0 L2 S{"Probing tool #" ^ var.toolIndex ^ " length at X=" ^ global.toolSetterX ^ ", Y=" ^ global.toolSetterY }
 
@@ -78,7 +78,7 @@ set global.toolZTable[var.toolIndex-1] = { -var.toolOffset }
 ; Re-activate the spindle. Tool offset is set to the saved value
 ; just before activating the tool.
 if { var.safe }
-    M98 P"tool-activate.g"
+    M98 P"macros/tool/tool-activate.g"
 
 G10 P{global.spindleID} X0 Y0 Z{global.toolZTable[var.toolIndex-1]}
 ; Park.

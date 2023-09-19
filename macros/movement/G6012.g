@@ -81,7 +81,7 @@ while var.retries <= param.C
     ; Abort if an error was encountered 
     if { result != 0 }
         ; Reset all speed limits after probe
-        M98 P"speed.g"
+        M98 P"system/speed.g"
         abort {"Probe experienced an error, aborting!"}
     
     ; Record current position
@@ -132,7 +132,7 @@ while var.retries <= param.C
     set var.retries = var.retries + 1
 
 ; Make sure to reset all speed limits after probing complete
-M98 P"speed.g"
+M98 P"system/speed.g"
 
 ; If we have enough probe points, remove the highest and lowest
 ; points before averaging the rest.

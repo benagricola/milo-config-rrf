@@ -30,7 +30,7 @@ G27      ; park spindle away from work piece to allow more room
 ; Record tool before deactivating spindle
 var toolIndex = state.nextTool == -1 ? 1 : state.nextTool
 
-M98 P"tool-deactivate.g" ; Deactivate the spindle
+M98 P"macros/tool/tool-deactivate.g" ; Deactivate the spindle
 
 var toolDescription = global.toolTable[var.toolIndex-1]
 
@@ -50,9 +50,9 @@ G37 I{var.toolIndex} U1
 if { global.confirmToolChange }
     M291 R"Tool Ready?" P"CAUTION: Tool change complete. Ready to continue? Spindle will be re-activated when you click OK!" S3
     if result == 0
-        M98 P"tool-activate.g" ; Reactivate the spindle
+        M98 P"macros/tool/tool-activate.g" ; Reactivate the spindle
 else
-    M98 P"tool-activate.g" ; Reactivate the spindle
+    M98 P"macros/tool/tool-activate.g" ; Reactivate the spindle
 
 var toolOffset = global.toolZTable[var.toolIndex-1]
 

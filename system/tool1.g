@@ -10,4 +10,4 @@
 ; quarter of anyway.
 ; The VFD must be setup to treat 0v as our minimum spindle speed of 133.33Hz.
 
-M98 p"tool-activate.g" ; Activate tool on start.
+M98 P"macros/tool/tool-activate.g" ; Activate tool on start.

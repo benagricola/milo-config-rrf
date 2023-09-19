@@ -9,7 +9,7 @@ if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
 
 ; Start probing sequence
 if { !exists(global.touchProbeConnected) || global.touchProbeConnected == false }
-    M98 P"tool-deactivate.g"
+    M98 P"macros/tool/tool-deactivate.g"
     M291 P"Install touch probe in spindle and confirm it is plugged in!" R"Installation check" S3
     if result == 0
         set global.touchProbeConnected = true
