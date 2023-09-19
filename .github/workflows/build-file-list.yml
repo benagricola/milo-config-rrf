@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
+      gcode-paths: ${{ steps.list-gcode-files.outputs }}
       system-paths: ${{ steps.list-system-files.outputs.paths }}
       mcu-paths: ${{ steps.list-mcu-files.outputs.paths }}
       movement-macro-paths: ${{ steps.list-movement-macro-files.outputs.paths }}
@@ -23,6 +24,10 @@ jobs:
       misc-macro-paths: ${{ steps.list-misc-macro-files.outputs.paths }}
 
     steps:
+      - name: List Gcode Files using Tree
+        id: list-gcode-files
+        run: tree -P '*.g' -J --gitignore --noreport -f
+
       - name: List System Files
         id: list-system-files
         uses: mirko-felice/list-files-action@v3.0.5
