@@ -45,7 +45,6 @@ jobs:
           ref: ${{ github.ref }}
           path: "macro/{movement,machine}"
           ext: ".g"
-
       - name: List General Macro Files
         id: list-general-macro-files
         uses: mirko-felice/list-files-action@v3.0.5
@@ -54,3 +53,12 @@ jobs:
           ref: ${{ github.ref }}
           path: "macro/{misc,tool}"
           ext: ".g"
+
+
+      - name: Write file list JSON
+        id: write-json
+        run: echo "${{ steps }}" > files.json
+
+      - name: Read JSON
+        id: read-json
+        run: cat files.json
