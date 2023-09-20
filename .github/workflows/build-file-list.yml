@@ -41,7 +41,7 @@ jobs:
           cmd: |
             cd generator
             jq '[.[0] | recurse(.contents[]?) | select(.type == "file")] |
-              map({ key: .name, value: (.name |
+              map({ key: .name | sub("^\\."; ""), value: (.name |
               sub("^\\./(system|(macros\/(movement|machine)))/"; "/sys/") )}) |
               from_entries' ../current/gcode-files-raw.json > gcode-files.json
 
