@@ -767,20 +767,17 @@
                 throw errors.map((response) => Error(response.statusText));
             }
 
-            for([src, info] of files) {
+            for([src, info] of Object.entries(files)) {
                 info['data'] = await info['promise'].text();
                 files[src] = info;
             }
 
             console.log(files);
 
-        } catch (errors) {
+        } catch (error) {
             console.log(errors);
 
-            var errorString = "";
-            // errors.forEach((error) => errorString += error.toString());
-
-            $('#alert').text(`ERROR: ${errorString}`).show();
+            $('#alert').text(`ERROR: ${error.toString()}`).show();
         }
     });
 
