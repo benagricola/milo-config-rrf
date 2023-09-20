@@ -766,7 +766,10 @@
             console.log(texts);
 
         } catch (errors) {
-            $('#alert').text(errors.join("\n")).show();
+            var errorString = "";
+            errors.forEach((error) => errorString += error.toString());
+
+            $('#alert').text(`ERROR: ${errorString}`).show();
         }
     });
 
