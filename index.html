@@ -764,7 +764,7 @@
             const errors = (await Promise.all(requests)).filter((response) => !response.ok);
 
             if (errors.length > 0) {
-                throw errors.map((response) => Error(response.statusText));
+                throw Error("Unable to download required files, please try again.");
             }
 
             for([src, info] of Object.entries(files)) {
@@ -775,8 +775,6 @@
             console.log(files);
 
         } catch (error) {
-            console.log(errors);
-
             $('#alert').text(`ERROR: ${error.toString()}`).show();
         }
     });
