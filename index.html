@@ -23,9 +23,7 @@
     <div id="app">
         <div class="container">
             <h1>Milo Configurator</h1>
-            <div id="alert" class="alert alert-danger hide" role="alert">
-                This is a danger alert—check it out!
-            </div>
+            <div id="alert" class="alert alert-danger hidden" role="alert">Unspecified Error</div>
             <form class="form-horizontal" method="POST">
                 <ul id="nav" class="nav nav-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -764,7 +762,7 @@
                 throw errors.map((response) => Error(response.statusText));
             }
 
-            const data = responses.map((response) => response.body);
+            const data = responses.map((response) => response.text);
             console.log(data);
         } catch (errors) {
             $('#alert').text(errors.join("\n")).show();
