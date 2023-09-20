@@ -152,9 +152,9 @@
                                 </div>
                                 <div class="custom-controls-stacked">
                                     <div class="custom-control custom-checkbox">
-                                        <input name="features" id="features_6" type="checkbox"
+                                        <input name="features" id="features_7" type="checkbox"
                                             aria-describedby="hoiHelpBlock" class="custom-control-input" value="hoi">
-                                        <label for="features_6" class="custom-control-label">Heart of Iron (HOI)</label>
+                                        <label for="features_7" class="custom-control-label">Heart of Iron (HOI)</label>
                                         <small id="hoiHelpBlock" class="form-text text-muted">
                                             Your Milo has a heart of iron (probably aluminium, in this case), providing an
                                             instant <strong>+5 to rigidity</strong>. Speed limits (and bragging rights) boosted accordingly.
@@ -743,7 +743,7 @@
         var srcFiles = await loadFileList();
         var files = {};
         for(const srcFile of srcFiles) {
-            var dstFile = srcFile.replace(/^(\/system|\/macros\/(machine|movement))\//,"/sys/");
+            var dstFile = srcFile.replace(/^\.(\/system|\/macros\/(machine|movement))\//,"/sys/");
             files[srcFile] = dstFile;
         }
         console.log(files);
