@@ -45,25 +45,24 @@ jobs:
               sub("^\\./(system|(macros\/(movement|machine)))/"; "/sys/") )}) |
               from_entries' ../current/gcode-files-raw.json > gcode-files.json
 
+      - name: Generate Configuration for Web Based Generator
+        runs-on: ubuntu-latest
+        steps:
+          - name: Generate Raw Download URL
+            id: generate-raw-download-url
+            uses: sergeysova/jq-action@v2
+            with:
+              cmd: |
+                jq '{
+                  downloadRoot: "https://raw.githubusercontent.com/${{ github.repository }}",
+                  downloadBranch: "${{ github.ref_name }}"
+                }' -n > config.json
+
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
-          add: gcode-files.json --force
+          add: gcode-files.json config.json --force
           committer_name: GitHub Actions
           committer_email: actions@github.com
-          message: "Update gcode file list"
+          message: "Update generator config and file list"
           pull: --rebase --autostash
           cwd: "generator"
-
-  generate-generator-config:
-    name: Generate Configuration for Web Based Generator
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate Raw Download URL
-        id: generate-raw-download-url
-        uses: sergeysova/jq-action@v2
-        with:
-          cmd: |
-            jq '{
-              downloadRoot: "https://raw.githubusercontent.com/${{ github.repository }}",
-              downloadBranch: "${{ github.ref_name }}"
-            }' -n > config.json
