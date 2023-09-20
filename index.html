@@ -750,7 +750,7 @@
             var files    = {};
             // Pre-download the files as page is loading!
 
-            const requests = []
+            const requests = [];
             for([src, dst] of Object.entries(fileList)) {
                 var request = fetch(fileRoot + src);
                 files[src] = {
