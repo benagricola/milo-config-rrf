@@ -1,5 +1,4 @@
 [
-  "./config.g",
   "./macros/machine/M4000.g",
   "./macros/machine/M4001.g",
   "./macros/machine/M6.g",
@@ -24,6 +23,7 @@
   "./mcu/fly_cdyv3.g",
   "./mcu/fysetc_spider_king407.g",
   "./system/cancel.g",
+  "./system/config.g",
   "./system/daemon.g",
   "./system/drives.g",
   "./system/estop.g",
