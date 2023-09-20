@@ -23,6 +23,9 @@
     <div id="app">
         <div class="container">
             <h1>Milo Configurator</h1>
+            <div id="alert" class="alert alert-danger hide" role="alert">
+                This is a danger alert—check it out!
+            </div>
             <form class="form-horizontal" method="POST">
                 <ul id="nav" class="nav nav-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -740,26 +743,47 @@
 
 
     $(async function() {
-        // Load list of files we want to include in the Zip
-        var files = await loadFileList();
-        var reqPromises = {};
-        // Pre-download the files as page is loading!
+        try {
 
-        for([src, dst] of Object.entries(files)) {
-            reqPromises[src] = fetch(`https://raw.githubusercontent.com/benagricola/milo-config-rrf/generic${src}`);
+            var config = await loadConfig();
+
+            // Load list of files we want to include in the Zip
+            var files = await loadFileList();
+            var fileRoot = `${config['downloadRoot']}/${config['downloadBranch']}`;
+            var reqPromises = {};
+            // Pre-download the files as page is loading!
+
+            for([src, dst] of Object.entries(files)) {
+                reqPromises[src] = fetch(fileRoot + src);
+            }
+
+            const responses = await Promise.all(Object.values(reqPromises));
+            const errors = responses.filter((response) => !response.ok);
+
+            if (errors.length > 0) {
+                throw errors.map((response) => Error(response.statusText));
+            }
+
+            const data = responses.map((response) => response.body);
+            console.log(data);
+        } catch (errors) {
+            $('#alert').text(errors.join("\n")).show();
         }
-
-        const contents = Promise.all(Object.values(reqPromises));
-
-        contents.then(function(value) {
-            console.log(value);
-            console.log(contents)
-            console.log(reqPromises);
-        });
     });
+
+    async function loadConfig() {
+        const response = await fetch("./config.json");
+        if (!response.ok) {
+            return {};
+        }
+        return response.json();
+    }
 
     async function loadFileList() {
         const response = await fetch("./gcode-files.json");
+        if (!response.ok) {
+            return {};
+        }
         return response.json();
     }
 </script>
