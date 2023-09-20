@@ -34,7 +34,7 @@ jobs:
         working-directory: current
         run: tree -P '*.g' -J --gitignore --noreport -fin . > gcode-files-raw.json
 
-      - name: Reformat tree output
+      - name: Generate file and config JSON blobs
         uses: sergeysova/jq-action@v2
         id: reformat-tree-output
         with:
@@ -45,11 +45,6 @@ jobs:
               sub("^\\./(system|(macros\/(movement|machine)))/"; "/sys/") )}) |
               from_entries' ../current/gcode-files-raw.json > gcode-files.json
 
-      - name: Generate Raw Download URL
-        uses: sergeysova/jq-action@v2
-        id: generate-raw-download-url
-        with:
-          cmd: |
             jq '{
               downloadRoot: "https://raw.githubusercontent.com/${{ github.repository }}",
               downloadBranch: "${{ github.ref_name }}"
