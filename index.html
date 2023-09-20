@@ -743,10 +743,9 @@
     $(async function() {
         try {
 
-            var config = await loadConfig();
+            const config = await loadFile('config');
+            const files  = await loadFile('gcode-files');
 
-            // Load list of files we want to include in the Zip
-            var files = await loadFileList();
             var fileRoot = `${config['downloadRoot']}/${config['downloadBranch']}`;
             var reqPromises = {};
             // Pre-download the files as page is loading!
@@ -762,25 +761,17 @@
                 throw errors.map((response) => Error(response.statusText));
             }
 
-            const texts = responses.map((response) => response.text());
-            const data = await Promise.all(texts);
-            console.log(data);
+            const texts = Object.fromEntries(reqPromises.map((file, content) => [file, content.text()]));
+            const data = await Promise.all(Object.values(texts));
+            console.log(texts);
 
         } catch (errors) {
             $('#alert').text(errors.join("\n")).show();
         }
     });
 
-    async function loadConfig() {
-        const response = await fetch("./config.json");
-        if (!response.ok) {
-            return {};
-        }
-        return response.json();
-    }
-
-    async function loadFileList() {
-        const response = await fetch("./gcode-files.json");
+    async function loadFile(fileName) {
+        const response = await fetch(`./${fileName}.json`);
         if (!response.ok) {
             return {};
         }
