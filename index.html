@@ -768,7 +768,8 @@
             }
 
             for([src, info] of Object.entries(files)) {
-                info['data'] = await info['promise'].text();
+                console.log(info['promise']);
+                info['data'] = await resolve(info['promise']).text();
                 files[src] = info;
             }
 
