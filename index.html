@@ -739,14 +739,19 @@
     };
 
 
-    $(function() {
-        loadFileList();
+    $(async function() {
+        var srcFiles = await loadFileList();
+        var files = {};
+        for(const srcFile of srcFiles) {
+            var dstFile = srcFile.replace(/^(\/system|\/macros\/(machine|movement))\//,"/sys/");
+            files[srcFile] = dstFile;
+        }
+        console.log(files);
     });
 
     async function loadFileList() {
-        const response = await fetch("/gcode-files.json");
-        const gcode = await response.json();
-        console.log(gcode);
+        const response = await fetch("./gcode-files.json");
+        return response.json();
     }
 </script>
 
