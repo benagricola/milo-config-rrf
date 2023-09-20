@@ -744,27 +744,36 @@
         try {
 
             const config = await loadFile('config');
-            const files  = await loadFile('gcode-files');
+            const fileList  = await loadFile('gcode-files');
 
             var fileRoot = `${config['downloadRoot']}/${config['downloadBranch']}`;
-            var reqPromises = {};
+            var promises = {};
+            var files    = {};
             // Pre-download the files as page is loading!
 
-            for([src, dst] of Object.entries(files)) {
-                reqPromises[src] = fetch(fileRoot + src);
+            const requests = []
+            for([src, dst] of Object.entries(fileList)) {
+                var request = fetch(fileRoot + src);
+                promises[src] = {
+                    dst: dst,
+                    data: request
+                };
+                requests.push(request);
             }
 
-            const responses = await Promise.all(Object.values(reqPromises));
+            const responses = await Promise.all(requests);
             const errors = responses.filter((response) => !response.ok);
 
             if (errors.length > 0) {
                 throw errors.map((response) => Error(response.statusText));
             }
 
-            const texts = Object.fromEntries(reqPromises.map((file, content) => [file, content.text()]));
-            const data = await Promise.all(Object.values(texts));
-            console.log(texts);
-            console.log(data);
+            for([src, info] of promises) {
+                info['data'] = await info['data'].text();
+                files[src] = info;
+            }
+
+            console.log(files);
 
         } catch (errors) {
             console.log(errors);
