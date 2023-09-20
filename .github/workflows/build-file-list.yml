@@ -40,7 +40,10 @@ jobs:
         with:
           cmd: |
             cd generator
-            jq '[.[0] | recurse(.contents[]?) | select(.type == "file") | .name]' ../current/gcode-files-raw.json > gcode-files.json
+            jq '[.[0] | recurse(.contents[]?) | select(.type == "file")] |
+              map({ key: .name, value: (.name |
+              sub("^\\./(system|(macros\/(movement|machine)))/"; "/sys/") )}) |
+              from_entries' ../current/gcode-files-raw.json > gcode-files.json
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
