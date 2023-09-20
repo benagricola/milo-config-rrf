@@ -747,29 +747,28 @@
             const fileList  = await loadFile('gcode-files');
 
             var fileRoot = `${config['downloadRoot']}/${config['downloadBranch']}`;
-            var promises = {};
             var files    = {};
             // Pre-download the files as page is loading!
 
             const requests = []
             for([src, dst] of Object.entries(fileList)) {
                 var request = fetch(fileRoot + src);
-                promises[src] = {
+                files[src] = {
                     dst: dst,
-                    data: request
+                    data: "",
+                    promise: request
                 };
                 requests.push(request);
             }
 
-            const responses = await Promise.all(requests);
-            const errors = responses.filter((response) => !response.ok);
+            const errors = (await Promise.all(requests)).filter((response) => !response.ok);
 
             if (errors.length > 0) {
                 throw errors.map((response) => Error(response.statusText));
             }
 
-            for([src, info] of promises) {
-                info['data'] = await info['data'].text();
+            for([src, info] of files) {
+                info['data'] = await info['promise'].text();
                 files[src] = info;
             }
 
@@ -779,7 +778,7 @@
             console.log(errors);
 
             var errorString = "";
-            errors.forEach((error) => errorString += error.toString());
+            // errors.forEach((error) => errorString += error.toString());
 
             $('#alert').text(`ERROR: ${errorString}`).show();
         }
