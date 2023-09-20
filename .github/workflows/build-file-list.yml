@@ -53,3 +53,17 @@ jobs:
           message: "Update gcode file list"
           pull: --rebase --autostash
           cwd: "generator"
+
+  generate-generator-config:
+    name: Generate Configuration for Web Based Generator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Raw Download URL
+        id: generate-raw-download-url
+        uses: sergeysova/jq-action@v2
+        with:
+          cmd: |
+            jq '{
+              downloadRoot: "https://raw.githubusercontent.com/${{ github.repository }}",
+              downloadBranch: "${{ github.ref_name }}"
+            }' -n > config.json
