@@ -1,0 +1,21 @@
+name: Update Config Generator site
+on:
+  push:
+    tags-ignore:
+      - '*'
+    branches:
+      - 'generator'
+  workflow_dispatch:
+
+jobs:
+  upload-assets:
+    name: Upload Github Pages artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out generator branch
+        uses: actions/checkout@v4
+    
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: .
