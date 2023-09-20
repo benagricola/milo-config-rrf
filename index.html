@@ -764,8 +764,11 @@
             const texts = Object.fromEntries(reqPromises.map((file, content) => [file, content.text()]));
             const data = await Promise.all(Object.values(texts));
             console.log(texts);
+            console.log(data);
 
         } catch (errors) {
+            console.log(errors);
+
             var errorString = "";
             errors.forEach((error) => errorString += error.toString());
 
