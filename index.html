@@ -772,6 +772,7 @@
 
         console.log(fileData);
         const blob = fflate.zipSync(fileData, {level: 1});
+        console.log("Zip generated, triggering download");
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = "milo-rrf-config.zip";
