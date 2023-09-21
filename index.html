@@ -767,11 +767,11 @@
         console.log("Generating Zip file");
         var fileData = {};
         for(file of Object.values(files)) {
-            fileData[file['name']] = file['input'];
+            fileData[file['name'].slice(1)] = file['input'];
         }
 
         console.log(fileData);
-        const blob = fflate.zipSync(fileData, {level: 1});
+        const blob = fflate.zipSync(fileData, {level: 0, mem: 12});
         console.log("Zip generated, triggering download");
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
