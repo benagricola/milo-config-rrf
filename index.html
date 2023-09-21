@@ -775,13 +775,13 @@
                 console.log(error);
                 return;
             }
-            console.log(chunk);
             zipData += chunk;
 
             if(final) {
                 console.log("Zip generation complete, triggering download");
                 const link = document.createElement("a");
-                link.href = URL.createObjectURL(zipData);
+
+                link.href = URL.createObjectURL(new Blob(zipData, {type: "application/zip"}));
                 link.download = "milo-rrf-config.zip";
                 link.click();
                 link.remove();
@@ -827,8 +827,6 @@
                 delete info['promise'];
                 files[src] = info;
             }
-
-            console.log(files);
 
         } catch (error) {
             console.log(error);
