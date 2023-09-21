@@ -775,7 +775,8 @@
                 console.log(error);
                 return;
             }
-            zipData += fflate.strFromU8(chunk);
+            console.log(chunk);
+            zipData += chunk;
 
             if(final) {
                 console.log("Zip generation complete, triggering download");
