@@ -539,28 +539,17 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="generated-config" role="tabpanel" aria-labelledby="generated-config-tab">
-                        <div class="form-group row">
-                            <label for="user-vars" class="col-2 col-form-label">user-vars.g</label>
-                            <div class="col-10">
-                                <textarea id="user-vars" name="user-vars" cols="80" rows="10" class="form-control"
-                                    aria-describedby="user-varsHelpBlock"></textarea>
-                                <span id="user-varsHelpBlock" class="form-text text-muted">Generated
-                                    <strong>user-vars.g</strong>.
-                                    Overwrite the contents in <strong>/sys/user-vars.g</strong> if you have already
-                                    installed
-                                    RepRapFirmware using this configurator.</span>
+                        <div class="form-group row justify-content-center">
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">Configuration Generated!</h4>
+                                <p>A Milo-specific RepRapFirmware configuration has been created and can be downloaded by clicking on the button below.</p>
+                                <hr>
+                                <p class="mb-0">You can extract this Zip file directly onto your SD card. If you have an existing configuration, please make sure to overwrite any files when asked.</p>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="run-once" class="col-2 col-form-label">run-once.g</label>
-                            <div class="col-10">
-                                <textarea id="run-once" name="run-once" cols="80" rows="10" class="form-control"
-                                    aria-describedby="run-onceHelpBlock"></textarea>
-                                <span id="run-onceHelpBlock" class="form-text text-muted">Generated
-                                    <strong>run-once.g</strong>.
-                                    Overwrite the contents in <strong>/sys/run-once.g</strong> if you have already
-                                    installed
-                                    RepRapFirmware using this configurator.</span>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-3">
+                                <a id="download-bundle" class="btn btn-primary btn-lg" role="button" aria-disabled="true">Download Bundle</a>
                             </div>
                         </div>
                     </div>
@@ -573,7 +562,7 @@
     var files = {};
 
     // Implement next and back buttons
-    $('button[name="next-tab"]').on('click', function (e) {
+    $('button[name="next-tab"]').on('click', (e) => {
         e.preventDefault();
 
         // Check visible form fields when clicking next.
@@ -591,13 +580,19 @@
         var nextTabId = e.target.closest('div.tab-pane').nextElementSibling.id;
         $(`#nav li button[id="${nextTabId}-tab"]`).tab('show');
     });
-    $('button[name="last-tab"]').on('click', function (e) {
+
+    $('button[name="last-tab"]').on('click', (e) => {
         e.preventDefault();
         var lastTabId = e.target.closest('div.tab-pane').previousElementSibling.id;
         $(`#nav li button[id="${lastTabId}-tab"]`).tab('show');
     });
 
-    $("#nav li button[id='generated-config-tab']").on('show.bs.tab', function (e) {
+    $('a#download-bundle').on('click', (e) => {
+        e.preventDefault();
+        generateZip();
+    });
+
+    $("#nav li button[id='generated-config-tab']").on('show.bs.tab', (e) => {
         var formValues = {};
         $('form').serializeArray().forEach(function (a) {
             var val = a.value != "" ? a.value : $(`form input[name="${a.name}"]`).prop('placeholder');
@@ -612,11 +607,10 @@
             }
         });
         generateConfig(formValues);
-        generateZip();
     });
 
     // Process finish button and enable generated config
-    $('button[name="submit"]').on('click', function (e) {
+    $('button[name="submit"]').on('click', (e) => {
         if (!$('form')[0].reportValidity()) {
             return true;
         }
@@ -627,7 +621,7 @@
     $()
 
     // Disable low voltage drivers when 48v selected
-    $('input[name="motor_voltage"]').on('change', function () {
+    $('input[name="motor_voltage"]').on('change', () => {
         var disable = this.value == 48;
 
         // Disable 24v-only drivers
@@ -775,12 +769,9 @@
             }
             zipData.push(chunk);
             if(final) {
-                console.log("Zip generation complete, triggering download");
-                const link = document.createElement("a");
+                const link = $('a#download-bundle')[0];
                 link.href = URL.createObjectURL(new Blob(zipData, { type: 'application/zip' }));
                 link.download = "milo-rrf-config.zip";
-                link.click();
-                URL.revokeObjectURL(link.href);
             }
         };
 
