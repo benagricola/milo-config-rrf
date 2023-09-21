@@ -769,7 +769,7 @@
 
             for([src, info] of Object.entries(files)) {
                 console.log(info['promise']);
-                info['data'] = await resolve(info['promise']).text();
+                info['data'] = await (await info['promise']).text();
                 files[src] = info;
             }
 
