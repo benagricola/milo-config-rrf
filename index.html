@@ -16,6 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
         crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/client-zip@2.4.4/index.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -86,7 +87,8 @@
                                         <label for="features_0" class="custom-control-label">3D Touch Probe</label>
                                         <small id="touchProbeHelpBlock" class="form-text text-muted">
                                             Your Milo loves reaching out and touching things.
-                                            You get easy work piece measurement and corner probing for setting origins. When
+                                            You get easy work piece measurement and corner probing for setting origins.
+                                            When
                                             combined with Tool Setter, allows for faster tool changes by calculating
                                             offsets from a reference surface.
                                         </small>
@@ -99,7 +101,8 @@
                                             value="toolsetter">
                                         <label for="features_1" class="custom-control-label">Tool Setter</label>
                                         <small id="toolSetterHelpBlock" class="form-text text-muted">
-                                            Long and Strong (your tool). Or at least that's what your Milo will be able to
+                                            Long and Strong (your tool). Or at least that's what your Milo will be able
+                                            to
                                             ascertain, by automating tool length compensation during tool changes.
                                         </small>
                                     </div>
@@ -112,8 +115,10 @@
                                         <label aria-describedby="casaHelpBlock" for="features_2"
                                             class="custom-control-label">Enclosure</label>
                                         <small id="casaHelpBlock" class="form-text text-muted">
-                                            Your Milo has its' own little Casa. It is protected from the elements, and the elements are protected
-                                            from flying chips! Adds <strong>+5 to safety</strong>, with an additional emergency stop!
+                                            Your Milo has its' own little Casa. It is protected from the elements, and
+                                            the elements are protected
+                                            from flying chips! Adds <strong>+5 to safety</strong>, with an additional
+                                            emergency stop!
                                         </small>
                                     </div>
                                 </div>
@@ -146,8 +151,10 @@
                                         <label for="features_6" class="custom-control-label">Full Metal Jacket
                                             (FMJ)</label>
                                         <small id="fmjHelpBlock" class="form-text text-muted">
-                                            Your Milo wears a solid metal jacket, making it insanely strong! adds <strong>+5 rigidity</strong>
-                                            (and <strong>+5 charisma</strong> for that matter). Speed limits boosted accordingly.
+                                            Your Milo wears a solid metal jacket, making it insanely strong! adds
+                                            <strong>+5 rigidity</strong>
+                                            (and <strong>+5 charisma</strong> for that matter). Speed limits boosted
+                                            accordingly.
                                         </small>
                                     </div>
                                 </div>
@@ -157,15 +164,18 @@
                                             aria-describedby="hoiHelpBlock" class="custom-control-input" value="hoi">
                                         <label for="features_7" class="custom-control-label">Heart of Iron (HOI)</label>
                                         <small id="hoiHelpBlock" class="form-text text-muted">
-                                            Your Milo has a heart of iron (probably aluminium, in this case), providing an
-                                            instant <strong>+5 to rigidity</strong>. Speed limits (and bragging rights) boosted accordingly.
+                                            Your Milo has a heart of iron (probably aluminium, in this case), providing
+                                            an
+                                            instant <strong>+5 to rigidity</strong>. Speed limits (and bragging rights)
+                                            boosted accordingly.
                                         </small>
                                     </div>
                                 </div>
                                 <div class="custom-controls-stacked">
                                     <div class="custom-control custom-checkbox">
                                         <input name="features" id="features_5" type="checkbox"
-                                            aria-describedby="vsscHelpBlock" class="custom-control-input" value="vssc" checked>
+                                            aria-describedby="vsscHelpBlock" class="custom-control-input" value="vssc"
+                                            checked>
                                         <label for="features_5" class="custom-control-label">Variable Spindle Speed
                                             Control</label>
                                         <small id="vsscHelpBlock" class="form-text text-muted">
@@ -397,9 +407,8 @@
                             <label for="safe_z_distance" class="col-4 col-form-label">Safe Z Distance</label>
                             <div class="col-8">
                                 <div class="input-group">
-                                    <input type="range" class="custom-range" min="1" max="50" step="1"
-                                        value="20" id="safe_z_distance_range"
-                                        oninput="safe_z_distance.value = this.value">
+                                    <input type="range" class="custom-range" min="1" max="50" step="1" value="20"
+                                        id="safe_z_distance_range" oninput="safe_z_distance.value = this.value">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fas fa-ruler"></i>
@@ -413,7 +422,8 @@
                                         <div class="input-group-text">mm</div>
                                     </div>
                                 </div>
-                                <span id="safe_z_distanceHelpBlock" class="form-text text-muted">Enter a distance in millimeters above probed surfaces where RepRapFirmware can safely move.</span>
+                                <span id="safe_z_distanceHelpBlock" class="form-text text-muted">Enter a distance in
+                                    millimeters above probed surfaces where RepRapFirmware can safely move.</span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -443,8 +453,8 @@
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input name="network_mode" id="network_mode_2" type="radio"
-                                        aria-describedby="network_modeHelpBlock"
-                                        class="custom-control-input" value="none">
+                                        aria-describedby="network_modeHelpBlock" class="custom-control-input"
+                                        value="none">
                                     <label for="network_mode_2" class="custom-control-label">None</label>
                                 </div>
                                 <span id="network_modeHelpBlock" class="form-text text-muted">Select which network mode
@@ -498,7 +508,8 @@
                                     <input id="dwc_password" name="dwc_password" type="password" class="form-control"
                                         aria-describedby="dwc_passwordHelpBlock" required>
                                 </div>
-                                <span id="dwc_passwordHelpBlock" class="form-text text-muted">Choose a password for the Duet Web Control interface.</span>
+                                <span id="dwc_passwordHelpBlock" class="form-text text-muted">Choose a password for the
+                                    Duet Web Control interface.</span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -533,8 +544,10 @@
                             <div class="col-10">
                                 <textarea id="user-vars" name="user-vars" cols="80" rows="10" class="form-control"
                                     aria-describedby="user-varsHelpBlock"></textarea>
-                                <span id="user-varsHelpBlock" class="form-text text-muted">Generated <strong>user-vars.g</strong>.
-                                    Overwrite the contents in <strong>/sys/user-vars.g</strong> if you have already installed
+                                <span id="user-varsHelpBlock" class="form-text text-muted">Generated
+                                    <strong>user-vars.g</strong>.
+                                    Overwrite the contents in <strong>/sys/user-vars.g</strong> if you have already
+                                    installed
                                     RepRapFirmware using this configurator.</span>
                             </div>
                         </div>
@@ -543,8 +556,10 @@
                             <div class="col-10">
                                 <textarea id="run-once" name="run-once" cols="80" rows="10" class="form-control"
                                     aria-describedby="run-onceHelpBlock"></textarea>
-                                <span id="run-onceHelpBlock" class="form-text text-muted">Generated <strong>run-once.g</strong>.
-                                    Overwrite the contents in <strong>/sys/run-once.g</strong> if you have already installed
+                                <span id="run-onceHelpBlock" class="form-text text-muted">Generated
+                                    <strong>run-once.g</strong>.
+                                    Overwrite the contents in <strong>/sys/run-once.g</strong> if you have already
+                                    installed
                                     RepRapFirmware using this configurator.</span>
                             </div>
                         </div>
@@ -555,19 +570,21 @@
     </div>
 </body>
 <script type="text/javascript">
+    var files = {};
+
     // Implement next and back buttons
     $('button[name="next-tab"]').on('click', function (e) {
         e.preventDefault();
 
         // Check visible form fields when clicking next.
         var valid = true;
-        $('input:visible').each(function(_, e) {
-            if(!e.reportValidity()) {
+        $('input:visible').each(function (_, e) {
+            if (!e.reportValidity()) {
                 valid = false;
             }
         });
 
-        if(!valid) {
+        if (!valid) {
             return true;
         }
 
@@ -581,9 +598,8 @@
     });
 
     $("#nav li button[id='generated-config-tab']").on('show.bs.tab', function (e) {
-        console.log(e);
         var formValues = {};
-        $('form').serializeArray().forEach(function(a) {
+        $('form').serializeArray().forEach(function (a) {
             var val = a.value != "" ? a.value : $(`form input[name="${a.name}"]`).prop('placeholder');
             if (a.name in formValues) {
                 if (formValues[a.name].push) {
@@ -596,6 +612,7 @@
             }
         });
         generateConfig(formValues);
+        generateZip();
     });
 
     // Process finish button and enable generated config
@@ -627,25 +644,24 @@
     function dedent(str) {
         str = str.replace(/^\n/, "");
         let match = str.match(/^\s+/);
-        return match ? str.replace(new RegExp("^"+match[0], "gm"), "") : str;
+        return match ? str.replace(new RegExp("^" + match[0], "gm"), "") : str;
     }
-	
+
     function generateConfig(f) {
-        console.log(f);
         var ft = f['features'];
 
         var wifiConfigG = "; WiFi Disabled!";
-        var wifiMode    = 0;
-        var wifiAP      = false;
-        var netMode     = f['network_mode'];
+        var wifiMode = 0;
+        var wifiAP = false;
+        var netMode = f['network_mode'];
 
         if (netMode == "wifi_client") {
             wifiConfigG = `M587 S"${f['wifi_ap_name']}" P"${f['wifi_password']}"`;
-            wifiMode    = 1;
+            wifiMode = 1;
         } else if (netMode == "wifi_ap") {
             wifiConfigG = `M589 S"${f['wifi_ap_name']}" P"${f['wifi_password']}" I${f['wifi_ap_ip']}`;
-            wifiMode    = 2;
-            wifiAP      = true;
+            wifiMode = 2;
+            wifiAP = true;
         }
 
         var userVarsGeneralG = `
@@ -691,18 +707,18 @@
         `;
 
         var mcrxy = 50;
-        var mcrz  = 30;
+        var mcrz = 30;
 
         // Scaling motor current standstill reduction
-        if(3500 < f['motor_current']) {
+        if (3500 < f['motor_current']) {
             mcrxy = 7.5;
-            mcrz  = 5;
+            mcrz = 5;
         } else if (2500 < f['motor_current']) {
             mcrxy = 15;
-            mcrz  = 10;
+            mcrz = 10;
         } else if (1500 < f['motor_current']) {
             mcrxy = 30;
-            mcrz  = 20;
+            mcrz = 20;
         }
 
         var userVarsMotorG = `
@@ -735,27 +751,43 @@
             ; Reboot the MCU
             M999
         `;
-        $('textarea[id="user-vars"]').val(dedent(userVarsGeneralG + userVarsMotorG));
-        $('textarea[id="run-once"]').val(dedent(runOnceG));
+        files['user-vars.g'] = {
+            name: "/sys/user-vars.g",
+            input: dedent(userVarsGeneralG + userVarsMotorG)
+        };
+        files['run-once.g'] = {
+            name: "/sys/run-once.g",
+            input: dedent(runOnceG),
+        }
+        $('textarea[id="user-vars"]').val(files['user-vars.g']['input']);
+        $('textarea[id="run-once"]').val(files['run-once.g']['input']);
     };
 
+    async function generateZip() {
+        console.log("Generating Zip file");
+        const blob = await downloadZip(Object.values(files)).blob();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "milo-rrf-config.zip";
+        link.click();
+        link.remove();
+    }
 
-    $(async function() {
+    $(async function () {
         try {
 
-            const config = await loadFile('config');
-            const fileList  = await loadFile('gcode-files');
+            const config = await loadJSONFile('config');
+            const fileList = await loadJSONFile('gcode-files');
 
             var fileRoot = `${config['downloadRoot']}/${config['downloadBranch']}`;
-            var files    = {};
             // Pre-download the files as page is loading!
 
             const requests = [];
-            for([src, dst] of Object.entries(fileList)) {
+            for ([src, dst] of Object.entries(fileList)) {
                 var request = fetch(fileRoot + src);
                 files[src] = {
-                    dst: dst,
-                    data: "",
+                    name: dst,
+                    input: "",
                     promise: request
                 };
                 requests.push(request);
@@ -767,9 +799,9 @@
                 throw Error("Unable to download required files, please try again.");
             }
 
-            for([src, info] of Object.entries(files)) {
-                console.log(info['promise']);
-                info['data'] = await (await info['promise']).text();
+            for ([src, info] of Object.entries(files)) {
+                info['input'] = await (await info['promise']).text();
+                delete info['promise'];
                 files[src] = info;
             }
 
@@ -781,8 +813,15 @@
         }
     });
 
-    async function loadFile(fileName) {
+    async function loadJSONFile(fileName) {
         const response = await fetch(`./${fileName}.json`);
+        if (!response.ok) {
+            return {};
+        }
+        return response.json();
+    }
+    async function loadJSFile(fileName) {
+        const response = await fetch(`./${fileName}.js`);
         if (!response.ok) {
             return {};
         }
