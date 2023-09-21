@@ -567,7 +567,7 @@
 
         // Check visible form fields when clicking next.
         var valid = true;
-        $('input:visible').each(function (_, e) {
+        $('input:visible').each((_, e) => {
             if (!e.reportValidity()) {
                 valid = false;
             }
@@ -587,14 +587,9 @@
         $(`#nav li button[id="${lastTabId}-tab"]`).tab('show');
     });
 
-    $('a#download-bundle').on('click', (e) => {
-        e.preventDefault();
-        generateZip();
-    });
-
     $("#nav li button[id='generated-config-tab']").on('show.bs.tab', (e) => {
         var formValues = {};
-        $('form').serializeArray().forEach(function (a) {
+        $('form').serializeArray().forEach((a) => {
             var val = a.value != "" ? a.value : $(`form input[name="${a.name}"]`).prop('placeholder');
             if (a.name in formValues) {
                 if (formValues[a.name].push) {
@@ -607,6 +602,7 @@
             }
         });
         generateConfig(formValues);
+        generateZip();
     });
 
     // Process finish button and enable generated config
@@ -621,7 +617,7 @@
     $()
 
     // Disable low voltage drivers when 48v selected
-    $('input[name="motor_voltage"]').on('change', () => {
+    $('input[name="motor_voltage"]').on('change',() => {
         var disable = this.value == 48;
 
         // Disable 24v-only drivers
@@ -762,6 +758,9 @@
 
         const zip = new fflate.Zip();
         var zipData = [];
+
+        // On each zip output chunk, push it into the zipData array
+        // When final chunk, add object URL to download button.
         zip.ondata = (err, chunk, final) => {
             if (err) {
                 console.log(err);
@@ -775,6 +774,7 @@
             }
         };
 
+        // Push all necessary files into zip, do not compress as they're already downloaded.
         for(file of Object.values(files)) {
             const zipFile = new fflate.ZipPassThrough(file['name'].slice(1));
             zip.add(zipFile);
