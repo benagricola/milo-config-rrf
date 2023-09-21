@@ -770,7 +770,8 @@
             fileData[file['name']] = file['input'];
         }
 
-        const blob = fflate.zipSync(fileData, {level: 0});
+        console.log(fileData);
+        const blob = fflate.zipSync(fileData, {level: 1});
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = "milo-rrf-config.zip";
