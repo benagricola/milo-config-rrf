@@ -766,20 +766,26 @@
     async function generateZip() {
         console.log("Generating Zip file");
 
-        const zip = new fflate.Zip((error, dat, final) => {
-        if (!error) {
-            // output of the streams
-            console.log(dat, final);
-            console.log("Zip generated, triggering download");
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(final);
-            link.download = "milo-rrf-config.zip";
-            link.click();
-            link.remove();
-        } else {
-            console.log(error)
-        }
-        });
+        const zip = new fflate.Zip();
+
+        var zipData = "";
+
+        zip.ondata = (error, chunk, final) => {
+            if(error) {
+                console.log(error);
+                return;
+            }
+            zipData += strFromU8(chunk);
+
+            if(final) {
+                console.log("Zip generation complete, triggering download");
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(zipData);
+                link.download = "milo-rrf-config.zip";
+                link.click();
+                link.remove();
+            }
+        };
 
         for(file of Object.values(files)) {
             const zipFile = new fflate.ZipPassThrough(file['name'].slice(1));
