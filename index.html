@@ -829,13 +829,6 @@
         }
         return response.json();
     }
-    async function loadJSFile(fileName) {
-        const response = await fetch(`./${fileName}.js`);
-        if (!response.ok) {
-            return {};
-        }
-        return response.json();
-    }
 </script>
 
 </html>
