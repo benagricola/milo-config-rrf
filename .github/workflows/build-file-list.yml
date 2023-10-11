@@ -14,9 +14,6 @@ jobs:
     name: Generate source and destination file list
     runs-on: ubuntu-latest
 
-    outputs:
-      gcode-paths: ${{ steps.list-gcode-files.outputs.json }}
-
     steps:
       - name: Check out current branch
         uses: actions/checkout@v4
