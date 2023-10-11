@@ -34,6 +34,11 @@ jobs:
         working-directory: current
         run: tree -P '*.g' -J --gitignore --noreport -fin . > gcode-files-raw.json
 
+      - name: List Board Files using Tree
+        id: list-board-files
+        working-directory: current
+        run: tree -P '*.txt' -J --gitignore --noreport -in ./boards > board-files-raw.json
+
       - name: Generate file and config JSON blobs
         uses: sergeysova/jq-action@v2
         id: reformat-tree-output
@@ -46,16 +51,20 @@ jobs:
               sub("^(?!/sys/)"; "/sys"))}) |
               from_entries' ../current/gcode-files-raw.json > gcode-files.json
 
+            jq '[.[0] | recurse(.contents[]?) | select(.type == "file")] |
+              map({ key: .name | sub("\\.txt$"; ""), value: .name }) |
+              from_entries' ../current/board-files-raw.json > board-files.json
+
             jq '{
               downloadRoot: "https://raw.githubusercontent.com/${{ github.repository }}",
               downloadBranch: "${{ github.ref_name }}"
             }' -n > config.json
 
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+      - uses: EndBug/add-and-commit@v9
         with:
-          add: gcode-files.json config.json --force
+          add: gcode-files.json board-files.json config.json --force
           committer_name: GitHub Actions
           committer_email: actions@github.com
-          message: "Update generator config and file list"
+          message: "Update generator config and file lists"
           pull: --rebase --autostash
           cwd: "generator"
