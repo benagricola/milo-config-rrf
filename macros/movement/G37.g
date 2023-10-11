@@ -81,5 +81,6 @@ if { var.safe }
     M98 P"macros/tool/tool-activate.g"
 
 G10 P{global.spindleID} X0 Y0 Z{global.toolZTable[var.toolIndex-1]}
+
 ; Park.
 G27

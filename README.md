@@ -17,24 +17,22 @@ This config is open source, and provided as a basis for anyone to use to configu
     - Varies the spindle RPM up and down within a given range over a given period.
 
 
-
 ## Use
 * Is at your own risk, as outlined in the `LICENSE`. If you break a bit, or cut your hand off, or kill your dog, it's not our fault. *WEAR EYE PROTECTION AND NO, SAFETY SQUINTS ARE NOT IT*.
-* Download the zip or .tar.gz of the latest version from the [releases](../../releases/latest) page
-* Extract it to the `/sys` folder on your SD card
-* Copy the relevant board file for your MCU from the `boards` subdirectory to `/sys/board.txt`
-* Configure `user-vars.g` to match your specific setup.
+* Use the [configurator](https://benagricola.github.io/milo-config-rrf/) to generate a zip file containing the firmware configuration for your machine.
+* Extract the zip onto your SD card (at the root, /).
 * Place the SD card into your MCU SD card slot and start up the board.
-* Use DWC or a serial console to set passwords for WiFi, or to set the AP name if broadcasting its' own AP.
-* Reboot the controller (Run `M999`) and wait for it to be accessible on WiFi.
 * Test the movement, endstops, relevant macros.
 * Do not turn off any of the safety options (safe distances or `global.confirmUnsafeMove`) until you are 100% happy with the behaviour of the code.
+
+## Post Processors
+Compatible post-processors are available in the `post-processors` directory. They assume that safety checks are implemented by the firmware, so you _should not_ use these with any other RRF firmware configuration!
+
 
 ## TODO
 * DOCUMENT.
 * Ability to run the config without the touch probe or toolsetter, by prompting the user manually.
 * Add Work Zero detection on surface and hole.
-* CNC LCD menu.
 * ? Feedback appreciated.
 
 ## Macros

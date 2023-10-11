@@ -8,6 +8,9 @@
 ;
 ; NOTE: MUST be used with a negative Z (so 0 to -<n> rather than 0 to <n>)
 
+G27      ; park spindle away from work piece so we know we're
+         ; starting from a safe location.
+
 ; Variables used to store user inputs.
 var probeCorner     = null
 var probeDistanceZ  = null
