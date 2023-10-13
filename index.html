@@ -560,6 +560,8 @@
 </body>
 <script type="text/javascript">
     var files = {};
+    const TYPE_BOARD = 0;
+    const TYPE_GCODE = 1;
 
     // Implement next and back buttons
     $('button[name="next-tab"]').on('click', (e) => {
@@ -753,7 +755,17 @@
         $('textarea[id="run-once"]').val(files['run-once.g']['input']);
     };
 
-    async function generateZip() {
+    async function generateZip(board) {
+        const boards = await loadJSONFile('board-files');
+
+        if(!boards[board]) {
+            const error = "Unknown board selected!";
+            console.log(error);
+            return $('#alert').text(`ERROR: ${error}`).show();
+        }
+
+        var boardReq = fetch(fileRoot + )
+
         console.log("Generating Zip file");
 
         const zip = new fflate.Zip();
@@ -775,11 +787,18 @@
         };
 
         // Push all necessary files into zip, do not compress as they're already downloaded.
-        for(file of Object.values(files)) {
+        for([src, file] of Object.entries(files)) {
+            if(file['type'] == TYPE_BOARD) {
+                if(src != board) {
+                    continue;
+                }
+            }
             const zipFile = new fflate.ZipPassThrough(file['name'].slice(1));
             zip.add(zipFile);
             zipFile.push(file['input'], true);
         }
+
+        zipFile.push()
 
         zip.end();
     }
@@ -788,20 +807,25 @@
         try {
 
             const config = await loadJSONFile('config');
-            const fileList = await loadJSONFile('gcode-files');
+
+            // Neither of these are actually lists.
+            const fileList  = Object.entries(await loadJSONFile('gcode-files'));
+            const boardList = Object.entries(await loadJSONFile('board-files'));
 
             var fileRoot = `${config['downloadRoot']}/${config['downloadBranch']}`;
-            // Pre-download the files as page is loading!
 
+            // Pre-download the files as page is loading!
             const requests = [];
             for ([src, dst] of Object.entries(fileList)) {
                 var request = fetch(fileRoot + src);
-                files[src] = {
-                    name: dst,
-                    input: "",
-                    promise: request
-                };
                 requests.push(request);
+                files[src] = { name: dst, input: "", type: TYPE_GCODE, promise: request };
+            }
+
+            for ([src, dst] of Object.entries(boardList)) {
+                var request = fetch(fileRoot + src + ".txt");
+                requests.push(request);
+                files[src] = { name: dst, input: "", type: TYPE_BOARD, promise: request };
             }
 
             const errors = (await Promise.all(requests)).filter((response) => !response.ok);
