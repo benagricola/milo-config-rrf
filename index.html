@@ -808,13 +808,13 @@
 
             // Pre-download the files as page is loading!
             const requests = [];
-            for ([src, dst] of Object.entries(fileList)) {
+            for ([src, dst] of fileList) {
                 var request = fetch(fileRoot + src);
                 requests.push(request);
                 files[src] = { name: dst, input: "", type: TYPE_GCODE, promise: request };
             }
 
-            for ([src, dst] of Object.entries(boardList)) {
+            for ([src, dst] of boardList) {
                 var request = fetch(fileRoot + src + ".txt");
                 requests.push(request);
                 files[src] = { name: dst, input: "", type: TYPE_BOARD, promise: request };
