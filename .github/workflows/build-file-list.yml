@@ -49,7 +49,7 @@ jobs:
               from_entries' ../current/gcode-files-raw.json > gcode-files.json
 
             jq '[.[0] | recurse(.contents[]?) | select(.type == "file")] |
-              map({ key: .name | sub("\\.txt$"; ""), value: .name }) |
+              map({ key: .name | sub("\\.txt$"; ""), value: "/sys/board.txt" }) |
               from_entries' ../current/board-files-raw.json > board-files.json
 
             jq '{
