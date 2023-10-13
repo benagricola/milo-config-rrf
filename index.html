@@ -194,7 +194,7 @@
                         </div>
                     </div>
                     <div class="tab-pane show" id="hardware" role="tabpanel" aria-labelledby="hardware-tab">
-                        <!-- <div class="form-group row">
+                        <div class="form-group row">
                             <label for="mcu_type" class="col-4 col-form-label">Main Control Unit Type</label>
                             <div class="col-8">
                                 <div class="input-group">
@@ -212,7 +212,7 @@
                                 <span id="mcu_typeHelpBlock" class="form-text text-muted">Select the MCU (control board)
                                     to generate a configuration for. Supported devices are identified automatically.</span>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="form-group row">
                             <label class="col-4">Motor Voltage</label>
                             <div class="col-8">
@@ -604,7 +604,7 @@
             }
         });
         generateConfig(formValues);
-        generateZip();
+        generateZip(formValues['mcu_type']);
     });
 
     // Process finish button and enable generated config
@@ -757,14 +757,6 @@
 
     async function generateZip(board) {
         const boards = await loadJSONFile('board-files');
-
-        if(!boards[board]) {
-            const error = "Unknown board selected!";
-            console.log(error);
-            return $('#alert').text(`ERROR: ${error}`).show();
-        }
-
-        var boardReq = fetch(fileRoot + )
 
         console.log("Generating Zip file");
 
