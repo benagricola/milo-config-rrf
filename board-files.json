@@ -1,3 +1,6 @@
 {
-  "fysetc_spider_king407": "/sys/board.txt"
+  "fysetc_spider_king407": {
+    "src": "/boards/fysetc_spider_king407.txt",
+    "dst": "/sys/board.txt"
+  }
 }
