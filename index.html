@@ -286,7 +286,77 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="features" role="tabpanel" aria-labelledby="features-tab">
-                        <h2>Feature config goes here</h2>
+                        <h3><i class="fas fa-thumbtack"></i> 3D Touch Probe</h3>
+                        <div class="form-group row">
+                            <label for="touchprobe_num_probes" class="col-4 col-form-label">Touch Probe Count</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <input type="range" class="custom-range" min="1" max="10" step="1"
+                                        value="3" id="touchprobe_num_probes_range"
+                                        oninput="touchprobe_num_probes.value = this.value">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-arrows-spin"></i>
+                                        </div>
+                                    </div>
+                                    <input id="touchprobe_num_probes" name="touchprobe_num_probes" min="1" max="10" step="1"
+                                        placeholder="3" type="number" class="form-control"
+                                        aria-describedby="touchprobe_num_probesHelpBlock"
+                                        oninput="touchprobe_num_probes_range.value = this.value">
+                                </div>
+                                <span id="touchprobe_num_probesHelpBlock" class="form-text text-muted">When probing a surface, 
+                                    repeat the probe this number of times and average the results. With 5 or more probe results,
+                                    the highest and lowest values are discarded and the remaining values are averaged.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="touchprobe_probe_radius" class="col-4 col-form-label">Touch Probe Tip Radius</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <input type="range" class="custom-range" min="0.1" max="10" step="0.1"
+                                        value="1" id="touchprobe_probe_radius_range"
+                                        oninput="touchprobe_probe_radius.value = this.value">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-circle-notch"></i>
+                                        </div>
+                                    </div>
+                                    <input id="touchprobe_probe_radius" name="touchprobe_probe_radius" min="0.1" max="10" step="0.1"
+                                        placeholder="1" type="number" class="form-control"
+                                        aria-describedby="touchprobe_probe_radiusHelpBlock"
+                                        oninput="touchprobe_probe_radius_range.value = this.value">
+                                </div>
+                                <span id="touchprobe_probe_radiusHelpBlock" class="form-text text-muted">Set the radius of the touch probe
+                                    tip. This will usually be specified in the documentation for the touch probe, and is used to compensate
+                                    for the size of the touch probe on horizontal probing operations.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="touchprobe_probe_deflection" class="col-4 col-form-label">Touch Probe Deflection</label>
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <input type="range" class="custom-range" min="0.001" max="1" step="0.001"
+                                        value="0" id="touchprobe_probe_deflection_range"
+                                        oninput="touchprobe_probe_deflection.value = this.value">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-circle-notch"></i>
+                                        </div>
+                                    </div>
+                                    <input id="touchprobe_probe_deflection" name="touchprobe_probe_deflection" min="0.001" max="1" step="0.001"
+                                        placeholder="0" type="number" class="form-control"
+                                        aria-describedby="touchprobe_probe_deflectionHelpBlock"
+                                        oninput="touchprobe_probe_deflection_range.value = this.value">
+                                </div>
+                                <span id="touchprobe_probe_deflectionHelpBlock" class="form-text text-muted">Set the deflection distance that
+                                    the touch probe experiences before activating. This will need to be measured once the machine is running, so
+                                    it is fine to leave this at 0 for initial configuration. You can measure the dimensions of a known work-piece
+                                    using <strong>G6000</strong>, and the difference in the probed dimension vs. the known dimension is twice 
+                                    the deflection value. This may take a couple of tries to get right.
+                                </span>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="offset-4 col-1">
                                 <button name="last-tab" type="submit" class="btn btn-primary">Back</button>
@@ -814,10 +884,10 @@
                 files[src] = { name: dst, input: "", type: TYPE_GCODE, promise: request };
             }
 
-            for ([src, dst] of boardList) {
-                var request = fetch(fileRoot + src + ".txt");
+            for ([boardName, info] of boardList) {
+                var request = fetch(fileRoot + info['src']);
                 requests.push(request);
-                files[src] = { name: dst, input: "", type: TYPE_BOARD, promise: request };
+                files[boardName] = { name: info['dst'], input: "", type: TYPE_BOARD, promise: request };
             }
 
             const errors = (await Promise.all(requests)).filter((response) => !response.ok);
