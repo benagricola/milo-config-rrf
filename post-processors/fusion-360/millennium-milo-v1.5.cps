@@ -369,6 +369,9 @@ function onOpen() {
       break;
   }
 
+  // All feeds in mm/min
+  writeBlock(gCodes.format(94));
+
   writeln("");
   
 
@@ -612,6 +615,8 @@ function onLinear(x, y, z, f) {
       // If next record is not motion, just output feed change
       // on its' own.
       writeBlock(gCodesF.format(1), a4);
+    } else {
+      fVar.reset();
     }
   }
 }
@@ -644,7 +649,6 @@ function getArcVars(plane, start, cx, cy, cz) {
 // Output the right plane gcode based on the arc plane.
 function outputPlaneCommand(plane) {
   var code; 
-  writeComment("Plane: {p}".supplant({p: plane}));
   switch(plane) {
     case PLANE_XY:
       code = 17;
@@ -656,10 +660,9 @@ function outputPlaneCommand(plane) {
       code = 19;
     break;
     default:
-      return false;
+      return;
   }
   writeBlock(gCodes.format(code));
-  return true;
 }
 
 // Output 360 degree arc move on given plane. 
@@ -725,33 +728,37 @@ function outputArcRadiusCommand(clockwise, x, y, z, f) {
 function onCircular(clockwise, cx, cy, cz, x, y, z, f) {
   var plane = getCircularPlane();
 
-  // RRF 3.3 and later: Use of I, J and K parameters depends on
-  // the plane selected with G17, G18 or G19. Use I and J for
-  // the XY plane (G17), I and K for XZ plane (G18), and J and
-  // K for YZ plane (G19).
-  if(!outputPlaneCommand(plane)) {
-    writeComment("Linearized arc move as plane {plane} is unknown!".supplant({plane: plane}));
-    return linearize(tolerance);
-  }
-
-  // If arc uses radius (R), output usingradius
-  if(properties.useRadius) {
-    outputArcRadiusCommand(clockwise, x, y, z, f);
-  
-  // Otherwise if arc is full circle
-  } else if(isFullCircle()) {
-    // - and helical, linearize it
-    if(isHelical()) {
-      writeComment("Linearized helical full-circle movement.");
-      linearize(tolerance);
-    } else {
-      // - and not helical, output circular arc command
-      outputFullCircleCommand(plane, clockwise, cx, cy, cz, f);
-    }
-  // If arc is not full circle
+  // Linearize circular moves on non-major planes.
+  if(plane === -1) {
+    writeComment("Linearized non-major-plane arc move");
+    linearize(tolerance);
   } else {
-    // - output normal arc command.
-    outputArcCommand(plane, clockwise, cx, cy, cz, x, y, z, f);
+
+    // RRF 3.3 and later: Use of I, J and K parameters depends on
+    // the plane selected with G17, G18 or G19. Use I and J for
+    // the XY plane (G17), I and K for XZ plane (G18), and J and
+    // K for YZ plane (G19).
+    outputPlaneCommand(plane);
+
+    // If arc uses radius (R), output usingradius
+    if(properties.useRadius) {
+      outputArcRadiusCommand(clockwise, x, y, z, f);
+
+    // Otherwise if arc is full circle
+    } else if(isFullCircle()) {
+      // - and helical, linearize it
+      if(isHelical()) {
+        writeComment("Linearized helical full-circle movement");
+        linearize(tolerance);
+      } else {
+        // - and not helical, output circular arc command
+        outputFullCircleCommand(plane, clockwise, cx, cy, cz, f);
+      }
+    // If arc is not full circle
+    } else {
+      // - output normal arc command.
+      outputArcCommand(plane, clockwise, cx, cy, cz, x, y, z, f);
+    }
   }
 }
 
