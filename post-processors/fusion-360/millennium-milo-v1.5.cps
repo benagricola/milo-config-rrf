@@ -655,8 +655,11 @@ function outputPlaneCommand(plane) {
     case PLANE_YZ:
       code = 19;
     break;
+    default:
+      return false;
   }
   writeBlock(gCodes.format(code));
+  return true;
 }
 
 // Output 360 degree arc move on given plane. 
@@ -726,7 +729,10 @@ function onCircular(clockwise, cx, cy, cz, x, y, z, f) {
   // the plane selected with G17, G18 or G19. Use I and J for
   // the XY plane (G17), I and K for XZ plane (G18), and J and
   // K for YZ plane (G19).
-  outputPlaneCommand(plane);
+  if(!outputPlaneCommand(plane)) {
+    writeComment("Linearized arc move as plane {plane} is unknown!".supplant({plane: plane}));
+    return linearize(tolerance);
+  }
 
   // If arc uses radius (R), output usingradius
   if(properties.useRadius) {
@@ -736,7 +742,7 @@ function onCircular(clockwise, cx, cy, cz, x, y, z, f) {
   } else if(isFullCircle()) {
     // - and helical, linearize it
     if(isHelical()) {
-      writeComment("Linearized helical full-circle movement!")
+      writeComment("Linearized helical full-circle movement.");
       linearize(tolerance);
     } else {
       // - and not helical, output circular arc command
