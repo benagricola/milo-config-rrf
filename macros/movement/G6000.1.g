@@ -107,13 +107,13 @@ if { var.startPosX2 > global.xMax || var.startPosX2 < global.xMin || var.startPo
 ; Probe from xMin towards opCtrX at current Y position. Move to a safe Z height before moving laterally.
 G6010 X{var.startPosX1} D{var.materialOpCtrX} Y{var.materialOpCtrY} Z{var.probeZ} S{var.safeZ}
 
-set var.materialX1 = global.touchProbeCoordinateX
+set var.materialX1 = global.probeCoordinateX
 M118 P0 L2 S{"Material Edge X1=" ^ var.materialX1}
 
 ; Probe from xMax towards opCtrX at current Y position. Move to a safe Z height before moving laterally. 
 G6010 X{var.startPosX2} D{var.materialOpCtrX} Y{var.materialOpCtrY} Z{var.probeZ} S{var.safeZ}
 
-set var.materialX2 = global.touchProbeCoordinateX
+set var.materialX2 = global.probeCoordinateX
 M118 P0 L2 S{"Material Edge X2=" ^ var.materialX2}
 
 ; Find center of work piece in X axis
@@ -125,13 +125,13 @@ M118 P0 L2 S{"Probing material edges on Y at Z=" ^ var.probeZ ^ "..."}
 ; Probe from yMin towards opCtrY at calculated middle of work piece. Move to a safe Z height before moving laterally. 
 G6011 Y{var.startPosY1} D{var.materialOpCtrY} X{var.materialCtrX} Z{var.probeZ} S{var.safeZ}
 
-set var.materialY1 = global.touchProbeCoordinateY
+set var.materialY1 = global.probeCoordinateY
 M118 P0 L2 S{"Material Edge Y1=" ^ var.materialY1}
 
 ; Probe from yMax towards opCtrY at current Y position. Move to a safe Z height before moving laterally. 
 G6011 Y{var.startPosY2} D{var.materialOpCtrY} X{var.materialCtrX} Z{var.probeZ} S{var.safeZ}
 
-set var.materialY2 = global.touchProbeCoordinateY
+set var.materialY2 = global.probeCoordinateY
 
 M118 P0 L2 S{"Material Edge Y2=" ^ var.materialY2}
 

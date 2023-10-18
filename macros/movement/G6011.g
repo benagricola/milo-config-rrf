@@ -106,4 +106,4 @@ G90
 ; Move to safe height
 G53 G0 Z{param.S}
 
-set global.touchProbeCoordinateY=var.probePosAveraged + var.probeCompensation
+set global.probeCoordinateY=var.probePosAveraged + var.probeCompensation

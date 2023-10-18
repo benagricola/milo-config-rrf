@@ -7,7 +7,6 @@
 if { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
     abort "M7003: Cannot use touch probe, feature disabled!"
 
-; Do not check if touch probe is connected. It's safer to just prompt.
 if { global.touchProbeConnected == true }
     M291 P{"Unplug, remove your touch probe and stow the cable securely before proceeding!"} R"Safety Check" S3
     if result == 0
