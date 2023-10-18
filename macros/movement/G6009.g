@@ -1,4 +1,4 @@
-; G6009: Manual edge (horizontal) probe, Y axis
+; G6009: Manual surface (vertical) probe, Z axis
 
 ; Assume tool is clear to move in X/Y to starting position,
 ; then plunge to Z starting position.
@@ -6,28 +6,24 @@
 ; Switch to mm
 G21
 
-if { !exists(param.D) || param.D == 0 }
-    abort { "Must provide direction and distance (D+-..) you want to probe in!" }
+; These positions are absolute and negated at the end
+; of the macro, to make reasoning about the logic
+; simpler.
+var probePos      = 0
+var probePosMin   = { abs(global.zMin) }
+var probePosMax   = 0
 
-if { !exists(param.X) || !exists(param.Y) || !exists(param.Z) }
-    abort { "Must provide starting position (X.., Y.., Z..)!" }
-
-if { !exists(param.R) || param.R == 0 }
-    abort { "Must provide tool radius to compensate for!" }
-
-if param.D == param.Y
-    abort { "Parameters Y and D cannot be the same!" }
+if { !exists(param.X) || !exists(param.Y) }
+    abort { "Must provide starting position (X.., Y..)!"  }
 
 if { !exists(param.S) }
-    abort { "Must provide a safe height (S..) to retreat to after probing for subsequent moves!" }
+    abort { "Must provide a safe height (S..) to retreat to after probing for subsequent moves!"  }
 
-if { param.S < param.Z }
-    abort { "Safe height (S..) must be greater than starting height (Z..)!" }
-
-var toolCompensation = { -(param.R) }
+if { !exists(param.V) }
+    abort { "Must provide a vertical (V..) probe speed!"  }
 
 if { global.confirmUnsafeMove }
-    M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", down towards Z=" ^ param.Z ^ " and jog towards Y=" ^ param.D ^ "?"} R"Safety check" S3
+    M291 P{"Move to X=" ^ param.X ^ ", Y=" ^ param.Y ^ " at safe Z=" ^ param.S ^ ", and jog towards Z=" ^ global.zMin ^ "?"} R"Safety check" S3
 
 ; Absolute moves to find starting position
 G90
@@ -38,33 +34,24 @@ G53 G0 Z{param.S}
 ; Move to starting position
 G53 G0 X{param.X} Y{param.Y}
 
-; Move down to probe height
-G53 G0 Z{param.Z}
-
 ; Back to relative moves for probing
 G91
 
-; If moving in a positive direction, compensate for tool radius
-; in positive (when tool touches surface, it is at an X
-; co-ordinate LESS than where the actual surface is, by the
-; radius of the tool).
-if { param.Y < param.D }
-    set var.toolCompensation = { abs(var.toolCompensation) }
+M201 Z{global.maxAccelLimitZ/2}
+M203 Z{param.V}
 
-; Drop speed in probe direction
-M203 Y{global.touchProbeProbeSpeed}
-
-M291 P{"Jog the tool towards the surface until you can feel slight resistance when turning the tool backwards (by hand!) and press OK"} R"Jog to surface" S3 Y1
+M291 P{"Jog the tool downwards until you can feel slight resistance against the top surface when turning the tool backwards (by hand!) and press OK"} R"Jog to surface" S3 Z1
 
 if { result != 0 }
+    M98 P"system/speed.g"
     abort "Operator aborted manual probing operation!"
 
-var probePos = move.axes[1].machinePosition
+set var.probePos = { abs(move.axes[2].machinePosition) }
 
 ; Make sure to reset all speed limits after probing complete
 M98 P"system/speed.g"
 
-M118 P0 L2 S{"Y=" ^ var.probePos}
+M118 P0 L2 S{"Z=" ^ var.probePos}
 
 ; Absolute moves to find ending position
 G90
@@ -72,4 +59,4 @@ G90
 ; Move to safe height
 G53 G0 Z{param.S}
 
-set global.probeCoordinateY=var.probePos + var.toolCompensation
+set global.probeCoordinateZ=var.probePos

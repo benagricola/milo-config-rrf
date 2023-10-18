@@ -21,7 +21,7 @@ if { global.referenceSurfaceZ == 0 || exists(param.R) }
 
     M118 P0 L2 S{"Probing ref. surface at X=" ^ global.touchProbeReferenceX ^ ", Y=" ^ global.touchProbeReferenceY }
 
-    G6012 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} V{global.touchProbeProbeSpeed}
+    G6012 X{global.touchProbeReferenceX} Y{global.touchProbeReferenceY} S{global.zMax} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} V{global.probeSpeed}
 
     ; Set our reference surface height for storage
     set global.referenceSurfaceZ = global.probeCoordinateZ

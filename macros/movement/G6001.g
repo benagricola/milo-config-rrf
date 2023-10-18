@@ -16,10 +16,7 @@ var probeCorner     = null
 var probeDistanceZ  = null
 var probeDistanceXY = null
 var zeroWCS         = null
-var toolDiameter    = null ; Only used if featureTouchProbe == false
-
-// Check if user has touch probe
-var hasTouchProbe   = { !exists(global.featureTouchProbe) || !global.featureTouchProbe }
+var toolDiameter    = 0    ; Only used if featureTouchProbe == false
 
 ; Prompt user to place the touch probe over the work piece
 ; Allow the user to pick the corner that we're probing
@@ -47,15 +44,12 @@ if { !exists(param.W) }
 else
     set var.zeroWCS = param.W
 
-if { var.probeCorner != null && var.probeDistanceXY != null && var.probeDistanceZ != null && var.zeroWCS != null }
-    if { hasTouchProbe }
-        ; Call macro with arguments
-        G6001.1 C{var.probeCorner} D{var.probeDistanceXY} I{var.probeDistanceZ} W{var.zeroWCS}
-    else
-        ; If user does not have touch probe, prompt for tool diameter and call manual probing macro
-        M291 P"Enter tool diameter in mm" R"Tool Diameter" S6 T0 L0.5 H100 J1 
-        if input != null
-            set var.toolDiameter = input
+if { !global.featureTouchProbe }
+    ; If user does not have touch probe, prompt for tool diameter
+    M291 P"Enter tool diameter in mm" R"Tool Diameter" S6 T0 L0.5 H100 J1 
+    if input != null
+        set var.toolDiameter = input
 
-        if { var.toolDiameter != null }
-            G6001.2 C{var.probeCorner} D{var.probeDistanceXY} I{var.probeDistanceZ} R{var.toolDiameter/2} W{var.zeroWCS} 
+if { var.probeCorner != null && var.probeDistanceXY != null && var.probeDistanceZ != null && var.zeroWCS != null }
+    ; Call macro with arguments
+    G6001.1 C{var.probeCorner} D{var.probeDistanceXY} I{var.probeDistanceZ} R{var.toolDiameter/2} W{var.zeroWCS} 

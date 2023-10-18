@@ -88,7 +88,7 @@ while var.retries <= global.touchProbeNumProbes
     G4 P{global.touchProbeDwellTime}
 
     ; Drop speed in probe direction for next probe attempt
-    M203 X{global.touchProbeProbeSpeed}
+    M203 X{global.probeSpeed}
 
     ; Iterate retry counter
     set var.retries = var.retries + 1

@@ -2,6 +2,9 @@
 ; Probe a corner in X and Y by detecting Z and then moving out
 ; by a given distance to probe the corner from X and Y.
 ;
+; Can perform a set of manual probes if touch probe is not
+; available and tool radius is passed.
+;
 ; Allows WCS Zero to be set on given corner.
 ;
 ; USAGE: "G6001.1"
@@ -9,6 +12,7 @@
 ;   C<corner-index-to-probe> 
 ;   D<probe-dist-from-edge-xy> 
 ;   I<probe-height-below-surface>
+;   R<optional-tool-radius>
 ;   W<wcs-index-to-set-probed-origin>
 ;
 ; NOTE: MUST be used with a negative Z (so 0 to -<n> rather than 0 to <n>)
@@ -26,6 +30,7 @@ var materialCornerY       = null ; Probed co-ordinate of corner in Y
 var probeCornerDistanceXY = null ; How far away from the corner we will move before probing
 var probeDepthRelative    = null ; Depth below work piece surface to probe edges
 var probeCorner           = null ; Corner probing type
+var toolRadius            = null ; Tool radius to modify co-ordinate by on X/Y probes
 var wcsNumber             = null ; WCS Zero to set
 
 ; Offsets from operator chosen "corner" to probe inwards from
@@ -45,12 +50,19 @@ if { !exists(param.D) }
 elif { param.D <= global.touchProbeRadius }
     abort { "Probing distance " ^ param.D ^ " must be greater than touch probe radius " ^ global.touchProbeRadius }
 
+; Check for tool diameter if machine is not configured for touch probe
+if { !global.featureTouchProbe }
+    if { !exists(param.R) }
+        abort { "Must pass tool radius (R...) when probing without a touch probe!" }
+
 if { !exists(param.W) }
     abort {"Must specify WCS number (W...) to zero on selected corner!" }
 
 ; Confirm touch probe available and connected
+; or warn user of manual probing methodology.
 M7002
 
+set var.toolRadius            = param.R
 set var.probeCorner           = param.C
 set var.probeCornerDistanceXY = param.D
 set var.probeDepthRelative    = param.I
@@ -89,10 +101,11 @@ if { var.startPosX > global.xMax || var.startPosX < global.xMin || var.startPosY
 
 M118 P0 L2 S{"Probing material surface at X=" ^ var.materialOpCornerX ^ ", Y=" ^ var.materialOpCornerY ^ " safe Z=" ^ var.safeZ }
 
-; Probe material surface multiple times and average.
-; Use the current Z position as safe since we know the user moved the probe there
-; manually.
-G6012 X{var.materialOpCornerX} Y{var.materialOpCornerY} S{var.safeZ} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} V{global.touchProbeProbeSpeed}
+; Probe material surface, either using touch probe or manually.
+if { global.featureTouchProbe }
+    G6012 X{var.materialOpCornerX} Y{var.materialOpCornerY} S{var.safeZ} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} V{global.probeSpeed}
+else 
+    G6009 X{var.materialOpCornerX} Y{var.materialOpCornerY} S{var.safeZ} V{global.probeSpeed}
 
 set var.materialZ = global.probeCoordinateZ
 var probeDepth    = var.materialZ - var.probeDepthRelative
@@ -104,7 +117,10 @@ M118 P0 L2 S{"Material Surface Z=" ^ var.materialZ}
 M118 P0 L2 S{"Probing material edges on X at Z=" ^ var.probeDepth ^ "..."}
 
 ; Probe from startPosX towards opCornerX at given Y position. Move to a safe Z height before moving laterally.
-G6010 X{var.startPosX} D{var.materialOpCornerX} Y{var.materialOpCornerY} Z{var.probeDepth} S{var.safeZ}
+if { global.featureTouchProbe }
+    G6010 X{var.startPosX} D{var.materialOpCornerX} Y{var.materialOpCornerY} Z{var.probeDepth} S{var.safeZ}
+else 
+    G6008 X{var.startPosX} D{var.materialOpCornerX} Y{var.materialOpCornerY} Z{var.probeDepth} R{var.toolRadius} S{var.safeZ}
 
 set var.materialCornerX = global.probeCoordinateX
 M118 P0 L2 S{"Corner X=" ^ var.materialCornerX}
@@ -113,7 +129,10 @@ M118 P0 L2 S{"Corner X=" ^ var.materialCornerX}
 M118 P0 L2 S{"Probing material edges on Y at Z=" ^ var.probeDepth ^ "..."}
 
 ; Probe from startPosX towards opCornerX at given Y position. Move to a safe Z height before moving laterally.
-G6011 Y{var.startPosY} D{var.materialOpCornerY} X{var.materialOpCornerX} Z{var.probeDepth} S{var.safeZ}
+if { global.featureTouchProbe }
+    G6011 Y{var.startPosY} D{var.materialOpCornerY} X{var.materialOpCornerX} Z{var.probeDepth} S{var.safeZ}
+else 
+    G6008 Y{var.startPosY} D{var.materialOpCornerY} X{var.materialOpCornerX} Z{var.probeDepth} R{var.toolRadius} S{var.safeZ}
 
 set var.materialCornerY = global.probeCoordinateY
 M118 P0 L2 S{"Corner Y=" ^ var.materialCornerY}

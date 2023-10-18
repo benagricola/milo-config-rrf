@@ -78,7 +78,7 @@ M118 P0 L2 S{"Probing material surface at X=" ^ var.materialOpCtrX ^ ", Y=" ^ va
 ; Probe material surface multiple times and average.
 ; Use the current Z position as safe since we know the user moved the probe there
 ; manually.
-G6012 X{var.materialOpCtrX} Y{var.materialOpCtrY} S{var.safeZ} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} V{global.touchProbeProbeSpeed}
+G6012 X{var.materialOpCtrX} Y{var.materialOpCtrY} S{var.safeZ} B{global.touchProbeRepeatZ} K{global.touchProbeID} C{global.touchProbeNumProbes} V{global.probeSpeed}
 
 set var.materialZ = global.probeCoordinateZ
 

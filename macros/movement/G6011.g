@@ -88,7 +88,7 @@ while var.retries <= global.touchProbeNumProbes
     G4 P{global.touchProbeDwellTime}
 
     ; Otherwise, reduce the probe speed to increase accuracy
-    M203 Y{global.touchProbeProbeSpeed}
+    M203 Y{global.probeSpeed}
 
     ; Iterate retry counter
     set var.retries = var.retries + 1

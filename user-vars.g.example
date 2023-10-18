@@ -149,7 +149,7 @@ global touchProbeReferenceY=65       ; use. The reference surface is a known sur
                                      ; probe activation point allows us to compensate for
                                      ; the length of the touch probe and tools. 
 
-global touchProbeProbeSpeed=25       ; Speed to probe at in mm/min when calculating surface
+global probeSpeed=25       ; Speed to probe at in mm/min when calculating surface
                                      ; offsets.
 global touchProbeRoughSpeed=300      ; Initial probe towards a surface is performed at this
                                      ; speed in mm/min
