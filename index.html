@@ -286,7 +286,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="features" role="tabpanel" aria-labelledby="features-tab">
-                        <h3><i class="fas fa-thumbtack"></i> 3D Touch Probe</h3>
+                        <h3><span class="fas fa-thumbtack"></span> 3D Touch Probe</h3>
                         <div class="form-group row">
                             <label for="touchprobe_num_probes" class="col-4 col-form-label">Touch Probe Count</label>
                             <div class="col-8">
@@ -821,8 +821,6 @@
             name: "/sys/run-once.g",
             input: dedent(runOnceG),
         }
-        $('textarea[id="user-vars"]').val(files['user-vars.g']['input']);
-        $('textarea[id="run-once"]').val(files['run-once.g']['input']);
     };
 
     async function generateZip(board) {
@@ -859,8 +857,6 @@
             zip.add(zipFile);
             zipFile.push(file['input'], true);
         }
-
-        zipFile.push()
 
         zip.end();
     }
