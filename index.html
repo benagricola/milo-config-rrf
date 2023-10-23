@@ -667,7 +667,8 @@
                 if (formValues[a.name].push) {
                     formValues[a.name].push(val);
                 } else {
-                    formValues[a.name] = [val];
+                    // Create array using existing scalar value
+                    formValues[a.name] = [formvalues[a.name], val];
                 }
             } else {
                 formValues[a.name] = val;
