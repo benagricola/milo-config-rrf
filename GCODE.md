@@ -23,8 +23,11 @@ Walks the user through probing Z and X / Y dimensions of a cuboid work piece, an
 # `G6001` - WORKPIECE CORNER PROBING
 Walks the user through probing a single corner of the work piece. This should usually be outputted by post-processor gcode to make sure an origin is set in the correct work co-ordinate system for the paths being executed.
 
-# `G6010` - `G6013` - PROBE IN DIRECTION
-These should not be used directly unless by an advanced operator, they are called by tool change and probing macros to execute individual probes.
+# `G6007` - `G6009` - MANUAL PROBE: PROBE IN DIRECTION
+These should not be used directly unless by an advanced operator, they are called by tool change and probing macros to walk the operator though manual probes when `featureTouchProbe=false`.
+
+# `G6010` - `G6013` - TOUCH PROBE: PROBE IN DIRECTION
+These should not be used directly unless by an advanced operator, they are called by tool change and probing macros to execute automatic probes using a touch probe when `featureTouchProbe=true`.
 
 # `M4000` - DEFINE A TOOL BY INDEX AND DESCRIPTION
 To help make tool changes simpler, we can allow the post-processor to submit the used tool indexes and a description to the firmware. If the tool details are given, the operator will be prompted with both when the gcode requests a tool change using `M6`.
@@ -43,6 +46,9 @@ Raises a RepRapFirmware prompt asking the operator to install the touch probe. W
 
 # `M7003` - PROMPT OPERATOR TO REMOVE TOUCH PROBE
 Raises a RepRapFirmware prompt asking the operator to remove the touch probe. While the touch probe is installed, the spindle is deactivated and cannot be controlled by the firmware itself. Running this command allows the spindle to be controlled by the firmware.
+
+# `M8000` - WAIT FOR NETWORK TO REACH STATE
+Waits for a given network index to reach a particular state. This can be used to configure wifi networks without using predefined dwells.
 
 # `T<N>`  - CHANGE NEXT TOOL INDEX
 Since the Milo is a single spindle mill and will usually require manual tool-changes, the `T<N>` gcode is of limited use on its' own to select tools - as the only identifier passed to it is the tool number.
