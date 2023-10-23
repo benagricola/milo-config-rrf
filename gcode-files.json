@@ -6,6 +6,7 @@
   "/macros/machine/M7001.g": "/sys/M7001.g",
   "/macros/machine/M7002.g": "/sys/M7002.g",
   "/macros/machine/M7003.g": "/sys/M7003.g",
+  "/macros/machine/M8000.g": "/sys/M8000.g",
   "/macros/misc/update-leds.g": "/sys/macros/misc/update-leds.g",
   "/macros/movement/G27.g": "/sys/G27.g",
   "/macros/movement/G37.g": "/sys/G37.g",
