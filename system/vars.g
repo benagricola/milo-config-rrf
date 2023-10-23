@@ -40,8 +40,8 @@ global zHomeRepeatSpeed=180  ; mm/min
 global xyHomeRepeatSpeed=180 ; mm/min
 
 ; Probed co-ordinates
-global touchProbeCoordinateX=0
-global touchProbeCoordinateY=0
+global probeCoordinateX=0
+global probeCoordinateY=0
 global touchProbeConnected=false
 
 ; Toolsetter and Touchprobe IDs
