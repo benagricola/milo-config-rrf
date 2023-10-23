@@ -37,7 +37,7 @@ $("#nav li button[id='generated-config-tab']").on('show.bs.tab', (e) => {
                 formValues[a.name].push(val);
             } else {
                 // Create array using existing scalar value
-                formValues[a.name] = [formvalues[a.name], val];
+                formValues[a.name] = [formValues[a.name], val];
             }
         } else {
             formValues[a.name] = val;
