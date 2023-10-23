@@ -13,7 +13,6 @@ stepper.csDelay = 1;
 stepper.TmcDiagPins = { F.6, F.7, F.8, F.11, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin, NoPin };
 
 // ESP32 Wifi Pins
-//8266wifi.clockReg = 8194
 8266wifi.espDataReadyPin = G.2
 8266wifi.TfrReadyPin = G.1
 8266wifi.espResetPin = B.3

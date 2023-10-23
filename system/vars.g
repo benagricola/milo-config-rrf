@@ -97,14 +97,13 @@ global spindleMinRPM=8000      ; Note BOM / Chinese spindles generally don't lik
                                ; running at lower than 8000RPM. Don't override
                                ; this unless you know your spindle can handle it.
 global spindleMaxRPM=24000
-global spindlePWMFrequency=10
+global spindlePWMFrequency=100
 
 ; Allow up to 50 tools to be stored.
 ; Note that RRF arrays cannot be expanded once
 ; defined, so pick a large enough number here to
 ; accommodate as many tools as we can.
 global toolDefaultName="Unknown Tool"
-global activeToolIndex=-1
 global toolTable={vector(50,global.toolDefaultName)} ; Tools can be passed from postprocessor
                                                      ; using M6000 or defined here manually.
 
@@ -126,8 +125,7 @@ global referenceSurfaceZ=0
 ; Expected Z height of toolsetter switch activation point
 global expectedToolZ=0
 
-global homeRepeatSpeed=180
-
+; LED Settings
 global ledsEnabled=false
 global ledsReady=false ; Do not change, used to avoid addressing
                        ; LEDs before pin has been assigned.
@@ -140,6 +138,7 @@ global ledColourReady={0, 255, 0, 255}        ; Green
 global ledColourBusy={0, 0, 255, 255}         ; Blue
 global ledColourPaused={0, 255, 255, 255}     ; Cyan
 
+; Variable Spindle Speed Control settings
 global vsscEnabled=false
 global vsscPeriod=0
 global vsscVariance=0
@@ -153,3 +152,13 @@ global vsscPreviousAdjustmentDir=true
 global logFilePath="/sys/log"
 global logFileNum=3
 global logFileName="rrf.log"
+
+; Network settings
+global wifiAccessPoint=false ; WIFI client mode by default
+
+; Safety Settings
+; Think very hard about overriding these settings.
+; The only reason these are even configurable is to
+; allow testing of a partly built machine (e.g. allowing)
+; a machine with no e-stops cabled up to be tested.
+global checkEstopOnBoot=true ; Do not allow MCU to start if any eStops are active
