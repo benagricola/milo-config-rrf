@@ -50,8 +50,7 @@ $("#nav li button[id='generated-config-tab']").on('show.bs.tab', (e) => {
             formValues[a.name] = val;
         }
     });
-    renderTemplates(formValues);
-    generateZip(formValues['mcu_type']);
+    generateZip(formValues);
 });
 
 // Process finish button and enable generated config
@@ -76,14 +75,6 @@ $('input[name="motor_voltage"]').on('change',() => {
     }
 });
 
-// Function stolen from https://codepen.io/gskinner/pen/BVEzox to allow indentation
-// of config files within JS code without breaking output.
-function dedent(str) {
-    str = str.replace(/^\n/, "");
-    let match = str.match(/^\s+/);
-    return match ? str.replace(new RegExp("^" + match[0], "gm"), "") : str;
-}
-
 function renderTemplate(t, f, ft) {
     try {
         return eval("`" + t + "`");
@@ -92,20 +83,11 @@ function renderTemplate(t, f, ft) {
     }
 }
 
-function renderTemplates(f, board) {
-    var ft = f['features'];
-
-    for([src, file] of Object.entries(files)) {
-        if((file['type'] === TYPE_BOARD && src == board) ||
-            (file['type'] === TYPE_TEMPLATE)) {
-            const tr = renderTemplate(file['input'], f, ft);
-            file['input'] = tr;
-        }
-    }
-};
-
-async function generateZip(board) {
+async function generateZip(f) {
     console.log("Generating Zip file");
+
+    const board = f['mcu_type'];
+    const ft    = f['features'];
 
     const zip = new fflate.Zip();
     var zipData = [];
@@ -127,11 +109,14 @@ async function generateZip(board) {
 
     // Push all necessary files into zip, do not compress as they're already downloaded.
     for([src, file] of Object.entries(files)) {
-        if(file['type'] == TYPE_BOARD) {
-            if(src != board) {
-                continue;
-            }
+        if(file['type'] === TYPE_BOARD && src != board) {
+            continue
         }
+        if([TYPE_TEMPLATE,TYPE_BOARD].includes(file['type'])) {
+            const tr = renderTemplate(file['input'], f, ft);
+            file['input'] = tr;
+        }
+
         const zipFile = new fflate.ZipPassThrough(file['name'].slice(1));
         zip.add(zipFile);
         zipFile.push(file['input'], true);
