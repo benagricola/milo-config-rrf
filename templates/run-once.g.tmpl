@@ -1,0 +1,21 @@
+; run-once.g
+; Runs on first boot to configure WiFi details.
+
+; Enable WiFi adapter in idle mode
+M552 S0
+
+; Wait for wifi module to acknowledge idle
+M8000 C0 S"disabled" M30
+
+
+; Configure WiFi
+${f['network_mode'] == NET_MODE_CLIENT ? 'M587':'M589'}
+    S"${f['wifi_ap_name']}"
+    P"${f['wifi_password']}"
+    ${f['network_mode'] != NET_MODE_CLIENT ? 'I' + f['wifi_ap_ip'] : ''}
+
+; Wait for the WiFi device to register the config
+G4 S5
+
+; Reboot the MCU. This file will not be executed again.
+M999

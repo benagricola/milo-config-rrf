@@ -1,0 +1,22 @@
+// Board Hardware configuration file for Mellow Fly CDY v3
+board = fly_cdyv3
+
+// NOTE: Generated configuration only supports one type of driver
+// at a time. If you're using a mix of driver types, you need to
+// edit this file manually for your particular driver setup.
+
+// TMC Smart Drivers, 3 axis.
+stepper.numSmartDrivers = 3
+stepper.spiChannel = 2
+${
+    // Output type of stepper driver for each motor
+    'stepper.DriverType = {' +
+        (f['driver_type'] + ', ').repeat(3).slice(0, -2) 
+    + '}'
+}
+
+//ESP32 Wifi Pins
+8266wifi.espDataReadyPin = PE_10
+8266wifi.TfrReadyPin = PE_12
+8266wifi.serialRxTxPins = { PD_9, PD_8 }
+8266wifi.espResetPin = PE_11
