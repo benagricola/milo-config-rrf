@@ -162,10 +162,10 @@ $(async function () {
             files[boardName] = { name: info['dst'], input: "", type: TYPE_BOARD, promise: request };
         }
 
-        for ([src, dst] of templateList) {
-            var request = fetch(fileRoot + src);
+        for ([templateName, dst] of templateList) {
+            var request = fetch(fileRoot + info['src']);
             requests.push(request);
-            files[src] = { name: dst, input: "", type: TYPE_TEMPLATE, promise: request };
+            files[templateName] = { name: dst, input: "", type: TYPE_TEMPLATE, promise: request };
         }
 
         const errors = (await Promise.all(requests)).filter((response) => !response.ok);
