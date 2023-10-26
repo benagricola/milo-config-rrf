@@ -96,7 +96,6 @@ function renderTemplates(f, board) {
     var ft = f['features'];
 
     for([src, file] of Object.entries(files)) {
-        console.log(src, file);
         if((file['type'] === TYPE_BOARD && src == board) ||
             (file['type'] === TYPE_TEMPLATE)) {
             const tr = renderTemplate(file['input'], f, ft);
@@ -167,10 +166,10 @@ $(async function () {
             files[boardName] = { name: info['dst'], input: "", type: TYPE_BOARD, promise: request };
         }
 
-        for ([templateName, dst] of templateList) {
+        for ([templateName, info] of templateList) {
             var request = fetch(fileRoot + info['src']);
             requests.push(request);
-            files[templateName] = { name: dst, input: "", type: TYPE_TEMPLATE, promise: request };
+            files[templateName] = { name: info['dst'], input: "", type: TYPE_TEMPLATE, promise: request };
         }
 
         const errors = (await Promise.all(requests)).filter((response) => !response.ok);
