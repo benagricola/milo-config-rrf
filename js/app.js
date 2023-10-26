@@ -60,8 +60,6 @@ $('button[name="submit"]').on('click', (e) => {
     return false;
 });
 
-$()
-
 // Disable low voltage drivers when 48v selected
 $('input[name="motor_voltage"]').on('change',() => {
     var disable = this.value == 48;
