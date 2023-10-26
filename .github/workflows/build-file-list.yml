@@ -33,7 +33,12 @@ jobs:
       - name: List Board Files using Tree
         id: list-board-files
         working-directory: current
-        run: tree -P '*.txt' -J --gitignore --noreport -fin ./boards > board-files-raw.json
+        run: tree -P '*.txt.tmpl' -J --gitignore --noreport -fin ./boards > board-files-raw.json
+
+      - name: List Template Files using Tree
+        id: list-template-files
+        working-directory: current
+        run: tree -P '*.g.tmpl' -J --gitignore --noreport -fin ./templates > board-files-raw.json
 
       - name: Generate file and config JSON blobs
         uses: sergeysova/jq-action@v2
@@ -50,9 +55,15 @@ jobs:
 
             jq '[.[0] | recurse(.contents[]?) | select(.type == "file")] |
               map({
-                key: .name | split("/")[-1] | sub("\\.txt$"; ""),
+                key: .name | split("/")[-1] | sub("\\.txt.tmpl$"; ""),
                 value: { src: .name[1:], dst: "/sys/board.txt" }
               })| from_entries' ../current/board-files-raw.json > board-files.json
+
+            jq '[.[0] | recurse(.contents[]?) | select(.type == "file")] |
+              map({
+                key: .name | split("/")[-1] | sub("\\.tmpl$"; ""),
+                value: { src: .name[1:], dst: "/sys/" + (.name | split("/")[-1] | sub("\\.tmpl$"; "")) }
+              })| from_entries' ../current/ template-files-raw.json > template-files.json
 
             jq '{
               downloadRoot: "https://raw.githubusercontent.com/${{ github.repository }}",
@@ -61,7 +72,7 @@ jobs:
 
       - uses: EndBug/add-and-commit@v9
         with:
-          add: gcode-files.json board-files.json config.json --force
+          add: gcode-files.json board-files.json template-files.json config.json --force
           committer_name: GitHub Actions
           committer_email: actions@github.com
           message: "Update generator config and file lists"
