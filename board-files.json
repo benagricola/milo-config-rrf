@@ -1,10 +1,10 @@
 {
-  "run-once.g.tmpl": {
-    "src": "/templates/run-once.g.tmpl",
+  "fly_cdyv3": {
+    "src": "/boards/fly_cdyv3.txt.tmpl",
     "dst": "/sys/board.txt"
   },
-  "user-vars.g.tmpl": {
-    "src": "/templates/user-vars.g.tmpl",
+  "fysetc_spider_king407": {
+    "src": "/boards/fysetc_spider_king407.txt.tmpl",
     "dst": "/sys/board.txt"
   }
 }
