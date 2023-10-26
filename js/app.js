@@ -82,14 +82,20 @@ function dedent(str) {
 }
 
 function renderTemplate(t, f, ft) {
-    return eval("`" + t + "`");
+    try {
+        return eval("`" + t + "`");
+    } catch(e) {
+        console.log(`Error rendering template: ${e}`);
+    }
 }
 
-function renderTemplates(f) {
+function renderTemplates(f, board) {
     var ft = f['features'];
 
     for([src, file] of Object.entries(files)) {
-        if([TYPE_TEMPLATE, TYPE_BOARD].includes(file['type'])) {
+        console.log(src, file);
+        if((file['type'] === TYPE_BOARD && src == board) ||
+            (file['type'] === TYPE_TEMPLATE)) {
             const tr = renderTemplate(file['input'], f, ft);
             file['input'] = tr;
         }
@@ -97,8 +103,6 @@ function renderTemplates(f) {
 };
 
 async function generateZip(board) {
-    const boards = await loadJSONFile('board-files');
-
     console.log("Generating Zip file");
 
     const zip = new fflate.Zip();
