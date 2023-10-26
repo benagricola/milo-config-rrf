@@ -38,7 +38,7 @@ jobs:
       - name: List Template Files using Tree
         id: list-template-files
         working-directory: current
-        run: tree -P '*.g.tmpl' -J --gitignore --noreport -fin ./templates > board-files-raw.json
+        run: tree -P '*.g.tmpl' -J --gitignore --noreport -fin ./templates > template-files-raw.json
 
       - name: Generate file and config JSON blobs
         uses: sergeysova/jq-action@v2
