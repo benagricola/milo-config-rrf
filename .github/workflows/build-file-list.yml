@@ -62,8 +62,8 @@ jobs:
             jq '[.[0] | recurse(.contents[]?) | select(.type == "file")] |
               map({
                 key: .name | split("/")[-1] | sub("\\.tmpl$"; ""),
-                value: { src: .name[1:], dst: "/sys/" + (.name | split("/")[-1] | sub("\\.tmpl$"; "")) }
-              })| from_entries' ../current/ template-files-raw.json > template-files.json
+                value: { src: .name[1:], dst: (.name | split("/")[-1] | sub("\\.tmpl$"; "") | sub("^"; "/sys/")) }
+              })| from_entries' ../current/template-files-raw.json > template-files.json
 
             jq '{
               downloadRoot: "https://raw.githubusercontent.com/${{ github.repository }}",
