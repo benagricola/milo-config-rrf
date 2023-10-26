@@ -1,1 +1,10 @@
-{}
+{
+  "run-once.g.tmpl": {
+    "src": "/templates/run-once.g.tmpl",
+    "dst": "/sys/board.txt"
+  },
+  "user-vars.g.tmpl": {
+    "src": "/templates/user-vars.g.tmpl",
+    "dst": "/sys/board.txt"
+  }
+}
