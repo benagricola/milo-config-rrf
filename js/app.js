@@ -3,8 +3,11 @@ const TYPE_BOARD    = 0;
 const TYPE_GCODE    = 1;
 const TYPE_TEMPLATE = 2;
 
-const NET_MODE_CLIENT="wifi_client";
-const NET_MODE_AP="wifi_ap";
+const NET_MODE_CLIENT = "wifi_client";
+const NET_MODE_AP = "wifi_ap";
+
+const DRIVER_TYPE_TMC5160 = "tmc5160";
+const DRIVER_TYPE_TMC2209 = "tmc2209";
 
 // Implement next and back buttons
 $('button[name="next-tab"]').on('click', (e) => {
