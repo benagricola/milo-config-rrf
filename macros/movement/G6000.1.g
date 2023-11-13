@@ -43,11 +43,11 @@ if { !exists(param.Y) }
 if { !exists(param.W) }
     abort { "G6000.1: Must specify WCS number (W...) to zero on selected corner!" }
 
-if { var.materialOpLenX > (global.xMax - global.xMin) }
-    abort { "G6000.1: Entered X material dimension is larger than work area of machine!" }
+if { param.X > (global.xMax - global.xMin) }
+    abort { "G6000.1: X material dimension is larger than work area of machine!" }
 
-if { var.materialOpLenY > (global.yMax - global.yMin) }
-    abort { "G6000.1: Entered Y material dimension is larger than work area of machine!" }
+if { param.Y > (global.yMax - global.yMin) }
+    abort { "G6000.1: Y material dimension is larger than work area of machine!" }
 
 ; Confirm touch probe available and connected
 M7002

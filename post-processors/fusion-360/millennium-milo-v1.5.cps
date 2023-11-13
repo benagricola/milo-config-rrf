@@ -121,7 +121,7 @@ var propertyDefinitions = {
   },
   waitForSpindle: {
     title: "Dwell time in seconds to wait for spindle to reach target RPM",
-    description: "When set, machine will wait (dwell) for this number of seconds after starting or stopping the spindle to allow the spindle to accelerate or decelerate to the target speed.",
+    description: "When set, machine will wait (dwell) for this number of seconds after starting or stopping the spindle to allow it to accelerate or decelerate to the target speed.",
     group: "spindle",
     scope: "machine",
     type: "integer"

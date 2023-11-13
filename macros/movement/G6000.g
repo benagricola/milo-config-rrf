@@ -18,17 +18,17 @@ var zeroWCS         = null
 
 ; Prompt user to enter the approximate length of the workpiece (X)
 ; X is length because it is the longest axis
-M291 P"Enter approximate length of work piece in X (left to right, facing machine). If unsure, guess high." R"Work piece length" S5 T0 J1 L10 F{global.xMax - global.xMin}
+M291 P{"Enter approximate length of work piece in X (left to right, facing machine). If unsure, guess high."} R"Work piece length" S5 T0 J1 L10 F{global.xMax - global.xMin}
 if input !=  null
     set var.materialOpLenX = input
 
 ; Prompt user to enter the approximate width of the workpiece (Y)
-M291 P"Enter approximate width of work piece in Y (front to back, facing machine). If unsure, guess high." R"Work piece width S5 T0 J1 L10 F{global.yMax - global.yMin}
+M291 P{"Enter approximate width of work piece in Y (front to back, facing machine). If unsure, guess high."} R"Work piece width" S5 T0 J1 L10 F{global.yMax - global.yMin}
 if input != null
     set var.materialOpLenY = input
 
 ; Prompt user for a probe depth for edges
-M291 P"Select probe depth from material surface when probing edges" R"Probe depth" S4 T0 J1 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
+M291 P{"Select probe depth from material surface when probing edges"} R"Probe depth" S4 T0 J1 K{"-2mm","-4mm","-6mm","-8mm","-10mm"}
 if input != null
     set var.probeDistanceZ = { (input + 1) * 2 }
 
