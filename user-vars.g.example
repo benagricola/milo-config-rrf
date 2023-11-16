@@ -83,8 +83,8 @@ global safeDistanceZ=20           ; Height above WCS Zero to confirm positioning
                                   ; accuracy of your tool offset, as it avoids the
                                   ; possibility of ramming the tool into the work
                                   ; piece.
-global probeSpeed=25              ; Speed to probe at in mm/min when calculating
-                                  ; note this applies to both manual probing
+global probeSpeed=25              ; Speed to probe at in mm/min.
+                                  ; NOTE: this applies to both manual probing
                                   ; (operator jogging) and automated probing using
                                   ; a touch probe.
 
