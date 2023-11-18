@@ -111,10 +111,15 @@ global toolZTable={vector(50,0)}                     ; Store offsets for each to
                                                      ; tool changes so we have no chance of
                                                      ; accidentally using the wrong offset.
 
-global originCorners = {"Front Left","Front Right","Rear Left","Rear Right"}
-global originAll     = {"Front Left","Front Right","Rear Left","Rear Right","Center"}
+global originCorners={"Front Left","Front Right","Rear Left","Rear Right"}
+global originAll={"Front Left","Front Right","Rear Left","Rear Right","Center"}
 
-global wcsNames          = {"G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"}
+global wcsNames={"G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"}
+
+; Used for both touch probe and manual probing
+; This is very slow, approximately 50% of the
+; suggested speed for Chinese 3D touch probes.
+global probeSpeed=25
 
 ; Used for both touch probe and toolsetter
 global probeCoordinateZ=0
