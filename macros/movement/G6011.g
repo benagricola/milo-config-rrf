@@ -60,12 +60,12 @@ while var.retries <= global.touchProbeNumProbes
     ; Probe towards surface
     G53 G38.2 Y{param.D} K{global.touchProbeID}
 
-    ; Abort if an error was encountered 
+    ; Abort if an error was encountered
     if { result != 0 }
         ; Reset all speed limits after probe
-        M98 P"system/speed.g"
+        M98 P"speed.g"
         abort { "Probe experienced an error, aborting!" }
-    
+
     ; Record current position
     set var.curPos = move.axes[1].machinePosition
 
@@ -94,7 +94,7 @@ while var.retries <= global.touchProbeNumProbes
     set var.retries = var.retries + 1
 
 ; Make sure to reset all speed limits after probing complete
-M98 P"system/speed.g"
+M98 P"speed.g"
 
 var probePosAveraged = var.probePos / global.touchProbeNumProbes
 

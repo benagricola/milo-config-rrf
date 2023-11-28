@@ -43,13 +43,13 @@ M203 Z{param.V}
 M291 P{"Jog the tool downwards until you can feel slight resistance against the top surface when turning the tool backwards (by hand!) and press OK"} R"Jog to surface" S3 Z1
 
 if { result != 0 }
-    M98 P"system/speed.g"
+    M98 P"speed.g"
     abort "Operator aborted manual probing operation!"
 
 set var.probePos = { abs(move.axes[2].machinePosition) }
 
 ; Make sure to reset all speed limits after probing complete
-M98 P"system/speed.g"
+M98 P"speed.g"
 
 M118 P0 L2 S{"Z=" ^ var.probePos}
 

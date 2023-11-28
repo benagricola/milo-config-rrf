@@ -50,13 +50,13 @@ if { !exists(param.D) }
 elif { param.D <= global.touchProbeRadius }
     abort { "Probing distance " ^ param.D ^ " must be greater than touch probe radius " ^ global.touchProbeRadius }
 
+if { !exists(param.W) }
+    abort {"Must specify WCS number (W...) to zero on selected corner!" }
+
 ; Check for tool diameter if machine is not configured for touch probe
 if { !global.featureTouchProbe }
     if { !exists(param.R) }
         abort { "Must pass tool radius (R...) when probing without a touch probe!" }
-
-if { !exists(param.W) }
-    abort {"Must specify WCS number (W...) to zero on selected corner!" }
 
 ; Confirm touch probe available and connected
 ; or warn user of manual probing methodology.

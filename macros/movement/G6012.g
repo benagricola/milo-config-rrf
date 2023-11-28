@@ -69,7 +69,7 @@ G91
 ; We will not move further than -1mm below the initial
 ; activation point, which should limit damage in case of
 ; a probing failure after the operator jogs the tool
-; away or onto a tooth. 
+; away or onto a tooth.
 
 ; Add a probe retry to account for the initial
 ; high-speed probe.
@@ -78,12 +78,12 @@ while var.retries <= param.C
     ; Z probes only run in one direction
     G53 G38.2 K{param.K} Z{-(var.probePosMin+1)}
 
-    ; Abort if an error was encountered 
+    ; Abort if an error was encountered
     if { result != 0 }
         ; Reset all speed limits after probe
-        M98 P"system/speed.g"
+        M98 P"speed.g"
         abort {"Probe experienced an error, aborting!"}
-    
+
     ; Record current position
     set var.curPos = { abs(move.axes[2].machinePosition) }
 
@@ -96,7 +96,7 @@ while var.retries <= param.C
     if var.retries > 0
         if { var.curPos > var.probePosMax }
             set var.probePosMax = var.curPos
-        
+
         if { var.curPos < var.probePosMin }
             set var.probePosMin = var.curPos
 
@@ -107,7 +107,7 @@ while var.retries <= param.C
 
         ; Move away from the trigger point
         G53 G0 Z{param.B}
- 
+
     ; Otherwise, reduce the probe speed to increase accuracy
     else
         if { exists(param.J) && param.J == 1}
@@ -124,7 +124,7 @@ while var.retries <= param.C
 
     ; Drop speed in probe direction for next probe attempt
     M203 Z{param.V}
-    
+
     ; Dwell so machine can settle
     G4 P{global.touchProbeDwellTime}
 
@@ -132,7 +132,7 @@ while var.retries <= param.C
     set var.retries = var.retries + 1
 
 ; Make sure to reset all speed limits after probing complete
-M98 P"system/speed.g"
+M98 P"speed.g"
 
 ; If we have enough probe points, remove the highest and lowest
 ; points before averaging the rest.

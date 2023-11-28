@@ -62,7 +62,7 @@ if { result != 0 }
 var probePos = move.axes[1].machinePosition
 
 ; Make sure to reset all speed limits after probing complete
-M98 P"system/speed.g"
+M98 P"speed.g"
 
 M118 P0 L2 S{"Y=" ^ var.probePos}
 

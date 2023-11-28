@@ -18,7 +18,6 @@ var probeDistanceXY = null
 var zeroWCS         = null
 var toolDiameter    = 0    ; Only used if featureTouchProbe == false
 
-; Prompt user to place the touch probe over the work piece
 ; Allow the user to pick the corner that we're probing
 M291 P"Select corner to probe" R"Corner to probe" S4 T0 J1 K{global.originCorners}
 if input != null
