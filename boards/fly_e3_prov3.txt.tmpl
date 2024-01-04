@@ -1,0 +1,20 @@
+// Board Hardware configuration file for Fly-E3-Pro-v3
+board = fly_e3_prov3; 
+
+//LED blinks to indicate Platform is spinning or other diagnostic 
+//Comment out or set to NoPin if not wanted.
+leds.diagnostic = NoPin; 
+
+
+heat.tempSensePins = {e0temp}; //Max of 3 entries
+//heat.spiTempSensorCSPins = { }; //Max of 2 entries
+
+
+//ESP Settings
+8266wifi.espDataReadyPin = E.13;
+8266wifi.TfrReadyPin = E.14;
+8266wifi.espResetPin = E.15;
+
+
+//TMC Smart Drivers
+stepper.numSmartDrivers = 0;
