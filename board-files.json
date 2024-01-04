@@ -6,9 +6,5 @@
   "fysetc_spider_king407": {
     "src": "/boards/fysetc_spider_king407.txt.tmpl",
     "dst": "/sys/board.txt"
-  },
-  "fly_e3_prov3": {
-    "src": "/boards/fly_e3_prov3.txt.tmpl",
-    "dst": "/sys/board.txt"
   }
 }

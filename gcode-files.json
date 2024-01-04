@@ -26,7 +26,6 @@
   "/macros/tool/update-vssc.g": "/sys/macros/tool/update-vssc.g",
   "/mcu/fly_cdyv3.g": "/sys/mcu/fly_cdyv3.g",
   "/mcu/fysetc_spider_king407.g": "/sys/mcu/fysetc_spider_king407.g",
-  "/mcu/fly_e3_prov3.g": "/sys/mcu/fly_e3_prov3.g",
   "/system/cancel.g": "/sys/cancel.g",
   "/system/config.g": "/sys/config.g",
   "/system/daemon.g": "/sys/daemon.g",
