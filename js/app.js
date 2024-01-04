@@ -75,6 +75,16 @@ $('input[name="motor_voltage"]').on('change',() => {
     }
 });
 
+$('#mcu_type').on('change', function() {
+
+    // Boards that have fixed drivers
+    var fixedDriverBoards = ['fly_e3_prov3'];
+    var disableDriverSelection = fixedDriverBoards.includes($(this).val());
+
+    // Disable the driver selection row if the selected board has fixed drivers
+    $('#driver_type_row')[disableDriverSelection ? 'hide' : 'show']();
+});
+
 function renderTemplate(t, f, ft) {
     try {
         return eval("`" + t + "`");
