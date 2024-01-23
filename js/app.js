@@ -127,7 +127,7 @@ async function generateZip(f) {
             file['input'] = tr;
         }
 
-        const zipFile = new fflate.ZipPassThrough(file['name'].slice(1));
+        const zipFile = new fflate.ZipDeflate(file['name'].slice(1), { level: 6 });
         zip.add(zipFile);
         zipFile.push(file['input'], true);
     }
