@@ -10,4 +10,7 @@
 ; quarter of anyway.
 ; The VFD must be setup to treat 0v as our minimum spindle speed of 133.33Hz.
 
-M98 P"macros/tool/tool-activate.g" ; Activate tool on start.
+M950 R{global.spindleID} C{global.pinTool} L{global.spindleMaxRPM} Q{global.spindlePWMFrequency}
+M563 P{global.spindleID} R{global.spindleID} S"Milo Fixed Spindle"   ; Assign spindle index 1 name
+
+M118 P0 L2 S{"Spindle " ^ global.spindleID ^ " activated"}
