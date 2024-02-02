@@ -1,15 +1,11 @@
 ; DO NOT CHANGE ANY SETTINGS HERE.
-; These values are used as returns 
+; These values are used as returns
 ; from macros or where global
 ; flags are needed.
 
 ; Disable all features by default
-global featureLeds=false
-global featureCasa=false
-global featureScreen=false
 global featureToolSetter=false
 global featureTouchProbe=false
-global featureVSSC=false
 
 ; Axis Settings
 ; Min:  Axis Minimum
@@ -42,7 +38,6 @@ global xyHomeRepeatSpeed=180 ; mm/min
 ; Probed co-ordinates
 global probeCoordinateX=0
 global probeCoordinateY=0
-global touchProbeConnected=false
 
 ; Toolsetter and Touchprobe IDs
 global toolSetterID=1
@@ -91,6 +86,14 @@ global maxJerkLimitX=60
 global maxJerkLimitY=60
 global maxJerkLimitZ=10
 
+; Set movement segmentation settings.
+; Long moves will be broken down into smaller moves
+; that take approximately 1 second each based on their
+; requested feedrate. Segments cannot be shorter than
+; the minimum segment length.
+global segmentsPerSecond=1
+global minSegmentLength=1
+
 ; Spindle settings
 global spindleID=1             ; The tool ID of the Milo spindle.
 global spindleMinRPM=8000      ; Note BOM / Chinese spindles generally don't like
@@ -98,60 +101,6 @@ global spindleMinRPM=8000      ; Note BOM / Chinese spindles generally don't lik
                                ; this unless you know your spindle can handle it.
 global spindleMaxRPM=24000
 global spindlePWMFrequency=100
-
-; Allow up to 50 tools to be stored.
-; Note that RRF arrays cannot be expanded once
-; defined, so pick a large enough number here to
-; accommodate as many tools as we can.
-global toolDefaultName="Unknown Tool"
-global toolTable={vector(50,global.toolDefaultName)} ; Tools can be passed from postprocessor
-                                                     ; using M6000 or defined here manually.
-
-global toolZTable={vector(50,0)}                     ; Store offsets for each tool during
-                                                     ; tool changes so we have no chance of
-                                                     ; accidentally using the wrong offset.
-
-global originCorners={"Front Left","Front Right","Rear Left","Rear Right"}
-global originAll={"Front Left","Front Right","Rear Left","Rear Right","Center"}
-
-global wcsNames={"G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"}
-
-; Used for both touch probe and manual probing
-; This is very slow, approximately 50% of the
-; suggested speed for Chinese 3D touch probes.
-global probeSpeed=25
-
-; Used for both touch probe and toolsetter
-global probeCoordinateZ=0
-
-; Z height of reference surface
-global referenceSurfaceZ=0
-
-; Expected Z height of toolsetter switch activation point
-global expectedToolZ=0
-
-; LED Settings
-global ledsEnabled=false
-global ledsReady=false ; Do not change, used to avoid addressing
-                       ; LEDs before pin has been assigned.
-
-global ledColourWarning={255, 255, 0, 255}    ; Yellow
-global ledColourCancelling={255, 165, 0, 255} ; Yellow
-global ledColourError={255, 0, 0, 255}        ; Red
-global ledColourStartup={255, 255, 255, 255}  ; White
-global ledColourReady={0, 255, 0, 255}        ; Green
-global ledColourBusy={0, 0, 255, 255}         ; Blue
-global ledColourPaused={0, 255, 255, 255}     ; Cyan
-
-; Variable Spindle Speed Control settings
-global vsscEnabled=false
-global vsscPeriod=0
-global vsscVariance=0
-global vsscDebug=false
-global vsscSpeedWarningIssued=false
-global vsscPreviousAdjustmentTime=0
-global vsscPreviousAdjustmentRPM=0.0
-global vsscPreviousAdjustmentDir=true
 
 ; Logging settings
 global logFilePath="/sys/log"

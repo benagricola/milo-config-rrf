@@ -1,3 +1,4 @@
+; limits.g
 ; Configure machine limits
 
 ; Axis Limits
@@ -13,7 +14,7 @@ M208 X{global.xMax} Y{global.yMax} Z{global.zMax} S0                  ; set axis
 ; position is MAX.
 ; Z homes upwards to zero.
 
-; X=0: NC, pulled up, on xstop 
+; X=0: NC, pulled up, on xstop
 M574 X1 S1 P{global.pinXStop}
 
 ; Y=MAX: NC, pulled up, on ystop
